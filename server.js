@@ -81,13 +81,14 @@ mongoose.connect(dbURI)
     .then(() => console.log("✅ Database Connected Successfully!"))
     .catch(err => console.log("❌ DB Connection Error:", err.message));
 
-// 5. UPDATED ROUTING FOR DEPLOYMENT (Fixes the PathError)
+// 5. STATUS ROUTE
 app.get('/status', (req, res) => {
     res.send("PowerI Backend is active and running!");
 });
 
-// This is the line that was causing the crash. Changed '*' to '/:any*' for Express 5 compatibility.
-app.get('/:any*', (req, res) => {
+// 6. WILDCARD ROUTE (REVERTED FOR EXPRESS 4)
+// This captures all other requests and sends them to your index.html
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
