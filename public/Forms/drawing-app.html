@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIG Application - Full One-Page Version</title>
+    <style>
+        :root {
+            --royal-blue: #002366;
+            --royal-red: #C41E3A;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 10px; color: #333; line-height: 1.4; }
+        
+        .certificate-container { 
+            background: #fff; 
+            padding: 25px 45px; 
+            max-width: 820px; 
+            margin: auto; 
+            border: 2px solid var(--royal-blue);
+            border-top: 10px solid var(--royal-red);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 { text-align: center; color: var(--royal-blue); margin: 0; text-transform: uppercase; font-size: 18px; }
+        .sub-heading { text-align: center; color: var(--royal-red); font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; }
+        
+        .header-info { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .input-row { margin-bottom: 8px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        
+        label { font-weight: bold; color: var(--royal-blue); font-size: 14px; }
+        .lang-en { font-style: italic; color: #666; font-size: 0.85em; display: block; line-height: 1.1; }
+        .lang-hi { display: block; font-weight: bold; font-size: 14px; }
+        
+        input[type="text"], input[type="date"] {
+            border: none; border-bottom: 1px dotted #999;
+            padding: 1px 5px; outline: none; font-size: 14px;
+            flex-grow: 1; background: transparent; color: #111;
+        }
+        input:focus { border-bottom: 2px solid var(--royal-red); }
+
+        .drawings-list { 
+            display: grid; grid-template-columns: 1fr 1fr; 
+            gap: 4px 15px; margin: 10px 0; font-size: 0.85em;
+        }
+        .drawings-list div { border-bottom: 1px solid #f0f0f0; padding-bottom: 1px; }
+
+        .compliance-note {
+            background: #fff8f8; padding: 8px; border: 1px dashed #ccc; 
+            font-size: 0.85em; margin: 10px 0;
+        }
+
+        .footer { margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .signature-box { text-align: center; width: 260px; color: var(--royal-blue); border-top: 2px solid var(--royal-blue); padding-top: 5px; font-size: 13px; }
+        
+        .btn-print { 
+            display: block; width: 220px; margin: 15px auto; padding: 10px; 
+            background: var(--royal-blue); color: white; border: none; border-radius: 4px; 
+            cursor: pointer; font-weight: bold;
+        }
+        
+        @media print {
+            @page { size: A4; margin: 8mm; }
+            body { background: white; padding: 0; }
+            .btn-print { display: none; }
+            .certificate-container { border: 1px solid var(--royal-blue); box-shadow: none; width: 100%; padding: 15px 30px; }
+            input::placeholder { color: transparent; }
+            .drawings-list { gap: 2px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="certificate-container">
+    <h2>मुख्य विद्युत निरीक्षक ड्रॉइंग्स स्वीकृति हेतु आवेदन</h2>
+    <div class="sub-heading">APPLICATION FOR ELECTRICAL DRAWING APPROVAL (CEIG)</div>
+
+    <div class="header-info">
+        <div style="width: 45%;">
+            <label>पत्रांक / Ref No:</label>
+            <input type="text" placeholder="...........................">
+        </div>
+        <div style="width: 40%;">
+            <label>दिनांक / Date:</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="input-row">
+            <div style="width: 100%;">
+                <span class="lang-hi">प्रति / To,</span>
+                <p style="margin: 2px 0;"><strong>The Chief Electrical Inspector to Government (CEIG)</strong></p>
+                <input type="text" style="width: 100%;" placeholder="Enter CEIG Office Address...">
+            </div>
+        </div>
+
+        <div class="input-row" style="margin-top: 10px;">
+            <div style="width: 100%;">
+                <span class="lang-hi">विषय: स्वीकृति हेतु <input type="text" style="width:140px; font-weight:bold" placeholder="उपकरण/प्रणाली"> ड्रॉइंग्स का प्रेषण</span>
+                <span class="lang-en">Subject: Submission of <input type="text" style="width:140px; font-style:italic" placeholder="equipment/system"> drawings for approval</span>
+            </div>
+        </div>
+
+        <p style="margin: 8px 0 4px 0;"><strong>माननीय महोदय/महोदया (Respected Sir/Madam),</strong></p>
+        
+        <p style="font-size: 0.9em; margin-bottom: 8px;">
+            हम एतद द्वारा हमारे परिसर <input type="text" style="width:280px;" placeholder="पता/स्थान दर्ज करें"> में स्थित उपकरण 
+            <input type="text" style="width:150px;" placeholder="उपकरण का नाम"> की स्थापना हेतु ड्रॉइंग्स एवं दस्तावेज़ संलग्न कर रहे हैं।<br>
+            <i style="font-size: 0.9em; color: #666;">(We hereby submit drawings and documents for Equipment installation at our premises located at the address above.)</i>
+        </p>
+
+        <label style="color: var(--royal-red); font-size: 0.85em;">संलग्न दस्तावेज (Kindly find enclosed):</label>
+        <div class="drawings-list">
+            <div>• Location Layout (स्थान लेआउट)</div>
+            <div>• Earthing Layout (अर्थिंग लेआउट)</div>
+            <div>• Single Line Diagram (SLD)</div>
+            <div>• HT Cable Route (HT केबल रूट)</div>
+            <div>• Equipment GA Drawing (GA ड्रॉइंग)</div>
+            <div>• Lightning Protection (लाइटनिंग सुरक्षा)</div>
+            <div>• <input type="text" ></div>
+            <div>• <input type="text" ></div>
+        </div>
+
+        <div class="compliance-note">
+            सभी ड्रॉइंग्स HT ‘A’ क्लास लाइसेंसधारी ठेकेदार (छत्तीसगढ़) द्वारा विधिवत हस्ताक्षरित हैं। कृपया शीघ्र स्वीकृति प्रदान करें।<br>
+            <i style="font-size: 0.95em;">All drawings are duly signed by HT ‘A’ Class Licensed Contractor (C.G.). We request your kind approval.</i>
+        </div>
+
+        <div class="input-row">
+            <div style="width: 100%;">
+                <span class="lang-hi">कंपनी/कारखाना (Company/Factory):</span>
+                <input type="text" style="width: 100%; font-weight: bold;">
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div style="width: 48%;">
+                <span class="lang-hi">अधिकृत हस्ताक्षरकर्ता (Signatory):</span>
+                <input type="text" placeholder="Name">
+            </div>
+            <div style="width: 48%;">
+                <span class="lang-hi">पद (Designation):</span>
+                <input type="text">
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div style="width: 48%;">
+                <span class="lang-hi">मोबाइल (Mobile):</span>
+                <input type="text">
+            </div>
+            <div style="width: 48%;">
+                <span class="lang-hi">ईमेल (Email):</span>
+                <input type="text">
+            </div>
+        </div>
+        
+        <div class="input-row" style="margin-bottom: 0;">
+            <div style="width: 100%;">
+                <span class="lang-hi">प्रतिप्रति (Copy to):</span>
+                <input type="text" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div style="font-size: 10px; color: #999; line-height: 1.2;">
+            Note: This is a formal application for statutory approval.<br>
+            यह वैधानिक स्वीकृति हेतु औपचारिक आवेदन है।
+        </div>
+        <div class="signature-box">
+            <strong>अधिकृत हस्ताक्षर एवं मुहर</strong><br>
+            <span style="font-size: 0.85em;">Authorized Signature & Seal</span>
+        </div>
+    </div>
+</div>
+
+<button class="btn-print" onclick="window.print()">Print Application (One Page)</button>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulation-Hub | PowerI.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            zoom: 80%; /* Maintaining consistency with your previous pages */
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f7f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .hub-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, #001a4d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-red);
+            margin-bottom: 30px;
+        }
+
+        .reg-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .reg-card {
+            background: white;
+            padding: 18px 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border-left: 5px solid var(--royal-blue);
+        }
+
+        .reg-card:hover {
+            transform: translateX(10px);
+            border-left: 5px solid var(--accent-red);
+        }
+
+        .info-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            color: var(--accent-red);
+        }
+
+        .reg-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .reg-category {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-view {
+            background: var(--royal-blue);
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-view:hover {
+            background: #002266;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .email-highlight {
+            background: lab(16.31% 20.18 -42.33);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px dashed var(--royal-blue);
+        }
+
+        .email-highlight a {
+            font-size: 1.8rem;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hub-container">
+    <header>
+        <h1><i class="fas fa-book-open"></i> Regulation-Hub</h1>
+        <p>Centralized Repository for Electricity Regulations & Standard Operating Procedures (SOP)</p>
+    </header>
+
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search regulations, SOPs, or keywords..." onkeyup="filterHub()">
+
+    <div class="reg-grid" id="regGrid">
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-file-pdf file-icon"></i>
+                <div>
+                    <div class="reg-category">Statutory Regulation</div>
+                    <div class="reg-title">CEA Safety Regulations 2010</div>
+                </div>
+            </div>
+            <a href="docs/CEA_Safety_Regulations_2010.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-file-pdf file-icon"></i>
+                <div>
+                    <div class="reg-category">Statutory Regulation</div>
+                    <div class="reg-title">Measures relating to Safety and Electric Supply Regulations, 2023</div>
+                </div>
+            </div>
+            <a href="docs/Central Electricity Authority (Measures relating to Safety and Electric Supply) Regulations, 2023.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-file-pdf file-icon"></i>
+                <div>
+                    <div class="reg-category">Technical Code</div>
+                    <div class="reg-title">National Electric Code (NEC) 2023</div>
+                </div>
+            </div>
+            <a href="docs/National Electric Code 2023.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-laptop-code file-icon"></i>
+                <div>
+                    <div class="reg-category">Utility Process</div>
+                    <div class="reg-title">CSPDCL New Connection ONLINE NSC Process</div>
+                </div>
+            </div>
+            <a href="docs/SOP New Connection Process online CSPDCL.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-gavel file-icon"></i>
+                <div>
+                    <div class="reg-category">State Regulation</div>
+                    <div class="reg-title">Chhattisgarh State Electricity Regulation (CSERC)</div>
+                </div>
+            </div>
+            <a href="docs/Chhattisgarh State Electricity Regulation.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-user-guide file-icon" style="font-family:'Font Awesome 5 Free'"></i>
+                <i class="fas fa-book file-icon"></i>
+                <div>
+                    <div class="reg-category">User Guide</div>
+                    <div class="reg-title">CEIG Office Online User Manual</div>
+                </div>
+            </div>
+            <a href="docs/CEIG office_Online_User_Manual.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-drafting-compass file-icon"></i>
+                <div>
+                    <div class="reg-category">Process Flow</div>
+                    <div class="reg-title">CEIG Drawing Approval Process & Permission</div>
+                </div>
+            </div>
+            <a href="docs/CEIG_Drawing Approval Process_Permission.jpg" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-bolt file-icon"></i>
+                <div>
+                    <div class="reg-category">Industrial SOP</div>
+                    <div class="reg-title">HT Electricity Connections upto 150 KVA: Flow & Timelines</div>
+                </div>
+            </div>
+            <a href="docs/Process flow, Standard Operating procedure and Timelines for granting HT electricity connections upto 150 KVA.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-exchange-alt file-icon"></i>
+                <div>
+                    <div class="reg-category">Maintenance SOP</div>
+                    <div class="reg-title">SOP: Application Registration Meter Shifting</div>
+                </div>
+            </div>
+            <a href="docs/SOP Application Registration Meter Shifting.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-file-invoice-dollar file-icon"></i>
+                <div>
+                    <div class="reg-category">Tariff SOP</div>
+                    <div class="reg-title">SOP: Application Registration Tariff Change</div>
+                </div>
+            </div>
+            <a href="docs/SOP Application Registration Tariff Change.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-id-card file-icon"></i>
+                <div>
+                    <div class="reg-category">Legal SOP</div>
+                    <div class="reg-title">SOP: Application Registration Name Change</div>
+                </div>
+            </div>
+            <a href="docs/SOP Application Registration Name Change.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-chart-line file-icon"></i>
+                <div>
+                    <div class="reg-category">Technical SOP</div>
+                    <div class="reg-title">SOP: Application Registration Load Enhancement</div>
+                </div>
+            </div>
+            <a href="docs/SOP Application Registration Load enhancement.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+
+        <div class="reg-card">
+            <div class="info-group">
+                <i class="fas fa-globe file-icon"></i>
+                <div>
+                    <div class="reg-category">CSPDCL Guide</div>
+                    <div class="reg-title">SOP: New Connection Process Online CSPDCL</div>
+                </div>
+            </div>
+            <a href="docs/SOP New Connection Process online CSPDCL.pdf" target="_blank" class="btn-view"><i class="fas fa-download"></i> PDF</a>
+        </div>
+    </div>
+</div>
+ <div class="email-highlight">
+                <p style="margin-top: 0; font-weight: bold; color: var(--accent-red);">PRIMARY CONTACT EMAIL</p>
+                <a href="mailto:Poweri_con@outlook.com">Poweri_con@outlook.com</a>
+                <p style="margin-bottom: 0; color: #666; margin-top: 10px;">We typically respond within 24-48 working hours.</p>
+            </div>
+        </div>
+
+<script>
+    function filterHub() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('reg-card');
+
+        for (let i = 0; i < cards.length; i++) {
+            let title = cards[i].querySelector('.reg-title').innerText.toLowerCase();
+            let category = cards[i].querySelector('.reg-category').innerText.toLowerCase();
+            if (title.includes(input) || category.includes(input)) {
+                cards[i].style.display = "flex";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

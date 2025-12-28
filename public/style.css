@@ -1,0 +1,578 @@
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --royal-blue: #002366; /* Deep Royal Blue */
+            --accent-red: #D32F2F; /* Strong Red */
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text-dark: #333;
+            --border-color: #ddd;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--light-bg); color: var(--text-dark); }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        /* --- HEADER SECTION --- */
+        header { width: 100%; margin:0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+        /* Row 1: Contact & Language */
+        .top-bar {
+            background-color: var(--royal-blue);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 5%;
+            font-size: 0.9rem;
+        }
+        .lang-switch select {
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Row 2: Logo & Image (20% Logo area centered contextually) */
+        .brand-section {
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centered as requested */
+            padding: 20px 5%;
+            border-bottom: 2px solid var(--accent-red);
+            gap: 20px;
+        }
+        .logo-container {
+            width: 20%; /* As requested */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .brand-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--royal-blue);
+            text-transform: uppercase;
+        }
+        .brand-logo span { color: var(--accent-red); }
+        .banner-img {
+            height: 60px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        /* Row 3: Navigation */
+        .nav-links-container {
+            background-color: var(--royal-blue);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+        }
+        .nav-links { display: flex; }
+        .nav-links li { position: relative; }
+        .nav-links a {
+            display: block;
+            padding: 15px 20px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover { background-color: var(--accent-red); }
+        
+        .auth-buttons { display: flex; gap: 10px; padding: 10px; }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+       
+        /* --- BODY SECTION --- */
+        .main-container {
+            width: 80%; /* 80% Center Area */
+            margin: 30px auto;
+            background: var(--white);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            min-height: 80vh;
+        }
+
+        /* Section 1: Mission */
+        .mission-section {
+            background: linear-gradient(to right, #e3f2fd, #fff);
+            padding: 20px;
+            border-left: 5px solid var(--royal-blue);
+            margin-bottom: 30px;
+        }
+        .mission-section h2 { color: var(--royal-blue); margin-bottom: 10px; }
+
+        /* Section 2: Split Area (60% Q&A, 40% Welcome) */
+        .split-content {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        /* Left: Q&A (60%) */
+        .qa-container {
+            flex: 6; /* 60% */
+        }
+        .qa-list { display: flex; flex-direction: column; gap: 10px; }
+        .qa-item {
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .question-btn {
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            background: #f9f9f9;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            color: var(--royal-blue);
+        }
+        .question-btn:hover { background: #eee; }
+        
+        /* Answer Panel (Hidden by default) */
+        /* Answer Panel - Optimized for Animation */
+           .answer-panel {
+             max-height: 0; /* Changed from display:none */
+               overflow: hidden;
+                 transition: max-height 0.3s ease-out; /* Smooth slide effect */
+                padding: 0 15px; /* Padding must be 0 when closed */
+               background: white;
+              font-size: 0.95rem;
+            line-height: 1.6;
+}
+
+/* Add this class to handle the open state */
+.answer-panel.show {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
+        .comment-section {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+        }
+        .comment-box {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Right: Welcome (40%) */
+        .welcome-container {
+            flex: 4; /* 40% */
+            background-color: var(--royal-blue);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .welcome-container h3 { border-bottom: 2px solid var(--accent-red); display: inline-block; padding-bottom: 5px; margin-bottom: 15px;}
+
+        /* --- USER DASHBOARD LAYOUT (AFTER LOGIN) --- */
+
+/* 1. Main Dashboard Container */
+#user-dashboard {
+    display: none; /* Hidden until login successful */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+/* 2. The Vertical Split (Flexbox) */
+.dashboard-workspace {
+    display: flex;
+    gap: 30px;
+    margin-top: 25px;
+    min-height: 500px;
+}
+
+/* 3. Left Section: Forms Stack (40% Width) */
+.forms-sidebar {
+    flex: 1; /* Occupies the left side */
+    background: #f8faff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e0e6ed;
+}
+
+.forms-sidebar h4 {
+    color: var(--royal-blue);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-red);
+    display: flex;
+    align-items: center;
+}
+
+.form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-btn {
+    width: 100%;
+    padding: 15px;
+    text-align: left;
+    background: white;
+    border: 1px solid #ddd;
+    border-left: 5px solid var(--royal-blue);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #444;
+}
+
+.form-btn:hover {
+    background: #eef2ff;
+    transform: translateX(8px);
+    border-color: var(--royal-blue);
+    color: var(--royal-blue);
+}
+
+/* 4. Right Section: Document Folder (60% Width) */
+.folder-main {
+    flex: 1.5; /* Occupies the right side */
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px dashed #ccd5ae; /* Folder-like dash border */
+    display: flex;
+    flex-direction: column;
+}
+
+.folder-main h4 {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 350px;
+}
+
+/* Style for individual files in the folder */
+.file-icon {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #eee;
+    transition: transform 0.2s;
+}
+
+.file-icon:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.file-icon i {
+    font-size: 2.5rem;
+    color: #ff5722; /* PDF Red */
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Responsiveness: Stack columns on mobile */
+@media (max-width: 768px) {
+    .dashboard-workspace {
+        flex-direction: column;
+    }
+}
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #222;
+            color: #bbb;
+            padding: 40px 10%;
+            margin-top: auto;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .footer-col h4 { color: white; margin-bottom: 15px; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 0.8rem;
+        }
+
+        /* --- MODALS (Login/Signup) --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.6); 
+        }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 25px;
+            border-top: 5px solid var(--royal-blue);
+            width: 400px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute; right: 15px; top: 10px;
+            font-size: 24px; cursor: pointer; color: #aaa;
+        }
+        .modal h2 { margin-bottom: 20px; color: var(--royal-blue); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;}
+        .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .submit-btn {
+            width: 100%; padding: 10px;
+            background: var(--royal-blue); color: white;
+            border: none; border-radius: 4px;
+            font-size: 1rem; cursor: pointer;
+        }
+        .submit-btn:hover { background: var(--accent-red); }
+        .know-more-link {
+    color: var(--accent-red);
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.know-more-link:hover {
+    text-decoration: underline;
+    color: var(--royal-blue);
+} 
+.privacy-box {
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 0.75rem;
+    height: 60px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    color: #666;
+    border-radius: 4px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.checkbox-group input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Change button color when active */
+.submit-btn.active {
+    background: var(--royal-blue) !important;
+    cursor: pointer !important;
+}
+.submit-btn.active:hover {
+    background: var(--accent-red) !important;
+}
+         /* Modern Auth Button Styles */
+.btn-login-new {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-login-new:hover {
+    background: #003399;
+    color: white;
+}
+
+.btn-signup-new {
+    background: #e63946; /* Accent Red */
+    color: white;
+    border: 2px solid white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+    transition: 0.3s;
+}
+
+.btn-signup-new:hover {
+    background: #d62839;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+}
+
+.welcome-msg {
+    color: #003399;
+    margin-right: 15px;
+}
+
+.btn-logout {
+    background: #666;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: none;
+}  
+/* Modern Modal Styles */
+.modal-new { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,26,77,0.85); backdrop-filter: blur(8px); }
+
+.modal-content-colorful { 
+    background: #fff; width: 100%; max-width: 480px; margin: 5vh auto; 
+    border-radius: 20px; overflow: hidden; position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3); border-top: 6px solid #e63946; 
+}
+
+.auth-header-gradient { 
+    background: linear-gradient(135deg, #003399, #001a4d); 
+    padding: 30px; text-align: center; color: #fff; 
+}
+
+.auth-tabs { display: flex; background: #f0f2f5; padding: 5px; margin: 20px; border-radius: 50px; }
+.tab-link { flex: 1; border: none; padding: 12px; border-radius: 50px; cursor: pointer; font-weight: bold; background: none; color: #666; transition: 0.3s; }
+.tab-link.active { background: #003399; color: #fff; box-shadow: 0 4px 10px rgba(0,51,153,0.3); }
+
+.auth-form-body { padding: 0 30px 30px; }
+.input-field { position: relative; margin-bottom: 15px; }
+.input-field i { position: absolute; left: 15px; top: 12px; color: #003399; }
+.input-field input { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #eee; border-radius: 10px; outline: none; box-sizing: border-box; }
+.input-field input:focus { border-color: #003399; }
+
+.btn-primary-auth { 
+    width: 100%; padding: 15px; background: #e63946; color: #fff; 
+    border: none; border-radius: 10px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(230,57,70,0.3); transition: 0.3s;
+}
+.btn-primary-auth:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
+
+.privacy-box-new { font-size: 11px; background: #fff5f5; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #ffcccc; }
+.close-btn-new { position: absolute; right: 20px; top: 15px; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; }
+  /* COMPACT SIGNUP BOX CSS */
+.modal-content-colorful { 
+    width: 95%; 
+    max-width: 360px; /* Reduced width */
+    margin: 2vh auto; 
+    border-radius: 12px;
+    border-top: 4px solid #e63946;
+}
+
+.auth-header-gradient { padding: 15px; } /* Thinner header */
+.auth-header-gradient h2 { font-size: 1.2rem; }
+
+.auth-form-body { padding: 0 20px 20px; } /* Less side padding */
+
+.input-field { margin-bottom: 8px; } /* Tighter spacing between inputs */
+.input-field input { padding: 8px 10px 8px 35px; font-size: 0.85rem; }
+
+.privacy-box-new { 
+    font-size: 10px; 
+    padding: 6px; 
+    margin: 8px 0; 
+    line-height: 1.2; /* Tight text */
+}
+
+.btn-primary-auth { padding: 10px; font-size: 0.9rem; }
+.privacy-box-new {
+        font-size: 11px;
+        background: #f8fbff;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: 1px solid #d0daff;
+        color: #444;
+        text-align: left;
+    }
+    .privacy-box-new ul {
+        margin: 5px 0 0 15px;
+        padding: 0;
+    }
+    .privacy-box-new li {
+        margin-bottom: 3px;
+    }
+    .privacy-box-new i {
+        color: var(--royal-blue);
+        margin-right: 5px;
+    }
+    .form-link {
+        display: block; width: 100%; padding: 8px 12px; 
+        text-decoration: none; color: #555; font-size: 13.5px;
+        border-left: 2px solid #ddd; margin-bottom: 2px;
+    }
+    .form-link:hover { color: var(--accent-red); border-left-color: var(--accent-red); background: #fffafa; }
+    
+    /* Saved File Card Style */
+    .file-group-header { background: #eee; padding: 8px 15px; font-weight: bold; border-radius: 5px; margin-top: 15px; color: #333; }
+    .file-card { 
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px; border-bottom: 1px solid #eee; transition: 0.2s;
+    }
+    .file-card:hover { background: #f9f9f9; }
+    .pdf-icon { color: #e63946; font-size: 20px; margin-right: 10px; }
+    .file-date { font-size: 12px; color: #888; margin-right: 15px; }
+
+
+/* Specific Style for the Home Link with Icon */
+.home-link-active {
+    color: var(--white);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight */
+    transition: 0.3s;
+}
+
+.home-link-active:hover {
+    background-color: var(--accent-red) !important;
+    color: white !important;
+}
+
+.home-link-active i {
+    font-size: 1.1rem;
+}
+/* Smooth transition for section toggling */
+#user-dashboard, .mission-section, .split-content {
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Ensure the user profile area in nav matches the auth buttons alignment */
+#user-profile {
+    display: none; /* Controlled by JS */
+    align-items: center;
+    gap: 15px;
+}
+

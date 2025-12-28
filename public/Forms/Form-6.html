@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Form-6 | Electrical Inspection Request</title>
+<link href="fonts.googleapis.com" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0b3ba7;   /* Royal Blue */
+    --accent: #d62828;    /* Deep Red */
+    --bg: #f4f7fa;
+    --paper: #ffffff;
+    --border: #d1d5db;
+  }
+  
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px; background: var(--bg);
+    font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+    color: #1a1a1a; line-height: 1.5;
+  }
+
+  /* A4 Page Layout */
+  .page {
+    width: 210mm; min-height: 297mm; margin: 0 auto; background: var(--paper);
+    padding: 15mm; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-top: 6px solid var(--primary);
+  }
+
+  header {
+    text-align: center; border-bottom: 2px solid var(--accent);
+    padding-bottom: 15px; margin-bottom: 25px;
+  }
+  header h1 { margin: 0; font-size: 24px; color: var(--primary); letter-spacing: 1px; }
+  header p { margin: 5px 0 0; font-size: 14px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+
+  .to-section { margin-bottom: 25px; }
+  .to-label { font-weight: 800; color: var(--primary); font-size: 16px; border-bottom: 1px solid var(--primary); display: inline-block; margin-bottom: 10px; }
+  
+  .address-list { list-style: none; padding: 0; margin: 0; }
+  .address-list li { margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--border); }
+  .address-list li strong { display: block; font-size: 14px; color: #333; }
+  
+  /* Input Formatting */
+  .input-group { margin: 15px 0; }
+  .input-box {
+    border-bottom: 2px solid var(--border);
+    display: inline-block; padding: 2px 8px; outline: none;
+    min-width: 150px; transition: all 0.3s;
+    font-weight: 600; color: #000;
+  }
+  .input-box:focus { border-bottom-color: var(--primary); background: #f0f7ff; }
+
+  .subject-box {
+    background: #fff5f5; border: 1px solid #fed7d7;
+    padding: 15px; border-radius: 6px; margin: 20px 0;
+  }
+  .subject-box div { margin-bottom: 8px; }
+  .subject-box b { color: var(--accent); }
+
+  .main-content { text-align: justify; font-size: 15px; line-height: 1.8; }
+  
+  .attachments-box {
+    margin-top: 30px; padding: 15px; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc;
+  }
+  .attachments-box h3 { margin: 0 0 10px 0; font-size: 14px; color: var(--primary); text-transform: uppercase; }
+  .attachments-box ul { margin: 0; padding-left: 20px; font-size: 13px; }
+  .attachments-box li { margin-bottom: 5px; }
+
+  .footer-sign {
+    margin-top: 60px; display: flex; justify-content: flex-end;
+  }
+  .sig-area {
+    width: 80mm; border-top: 2px solid var(--primary); padding-top: 10px;
+    text-align: center; font-weight: 700; color: var(--primary);
+  }
+  .sig-area span { display: block; color: #666; font-weight: 400; font-size: 12px; margin-top: 4px; }
+
+  /* Floating Print Button */
+  .print-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--accent); color: white; border: none;
+    padding: 15px 25px; border-radius: 50px; font-weight: 800;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer;
+    z-index: 1000; transition: 0.3s;
+  }
+  .print-btn:hover { transform: scale(1.05); background: #b91c1c; }
+
+  @media print {
+    .print-btn { display: none; }
+    body { padding: 0; background: #fff; }
+    .page { box-shadow: none; border: none; width: 100%; margin: 0; padding: 10mm; }
+    .input-box { border-bottom: 1px solid #000; }
+    .subject-box { background: #fff !important; border: 1px solid #000; }
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">PRINT / SAVE PDF</button>
+
+<div class="page">
+  <header>
+    <h1>प्रपत्र- 6 / Form-6</h1>
+    <p>Electrical Installation Inspection Report / विद्युत अधिष्ठान का परीक्षा पत्र</p>
+  </header>
+
+  <div class="to-section">
+    <span class="to-label">प्रति / To,</span>
+    <ul class="address-list">
+      <li>
+        <strong>1. मुख्य विद्युत निरीक्षक, छत्तीसगढ़ शासन</strong>
+        <small>Chief Electrical Inspector, Indrawati Bhavan, Nava Raipur</small>
+      </li>
+      <li>
+        <strong>2. कार्यपालन अभियंता (वि-सु-) एवं संभागीय विद्युत निरीक्षक, छत्तीसगढ़ शासन</strong>
+        <small>Executive Engineer (E.S.) & Divisional Electrical Inspector, Division: </small>
+        <span class="input-box" contenteditable="true" style="min-width: 200px;"></span>
+      </li>
+      <li>
+        <strong>3. सहायक अभियंता (वि-सु-) एवं सहायक विद्युत निरीक्षक, छत्तीसगढ़ शासन</strong>
+        <small>Assistant Electrical Inspector, Sub-Division: </small>
+        <span class="input-box" contenteditable="true" style="min-width: 200px;"></span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="subject-box">
+    <div><b>विषय (Sub):</b> मुख्य विद्युत निरीक्षक द्वारा स्वीकृत रेखाचित्र में दर्शाये गऐ विद्युत अधिष्ठान का परीक्षा पत्र। </div>
+    <div style="font-size: 13px; font-style: italic;">(Test report of electrical installation as shown in drawings approved by Chief Electrical Inspector)</div>
+    <div style="margin-top: 10px;">
+      <b>संदर्भ (Ref):</b> आपका पत्र क्रमांक / Your Letter No. 
+      <span class="input-box" contenteditable="true" style="min-width: 250px;"></span>
+    </div>
+  </div>
+
+  <div class="main-content">
+    मेसर्स / M/s <span class="input-box" contenteditable="true" style="min-width: 350px;"></span>,<br>
+    तहसील / Tehsil <span class="input-box" contenteditable="true" style="min-width: 180px;"></span>, 
+    जिला / District <span class="input-box" contenteditable="true" style="min-width: 180px;"></span> (छ.ग.) <br>
+    जिसका मैं मालिक / अधिवासी हूँ, के विद्युत अधिष्ठान का कार्य हो चुका है और निरीक्षण हेतु तैयार है। <br>
+    <small>(The electrical installation of the above premises is completed and ready for inspection.)</small>
+    <br><br>
+    उक्त अधिष्ठान का कार्य / The work was carried out by: <br>
+    <span class="input-box" contenteditable="true" style="width: 100%;"></span> <br>
+    विद्युत ठेकेदारी अनुज्ञप्ति क्रमांक / Electrical Contractor License No.: 
+    <span class="input-box" contenteditable="true" style="min-width: 200px;"></span>
+  </div>
+
+  <div class="attachments-box">
+    <h3>संलग्न दस्तावेज / Enclosures:</h3>
+    <ul>
+      <li>परीक्षण रिपोर्ट (विद्युत ठेकेदार द्वारा जारी) / Test Report by Licensed Contractor</li>
+      <li>उच्च विभव उपकरण निर्माता प्रमाण पत्र / Manufacturer Certificate for High Voltage Equipment</li>
+      <li>चालान की प्रति / Copy of Treasury Challan</li>
+      <li>सुरक्षा अधिकारी नियुक्ति एवं कार्यभार ग्रहण प्रतिवेदन / Appointment & Joining Report of Safety Officer</li>
+       <li><span class="input-box" contenteditable="true" style="min-width: 200px;"></span></li>
+       <li><span class="input-box" contenteditable="true" style="min-width: 200px;"></span></li>
+       <li><span class="input-box" contenteditable="true" style="min-width: 200px;"></span></li>
+    </ul>
+  </div>
+
+  <div class="footer-sign">
+    <div class="sig-area">
+      मालिक / अधिवासी के हस्ताक्षर एवं मुहर
+      <span>Signature of Owner / Occupier & Seal</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Electrical Forms File</title>
+  <style>
+    :root {
+      --royal-blue: #002366;
+      --royal-red: #C41E3A;
+    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 0; margin: 0; color: #333; }
+
+    /* --- Top Navigation --- */
+    .nav-bar { background-color: var(--royal-blue); padding: 10px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .nav-btn {
+      background-color: var(--royal-red); color: white; border: none; padding: 10px 15px; margin: 5px;
+      cursor: pointer; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;
+    }
+    .nav-btn:hover, .nav-btn.active { background-color: #ff5733; }
+
+    /* --- Form visibility --- */
+    .form-container { display: none; padding: 40px; }
+    .form-container.active { display: block; }
+
+    /* --- General Form Styling --- */
+    .report-container { background: #fff; padding: 30px; border: 1px solid #ccc; max-width: 950px; margin: auto; min-height: 297mm; position: relative; box-sizing: border-box; }
+    h2, h4 { text-align: center; color: var(--royal-blue); margin-top: 5px; text-transform: uppercase; margin-bottom: 5px; }
+    .sub-text { text-align: center; font-weight: bold; color: var(--royal-red); margin-bottom: 20px; font-size: 14px; text-transform: uppercase; }
+    
+    /* Flexbox Helpers */
+    .header-info { display: flex; justify-content: space-between; margin-bottom: 15px; }
+    .input-row { margin-bottom: 8px; }
+    
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 13px; table-layout: fixed; }
+    th, td { border: 1px solid #ccc; padding: 5px; text-align: center; word-wrap: break-word; vertical-align: middle; }
+    th { background-color: #f1f3f5; font-weight: bold; }
+    
+    /* Inputs */
+    input, input[type="date"], textarea { width: 95%; border: none; border-bottom: 1px dotted #999; outline: none; background: transparent; padding: 2px; font-family: inherit; font-size: 13px; text-align: center; }
+    input:focus, textarea:focus { border-bottom: 1px solid var(--royal-red); background-color: #fffde7; }
+    .label-cell { text-align: left; font-weight: bold; background-color: #fafafa; width: 25%; }
+    
+    /* Language helpers */
+    .lang-en { font-style: italic; color: #666; font-size: 0.85em; display: block; }
+    .lang-hi { display: block; font-weight: 500; }
+    
+    /* Section Titles */
+    .section-title { background: var(--royal-blue); color: white; padding: 5px 12px; font-weight: bold; margin: 15px 0 10px 0; text-align: left; font-size: 13px; }
+
+    /* --- Buttons --- */
+    .no-print { display: block !important; }
+    .btn-row-mgr { margin-top: 10px; margin-bottom: 20px; }
+    .add-btn { background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .del-btn { background: #C00000; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+
+    /* --- Print Dialog --- */
+    .print-dialog-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: none; z-index: 9998; }
+    .print-dialog { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 540px; max-width: 90vw; background: #fff; border-radius: 8px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); z-index: 9999; display: none; border: 1px solid #ddd; }
+    .print-dialog-header { padding: 12px 16px; background: var(--royal-blue); color: #fff; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+    .print-dialog-body { padding: 12px 16px; }
+    .print-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin: 8px 0 12px; }
+    .print-dialog-footer { padding: 12px 16px; display: flex; justify-content: flex-end; gap: 8px; }
+    
+    /* Print Dialog Buttons */
+    .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .btn-primary { background: var(--royal-blue); color: #fff; }
+    .btn-danger { background: #C00000; color: #fff; }
+    .btn-secondary { background: #e5e7eb; color: #111; }
+    .print-dialog-close { background: transparent; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+
+    /* --- Print Media Query --- */
+    @media print {
+      body { background: none; margin: 0; padding: 0; }
+      .nav-bar, .print-master-btn, .print-dialog, .print-dialog-backdrop, .no-print, .add-btn, .del-btn { display: none !important; }
+      .form-container { display: none !important; margin: 0; padding: 0; }
+      
+      /* Only show selected */
+      .form-container.print-selected { display: block !important; page-break-after: always; }
+      .report-container { border: none; padding: 0; margin: 0; width: 100%; box-shadow: none; min-height: auto; }
+      
+      input, textarea { border-bottom: none !important; }
+      @page { size: A4 portrait; margin: 10mm; }
+    }
+  </style>
+
+  <script>
+    /* Navigation */
+    function showForm(formId) {
+      document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      const target = document.getElementById(formId);
+      if (target) {
+        target.classList.add('active');
+        const btn = document.querySelector(`button[onclick="showForm('${formId}')"]`);
+        if (btn) btn.classList.add('active');
+      }
+    }
+
+    /* Print Logic */
+    function buildPrintListFromNav() {
+      const list = document.getElementById('printFormList');
+      list.innerHTML = '';
+      const navButtons = Array.from(document.querySelectorAll('.nav-bar .nav-btn')).filter(btn => !btn.classList.contains('print-master-btn'));
+      const activeForm = document.querySelector('.form-container.active');
+      const activeId = activeForm ? activeForm.id : null;
+
+      navButtons.forEach(btn => {
+        const onClick = btn.getAttribute('onclick') || '';
+        const match = onClick.match(/showForm\('([^']+)'\)/);
+        const formId = match ? match[1] : null;
+        if (!formId) return;
+
+        const wrapper = document.createElement('label');
+        wrapper.style.display = 'flex'; wrapper.style.alignItems = 'center'; wrapper.style.gap = '8px';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox'; cb.name = 'printForms'; cb.value = formId; cb.style.width = 'auto';
+        if (formId === activeId) cb.checked = true;
+        
+        const span = document.createElement('span');
+        span.textContent = btn.textContent.trim();
+        
+        wrapper.appendChild(cb); wrapper.appendChild(span);
+        list.appendChild(wrapper);
+      });
+    }
+
+    function openPrintDialog() { buildPrintListFromNav(); document.getElementById('printBackdrop').style.display = 'block'; document.getElementById('printDialog').style.display = 'block'; }
+    function closePrintDialog() { document.getElementById('printBackdrop').style.display = 'none'; document.getElementById('printDialog').style.display = 'none'; }
+    function toggleSelectAll(state) { document.querySelectorAll('input[name="printForms"]').forEach(cb => cb.checked = !!state); }
+
+    function applyPrintSelectionAndPrint() {
+      const selectedIds = Array.from(document.querySelectorAll('input[name="printForms"]:checked')).map(cb => cb.value);
+      if (selectedIds.length === 0) { alert('Please select at least one form.'); return; }
+      
+      document.querySelectorAll('.form-container').forEach(f => f.classList.remove('print-selected'));
+      selectedIds.forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.classList.add('print-selected');
+      });
+      
+      closePrintDialog();
+      window.print();
+      
+      // Cleanup
+      setTimeout(() => { document.querySelectorAll('.form-container').forEach(f => f.classList.remove('print-selected')); }, 1000);
+    }
+
+    /* Dynamic Table Logic */
+    function renumber(tableId) {
+      const tbody = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+      Array.from(tbody.rows).forEach((row, i) => row.cells[0].innerText = i + 1);
+    }
+
+    function deleteRow(btn, tableId) {
+      if(confirm('Delete this row?')) { btn.closest('tr').remove(); renumber(tableId); }
+    }
+
+    function addEarthRow() {
+      const tbody = document.getElementById('earthTable').getElementsByTagName('tbody')[0];
+      const row = tbody.insertRow();
+      row.innerHTML = `<td></td><td><input type="date"></td><td><input type="text"></td><td><input type="text"></td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'earthTable')">X</button></td>`;
+      renumber('earthTable');
+    }
+
+    function addCableRow() {
+      const tbody = document.getElementById('cableTable').getElementsByTagName('tbody')[0];
+      const row = tbody.insertRow();
+      row.innerHTML = `<td></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td>`;
+      renumber('cableTable');
+    }
+
+    window.onload = function() { showForm('form1'); };
+  </script>
+</head>
+<body>
+
+  <div class="nav-bar no-print">
+    <button class="nav-btn active" onclick="showForm('form1')">Form 1: Completion Cert</button>
+    <button class="nav-btn" onclick="showForm('form2')">Form 2: CT Test Report</button>
+    <button class="nav-btn" onclick="showForm('form3')">Form 3: XFMR Test Report</button>
+    <button class="nav-btn" onclick="showForm('form4')">Form 4: VCB Test Report</button>
+    <button class="nav-btn" onclick="showForm('form5')">Form 5: Motor Test (3MW)</button>
+    <button class="nav-btn" onclick="showForm('form6')">Form 6: Earth Pit Test</button>
+    <button class="nav-btn" onclick="showForm('form7')">Form 7: HT Cable IR</button>
+    <button class="nav-btn print-master-btn" onclick="openPrintDialog()" style="background-color: green;">Print / PDF</button>
+  </div>
+
+  <div class="print-dialog-backdrop" id="printBackdrop"></div>
+  <div class="print-dialog" id="printDialog" role="dialog">
+    <div class="print-dialog-header">
+      <div>Select forms to print</div>
+      <button class="print-dialog-close" onclick="closePrintDialog()">×</button>
+    </div>
+    <div class="print-dialog-body">
+      <div style="margin-bottom:8px; color:#555;">Tick the forms you want to include:</div>
+      <div class="print-list" id="printFormList"></div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="toggleSelectAll(true)">Select All</button>
+        <button class="btn btn-secondary" onclick="toggleSelectAll(false)">Clear All</button>
+      </div>
+    </div>
+    <div class="print-dialog-footer">
+      <button class="btn btn-danger" onclick="closePrintDialog()">Cancel</button>
+      <button class="btn btn-primary" onclick="applyPrintSelectionAndPrint()">Print Selected</button>
+    </div>
+  </div>
+
+  <div id="form1" class="form-container active">
+    <div class="report-container">
+      <h2>विद्युत कार्य पूर्णता प्रमाण पत्र</h2>
+      <div class="sub-text">ELECTRICAL WORK COMPLETION CERTIFICATE</div>
+      <div class="header-info">
+        <div style="width: 45%;">
+          <label>पत्रांक / Ref No:</label> <input type="text" placeholder="...........................">
+        </div>
+        <div style="width: 40%;">
+          <label>दिनांक / Date:</label> <input type="date">
+        </div>
+      </div>
+      <div class="section">
+        <p><strong>1. प्रमाणित किया जाता है कि / Certified that:</strong></p>
+        <div class="input-row">
+          <div><span class="lang-hi">(1) मेरे पास 'ए' श्रेणी विद्युत ठेकेदारी अनुज्ञप्ति क्रमांक</span><span class="lang-en">I hold Class 'A' Electrical Contractor License No.</span></div>
+          <input type="text" style="width: 150px;">
+          <div><span class="lang-hi">दिनांक</span><span class="lang-en">Valid Upto</span></div>
+          <input type="text" style="width: 120px;" value="09/01/2025"> <span>तक वैध है।</span>
+        </div>
+        <div class="input-row">
+          <div style="width: 100%;">
+            <span class="lang-hi">(2) मेसर्स (संस्थान का नाम एवं पता)</span>
+            <span class="lang-en">M/s (Name of Establishment & Address)</span>
+            <input type="text" style="width: 100%; margin-top: 5px;" placeholder="यहाँ संस्थान का नाम और पता दर्ज करें...">
+          </div>
+        </div>
+        <div style="margin-top:15px; font-size:12px;">
+           <strong>वैधानिक अनुपालन (Statutory Compliance):</strong><br>
+           "सभी प्रकार के केंद्रीय विद्युत प्राधिकरण (विद्युत आपूर्ति तथा सुरक्षा संबंधी उपाय) विनियम 2010 तथा उसके संबंध में लागू इंडियन कोड ऑफ़ प्रैक्टिस का पालन करता है।"
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <label style="color: var(--royal-red); font-weight:bold;">2. कार्य का विवरण तथा परीक्षण परिणाम / Work Details & Test Results:</label>
+        <textarea rows="10" style="width: 100%; margin-top: 10px; border:1px solid #ccc;" placeholder="Describe work here..."></textarea>
+      </div>
+      <div style="margin-top:50px; display:flex; justify-content: flex-end;">
+        <div style="text-align: center; width: 300px; border-top: 2px solid var(--royal-blue); padding-top: 5px;">
+           <strong>ठेकेदार के हस्ताक्षर (सील सहित)</strong><br>
+           <span style="font-size: 0.9em;">Signature of Electrical Contractor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="form2" class="form-container">
+    <div class="report-container">
+       <h2>SITE TEST REPORT</h2><div class="sub-text">CT TESTING REPORT (सी.टी. परीक्षण रिपोर्ट)</div>
+       <table>
+         <tr><td class="label-cell">Installation Area</td><td colspan="3"><input type="text" value="ABC Pvt. Ltd./LC-2"></td></tr>
+         <tr><td class="label-cell">Equipment</td><td colspan="3"><input type="text" value="THREE PHASE AC SR INDUCTION MOTOR"></td></tr>
+         <tr><td class="label-cell">Rated voltage</td><td><input type="text" value="11 KV"></td><td class="label-cell">Rated current</td><td><input type="text" value="514 Amp"></td></tr>
+       </table>
+       <div class="section-title">सी.टी. नेम प्लेट विवरण (CT Name Plate Details)</div>
+       <table>
+         <tr><td class="label-cell">Make</td><td><input type="text" value="CG POWER"></td><td class="label-cell">Ratio</td><td><input type="text" value="600/1-1A"></td></tr>
+         <tr><td class="label-cell">Sr. No.</td><td colspan="3">R: <input type="text" style="width:25%"> Y: <input type="text" style="width:25%"> B: <input type="text" style="width:25%"></td></tr>
+       </table>
+       <div class="section-title">IR मापन परीक्षण (IR Measurement Test - 500V DC)</div>
+       <table>
+         <thead><tr><th>Between</th><th>R-Ph (GΩ)</th><th>Y-Ph (GΩ)</th><th>B-Ph (GΩ)</th></tr></thead>
+         <tbody><tr><td>Primary - Earth</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+       </table>
+       <div class="section-title">अनुपात परीक्षण (Ratio Test - Core 1)</div>
+       <table>
+         <thead><tr><th rowspan="2">Primary Current (A)</th><th colspan="3">Secondary Current (A)</th></tr><tr><th>R-Ph</th><th>Y-Ph</th><th>B-Ph</th></tr></thead>
+         <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+         <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+       </table>
+       <div class="section-title">परीक्षण (Polarity Test)</div>
+       <table>
+         <tr><td>Core 1: <input type="text" value="OK"></td><td>Core 2: <input type="text" value="OK"></td></tr>
+       </table>
+       <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+         <div style="text-align: center; border-top: 1px solid #000; width: 200px; padding-top: 5px;">परीक्षण इंजीनियर</div>
+         <div style="text-align: center; border-top: 1px solid #000; width: 200px; padding-top: 5px;">अनुमोदित</div>
+       </div>
+    </div>
+  </div>
+
+  <div id="form3" class="form-container">
+    <div class="report-container">
+      <div class="header-info">
+        <div>(Annexure-I)</div>
+        <div>दिनांक / DATE: <input type="date" style="width: 130px;"></div>
+      </div>
+      <h2>ट्रांसफार्मर साइट टेस्ट रिपोर्ट</h2>
+      <div class="sub-text">SITE TEST REPORT OF DISTRIBUTION TRANSFORMER</div>
+      <table>
+        <tr><td class="label-cell">Site</td><td colspan="3"><input type="text" value="ABC Pvt. Ltd./LC-2"></td></tr>
+        <tr><td class="label-cell">Equipment</td><td colspan="3"><input type="text" value="Distribution Transformer No-2"></td></tr>
+        <tr><td class="label-cell">Rating</td><td><input type="text" value="2000 KVA"></td><td class="label-cell">Voltage</td><td><input type="text" value="11/0.433 KV"></td></tr>
+      </table>
+      
+      <div class="section-title">1. चुंबकीय संतुलन परीक्षण (Magnetic Balance Test) – HV SIDE</div>
+      <table>
+        <tr><th>Tap</th><th>1U1V (V)</th><th>1V1W (V)</th><th>1W1U (V)</th><th>Remarks</th></tr>
+        <tr><td>3</td><td><input type="text" value="216"></td><td><input type="text" value="426"></td><td><input type="text" value="209"></td><td>Satisfactory</td></tr>
+        <tr><td>3</td><td><input type="text" value="205"></td><td><input type="text" value="218"></td><td><input type="text" value="426"></td><td>Satisfactory</td></tr>
+        <tr><td>3</td><td><input type="text" value="425"></td><td><input type="text" value="218"></td><td><input type="text" value="208"></td><td>Satisfactory</td></tr>
+      </table>
+
+      <div class="section-title">2. वोल्टेज अनुपात परीक्षण (Voltage Ratio Test)</div>
+      <table>
+        <tr><th>Tap</th><th>Ratio</th><th>HV (V)</th><th>LV (V)</th><th>Obtained</th></tr>
+        <tr><td>1</td><td>1.832</td><td>430</td><td>44.5</td><td>1.830</td></tr>
+        <tr><td>2</td><td>1.782</td><td>430</td><td>45.31</td><td>1.784</td></tr>
+        <tr><td>3</td><td>1.732</td><td>430</td><td>46.68</td><td>1.731</td></tr>
+        <tr><td>4</td><td>1.682</td><td>430</td><td>47.80</td><td>1.681</td></tr>
+        <tr><td>5</td><td>1.632</td><td>430</td><td>49.20</td><td>1.631</td></tr>
+      </table>
+
+      <div class="section-title">3. वाइंडिंग रेजिस्टेंस (Winding Resistance) @ 33°C</div>
+      <table>
+        <tr><th colspan="3">HV Side (Ω) - Tap 4</th><th colspan="3">LV Side (mΩ)</th></tr>
+        <tr><th>1U1V</th><th>1V1W</th><th>1W1U</th><th>2U2V</th><th>2V2W</th><th>2W2U</th></tr>
+        <tr><td>0.0863</td><td>0.0865</td><td>0.0864</td><td>0.5205</td><td>0.5131</td><td>0.5204</td></tr>
+      </table>
+
+      <div class="section-title">4. BDV Test (Oil)</div>
+      <table>
+        <tr><th>Sample</th><th>BDV (kV)</th><th>Temp (°C)</th></tr>
+        <tr><td>Top</td><td>72</td><td>64</td></tr>
+        <tr><td>Bottom</td><td>77</td><td>66</td></tr>
+      </table>
+
+      <div style="margin-top: 30px; display: flex; justify-content: flex-end;">
+        <div style="text-align: center; border-top: 2px solid var(--royal-blue); width: 300px; padding-top: 5px;">
+           <strong>हस्ताक्षर "A" श्रेणी विद्युत ठेकेदार</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="form4" class="form-container">
+    <div class="report-container">
+      <h2>वैक्यूम सर्किट ब्रेकर परीक्षण रिपोर्ट</h2>
+      <div class="sub-text">SITE TEST REPORT OF VACUUM CIRCUIT BREAKER (VCB)</div>
+      <div class="section-title">Equipment & Name Plate Details</div>
+      <table>
+        <tr><td class="label-cell">MAKE</td><td>SCHNEIDER ELECTRIC</td><td class="label-cell">Type</td><td>PX (12KV)</td></tr>
+        <tr><td class="label-cell">Sr. No.</td><td>0226964195/01/10</td><td class="label-cell">Date</td><td>14.02.2025</td></tr>
+        <tr><td class="label-cell">Rated Current</td><td>1600 A</td><td class="label-cell">Short Time</td><td>40kA / 3sec</td></tr>
+      </table>
+
+      <div class="section-title">1. IR Measurement (5KV DC)</div>
+      <table>
+        <tr><th colspan="3">Close Condition (GΩ)</th><th colspan="3">Open Condition (GΩ)</th></tr>
+        <tr><th>R-E</th><th>Y-E</th><th>B-E</th><th>R-R1</th><th>Y-Y1</th><th>B-B1</th></tr>
+        <tr><td>>1000</td><td>>1000</td><td>>1000</td><td>>1000</td><td>>1000</td><td>>1000</td></tr>
+      </table>
+
+      <div class="section-title">2. Component Resistance</div>
+      <table>
+        <tr><th>Spring Motor</th><th>Closing Coil</th><th>Tripping Coil</th></tr>
+        <tr><td>36.2 Ω</td><td>66.9 Ω</td><td>67.0 Ω</td></tr>
+      </table>
+
+      <div class="section-title">3. Timing & CRM</div>
+      <table>
+        <tr><th>Operation</th><th>R (ms)</th><th>Y (ms)</th><th>B (ms)</th><th>Contact Resistance (µΩ)</th></tr>
+        <tr><td>Close</td><td>53</td><td>52</td><td>53</td><td>R-R': 20.1</td></tr>
+        <tr><td>Open</td><td>43</td><td>43</td><td>43</td><td>Y-Y': 20.4</td></tr>
+        <tr><td>C-O</td><td>39</td><td>39</td><td>39</td><td>B-B': 20.0</td></tr>
+      </table>
+
+      <div class="section-title">4. Functional Checks</div>
+      <table>
+         <tr><td>ON/OFF Indication: OK</td><td>Spring Charge: OK</td><td>TNC Switch: OK</td></tr>
+         <tr><td>Rack In/Out: OK</td><td>Limit Switch: OK</td><td>Service/Test Pos: OK</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="form5" class="form-container">
+    <div class="report-container">
+      <h2>मोटर परीक्षण रिपोर्ट</h2>
+      <div class="sub-text">SITE TEST REPORT OF 3-PHASE INDUCTION MOTOR</div>
+      <table>
+        <tr><td class="label-cell">Rating</td><td>807 kW / 11 kV</td><td class="label-cell">Current</td><td>51 A</td></tr>
+        <tr><td class="label-cell">Connection</td><td>STAR</td><td class="label-cell">Make</td><td>CG POWER</td></tr>
+      </table>
+
+      <div class="section-title">1. Winding Resistance (Ω)</div>
+      <table>
+        <tr><th>Phase</th><th>Resistance</th><th>Phase-Phase</th><th>Resistance</th></tr>
+        <tr><td>U1-U2</td><td>1.41</td><td>U-V</td><td>2.82</td></tr>
+        <tr><td>V1-V2</td><td>1.41</td><td>V-W</td><td>2.82</td></tr>
+        <tr><td>W1-W2</td><td>1.41</td><td>W-U</td><td>2.82</td></tr>
+      </table>
+
+      <div class="section-title">2. IR & Polarization Index (5KV DC)</div>
+      <table>
+        <tr><th>Phase</th><th>1 Min (GΩ)</th><th>10 Min (GΩ)</th><th>PI Value</th></tr>
+        <tr><td>U-Earth</td><td>19.6</td><td>107.2</td><td>5.47</td></tr>
+        <tr><td>V-Earth</td><td>25.4</td><td>122.9</td><td>4.84</td></tr>
+        <tr><td>W-Earth</td><td>28.2</td><td>144.6</td><td>5.13</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="form6" class="form-container">
+    <div class="report-container">
+      <h2>अर्थ पिट परीक्षण परिणाम</h2>
+      <div class="sub-text">EARTH PIT TESTING RESULTS REPORT</div>
+      <div class="no-print btn-row-mgr"><button class="add-btn" onclick="addEarthRow()">+ Add Earth Pit</button></div>
+      <table id="earthTable">
+        <thead>
+          <tr><th style="width:40px;">SN</th><th>Date</th><th>Pit No.</th><th>Location</th><th class="no-print" style="width:50px;">Del</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><input type="date" value="2025-02-14"></td><td><input type="text" value="EP-01"></td><td><input type="text" value="Transformer Yard"></td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'earthTable')">X</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="form7" class="form-container">
+    <div class="report-container">
+      <h2>11kV HT केबल साइट टेस्ट रिपोर्ट</h2>
+      <div class="sub-text">SITE TEST REPORT OF 11kV HT CABLE</div>
+      <div class="no-print btn-row-mgr"><button class="add-btn" onclick="addCableRow()">+ Add Cable Row</button></div>
+      <table id="cableTable">
+        <thead>
+          <tr><th style="width:25px;">SN</th><th>Description</th><th style="width:25px;">R</th><th style="width:65px;">Size</th><th style="width:40px;">Len</th><th style="width:50px;">R-E</th><th style="width:50px;">Y-E</th><th style="width:50px;">B-E</th><th style="width:40px;">HiPot</th><th class="no-print" style="width:35px;">Del</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><input type="text" value="Main Feeder"></td><td>1</td><td>3CX185</td><td>1200</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>2</td><td><input type="text" value="VCB To Tr-4"></td><td>1</td><td>3CX185</td><td>60</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>3</td><td><input type="text" value="VCB To Motor"></td><td>1</td><td>3CX185</td><td>500</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>4</td><td><input type="text" value="VCB To Reclaimer"></td><td>1</td><td>3CX185</td><td>400</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>5</td><td><input type="text" value="VCB To Stacker"></td><td>1</td><td>3CX185</td><td>450</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>6</td><td><input type="text" value="Stacker to Isolator"></td><td>1</td><td>4CX16</td><td>500</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>7</td><td><input type="text" value="Isolator to Stacker Tr"></td><td>1</td><td>4CX16</td><td>20</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>8</td><td><input type="text" value="Reclaimer to Isolator"></td><td>2</td><td>4CX16</td><td>500</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+          <tr><td>9</td><td><input type="text" value="Isolator to Reclaimer Tr"></td><td>3</td><td>4CX16</td><td>20</td><td>1000M</td><td>1000M</td><td>1000M</td><td>OK</td><td class="no-print"><button class="del-btn" onclick="deleteRow(this, 'cableTable')">X</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+
+</body>
+</html>

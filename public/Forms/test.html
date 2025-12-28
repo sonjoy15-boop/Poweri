@@ -1,0 +1,1438 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Electrical Forms File</title>
+  <style>
+    :root {
+      --royal-blue: #002366;
+      --royal-red: #C41E3A;
+    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 0; margin: 0; color: #333; }
+
+    /* --- Top Navigation --- */
+    .nav-bar { background-color: var(--royal-blue); padding: 10px; display: flex; justify-content: center; flex-wrap: wrap; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .nav-btn {
+      background-color: var(--royal-red); color: white; border: none; padding: 10px 15px; margin: 5px;
+      cursor: pointer; border-radius: 4px; font-weight: bold; transition: background-color 0.3s;
+    }
+    .nav-btn:hover, .nav-btn.active { background-color: #ff5733; }
+
+    /* --- Form visibility --- */
+    .form-container { display: none; padding: 40px; }
+    .form-container.active { display: block; }
+
+    /* --- General Form Styling for all embedded forms --- */
+    .report-container { background: #fff; padding: 30px; border: 1px solid #ccc; max-width: 950px; margin: auto; }
+    h2, h4 { text-align: center; color: var(--royal-blue); }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+    th { background-color: #f1f3f5; }
+    input, input[type="date"], textarea { width: 95%; border: none; border-bottom: 1px dotted #999; outline: none; background: transparent; padding: 2px; }
+    input:focus, textarea:focus { border-bottom: 1px solid var(--royal-red); }
+    .label-cell { text-align: left; font-weight: bold; background-color: #fafafa; }
+    .lang-en { font-style: italic; color: #666; font-size: 0.8em; display: block; }
+
+    /* --- Utility --- */
+    .no-print { display: block !important; }
+    .print-master-btn { margin-left: 6px; }
+    .print-btn-footer { display: none; }
+
+    /* ---- Print selection dialog ---- */
+    .print-dialog-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+      display: none; z-index: 9998;
+    }
+    .print-dialog {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 540px; max-width: 90vw; background: #fff; border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25); z-index: 9999; display: none;
+      border: 1px solid #ddd;
+    }
+    .print-dialog-header {
+      padding: 12px 16px; background: var(--royal-blue); color: #fff; border-radius: 8px 8px 0 0;
+      display: flex; justify-content: space-between; align-items: center; font-weight: 600;
+    }
+    .print-dialog-body { padding: 12px 16px; }
+    .print-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin: 8px 0 12px; }
+    .print-list label { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+    .print-dialog-footer { padding: 12px 16px; display: flex; justify-content: flex-end; gap: 8px; }
+    .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .btn-primary { background: var(--royal-blue); color: #fff; }
+    .btn-danger { background: #C00000; color: #fff; }
+    .btn-secondary { background: #e5e7eb; color: #111; }
+    .print-dialog-close { background: transparent; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+
+    /* --- Print Specific Styling --- */
+    @page { size: A4 portrait; margin: 14mm; }
+
+    @media print {
+      /* Hide navigation & dialog */
+      .nav-bar, .print-master-btn, .print-dialog, .print-dialog-backdrop { display: none !important; }
+
+      /* Hide all forms by default while printing */
+      .form-container { display: none !important; }
+       @media print {
+  .form-container.print-selected {
+    page-break-after: always; /* Forces each form to start on a new page */
+  }
+}
+
+      /* Only show selected-to-print forms */
+      .form-container.print-selected { display: block !important; }
+
+      /* Ensure each form prints on its own page */
+      .form-container.print-selected .report-container {
+        page-break-before: always;
+        page-break-after: always;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Optional footer controls in print */
+      .print-btn-footer { display: block !important; }
+    }
+
+    /* --- (Optional minimal table/input styling) --- */
+    .report-container table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; }
+    .report-container th, .report-container td { border: 1px solid #e5e7eb; padding: 8px; text-align: left; }
+    .report-container th { background: #eef2ff; font-weight: 600; }
+    .report-container input[type="text"] { width: 100%; box-sizing: border-box; padding: 6px 8px; }
+  </style>
+
+  <script>
+    /* ------------------------------
+       Form navigation (existing)
+    ------------------------------ */
+    function showForm(formId) {
+      // Hide all forms
+      var forms = document.querySelectorAll('.form-container');
+      forms.forEach(form => form.classList.remove('active'));
+
+      // Deactivate all nav buttons
+      var buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Show the selected form
+      var target = document.getElementById(formId);
+      if (target) {
+        target.classList.add('active');
+        // Activate the corresponding nav button
+        const btn = document.querySelector(`button[onclick="showForm('${formId}')"]`);
+        if (btn) btn.classList.add('active');
+      }
+    }
+
+    /* ------------------------------
+       Print selection dialog
+    ------------------------------ */
+    function buildPrintListFromNav() {
+      const list = document.getElementById('printFormList');
+      list.innerHTML = '';
+
+      // Use nav buttons to fetch labels and form IDs (excluding the print button)
+      const navButtons = Array.from(document.querySelectorAll('.nav-bar .nav-btn'))
+        .filter(btn => !btn.classList.contains('print-master-btn'));
+
+      // Preselect active form
+      const activeForm = document.querySelector('.form-container.active');
+      const activeId = activeForm ? activeForm.id : null;
+
+      navButtons.forEach(btn => {
+        const onClick = btn.getAttribute('onclick') || '';
+        const match = onClick.match(/showForm\('([^']+)'\)/);
+        const formId = match ? match[1] : null;
+        if (!formId) return;
+
+        const wrapper = document.createElement('label');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.name = 'printForms';
+        cb.value = formId;
+        if (formId === activeId) cb.checked = true;
+
+        const span = document.createElement('span');
+        span.textContent = btn.textContent.trim();
+
+        wrapper.appendChild(cb);
+        wrapper.appendChild(span);
+        list.appendChild(wrapper);
+      });
+    }
+
+    function openPrintDialog() {
+      buildPrintListFromNav();
+      document.getElementById('printBackdrop').style.display = 'block';
+      document.getElementById('printDialog').style.display = 'block';
+    }
+
+    function closePrintDialog() {
+      document.getElementById('printBackdrop').style.display = 'none';
+      document.getElementById('printDialog').style.display = 'none';
+    }
+
+    function toggleSelectAll(state) {
+      document.querySelectorAll('input[name="printForms"]').forEach(cb => cb.checked = !!state);
+    }
+
+    function applyPrintSelectionAndPrint() {
+      const selectedIds = Array.from(document.querySelectorAll('input[name="printForms"]:checked'))
+        .map(cb => cb.value);
+
+      if (selectedIds.length === 0) {
+        alert('Please select at least one form to print.');
+        return;
+      }
+
+      // Mark selected forms with print-selected
+      document.querySelectorAll('.form-container').forEach(f => f.classList.remove('print-selected'));
+      selectedIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('print-selected');
+      });
+
+      // Optional: show selected forms on screen before printing
+      document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+      selectedIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+      });
+
+      closePrintDialog();
+
+      // Trigger print
+      window.print();
+
+      // Cleanup selection after print
+      function cleanupSelection() {
+        document.querySelectorAll('.form-container').forEach(f => f.classList.remove('print-selected'));
+      }
+      window.addEventListener('afterprint', cleanupSelection, { once: true });
+      setTimeout(() => cleanupSelection(), 1000); // Fallback
+    }
+
+    // Quick print of the active form (kept for convenience)
+    function printActiveForm() {
+      document.querySelectorAll('.form-container').forEach(f => f.classList.remove('print-selected'));
+      const active = document.querySelector('.form-container.active');
+      if (active) active.classList.add('print-selected');
+      window.print();
+      setTimeout(() => {
+        document.querySelectorAll('.form-container').forEach(f => f.classList.remove('print-selected'));
+      }, 1000);
+    }
+
+    // Show the first form on page load
+    window.onload = function() { showForm('form1'); };
+  </script>
+</head>
+<body>
+
+  <!-- Navigation bar -->
+  <div class="nav-bar no-print">
+    <button class="nav-btn" onclick="showForm('form1')">Form 1: Completion Certificate</button>
+    <button class="nav-btn" onclick="showForm('form2')">Form 2: CT Test Report</button>
+    <button class="nav-btn" onclick="showForm('form3')">Form 3: XFMR Test Report</button>
+    <button class="nav-btn" onclick="showForm('form4')">Form 4: VCB Test Report</button>
+    <button class="nav-btn" onclick="showForm('form5')">Form 5: Motor Test (3MW)</button>
+    <button class="nav-btn" onclick="showForm('form6')">Form 6: Earth Pit Test</button>
+    <button class="nav-btn" onclick="showForm('form7')">Form 7: HT Cable IR Test</button>
+
+    <!-- Updated Print button (opens selection dialog) -->
+    <button class="nav-btn print-master-btn" onclick="openPrintDialog()" style="background-color: green;">
+      Print / PDF
+    </button>
+    <!-- (Optional quick print of the currently active form)
+    <button class="nav-btn print-master-btn" onclick="printActiveForm()" style="background-color: #0a8f08;">
+      Print Active Form
+    </button>
+    -->
+  </div>
+
+  <!-- Print Selection Dialog -->
+  <div class="print-dialog-backdrop" id="printBackdrop"></div>
+  <div class="print-dialog" id="printDialog" role="dialog" aria-modal="true" aria-labelledby="printDialogTitle">
+    <div class="print-dialog-header">
+      <div id="printDialogTitle">Select forms to print (PDF)</div>
+      <button class="print-dialog-close" onclick="closePrintDialog()" aria-label="Close">×</button>
+    </div>
+    <div class="print-dialog-body">
+      <div style="margin-bottom: 8px; color:#555;">
+        Tick the forms you want to include. Each form will print on its own page.
+      </div>
+
+      <div class="print-list" id="printFormList">
+        <!-- Checkboxes rendered dynamically by JS -->
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button class="btn btn-secondary" onclick="toggleSelectAll(true)">Select All</button>
+        <button class="btn btn-secondary" onclick="toggleSelectAll(false)">Clear All</button>
+      </div>
+    </div>
+    <div class="print-dialog-footer">
+      <button class="btn btn-danger" onclick="closePrintDialog()">Cancel</button>
+      <button class="btn btn-primary" onclick="applyPrintSelectionAndPrint()">Print Selected</button>
+    </div>
+  </div>
+
+  <!-- =========================
+       Your existing forms remain below.
+       Keep each form wrapped like:
+       <div id="form1" class="form-container"><div class="report-container"> ... </div></div>
+       ...
+       <div id="form7" class="form-container"><div class="report-container"> ... </div></div>
+       ========================= -->
+
+  <!-- Example placeholders (do not remove your actual forms) -->
+  <!--
+  <div id="form1" class="form-container">
+    <div class="report-container"><h2>Form 1 Placeholder</h2></div>
+  </div>
+  <div id="form2" class="form-container">
+    <div class="report-container"><h2>Form 2 Placeholder</h2></div>
+  </div>
+
+    <!-- FORM 1: Work Completion Certificate (From the last good iteration) -->
+    <div id="form1" class="form-container">
+        <div class="report-container">
+            <h2>विद्युत कार्य पूर्णता प्रमाण पत्र</h2>
+            <div class="sub-heading">ELECTRICAL WORK COMPLETION CERTIFICATE</div>
+            <div class="header-info">
+                <div style="width: 45%;">
+                    <label>पत्रांक / Ref No:</label>
+                    <input type="text" placeholder="...........................">
+                </div>
+                <div style="width: 40%;">
+                    <label>दिनांक / Date:</label>
+                    <input type="date">
+                </div>
+            </div>
+            <div class="section">
+                <p><strong>1. प्रमाणित किया जाता है कि / Certified that:</strong></p>
+                <div class="input-row">
+                    <div><span class="lang-hi">(1) मेरे पास 'ए' श्रेणी विद्युत ठेकेदारी अनुज्ञप्ति क्रमांक</span><span class="lang-en">I hold Class 'A' Electrical Contractor License No.</span></div>
+                    <input type="text" style="width: 150px;" >
+                    <div><span class="lang-hi">दिनांक</span><span class="lang-en">Valid Upto</span></div>
+                    <input type="text" style="width: 120px;" value="09/01/2025">
+                    <span>तक वैध है।</span>
+                </div>
+                <div class="input-row">
+                    <div style="width: 100%;">
+                        <span class="lang-hi">(2) मेसर्स (संस्थान का नाम एवं पता)</span>
+                        <span class="lang-en">M/s (Name of Establishment & Address)</span>
+                        <input type="text" style="width: 100%; margin-top: 5px;" placeholder="यहाँ संस्थान का नाम और पता दर्ज करें...">
+                    </div>
+                </div>
+                 <div class="regulation-text" style="border: none; background-color: transparent; padding: 0;">
+                    <strong>वैधानिक अनुपालन (Statutory Compliance):</strong><br>
+                    "सभी प्रकार के केंद्रीय विद्युत प्राधिकरण (विद्युत आपूर्ति तथा सुरक्षा संबंधी उपाय) विनियम 2010 तथा उसके संबंध में लागू इंडियन कोड ऑफ़ प्रैक्टिस का पालन करता है।"
+                </div>
+            </div>
+             <div class="details-area">
+                <label style="color: var(--royal-red);">2. कार्य का विवरण तथा परीक्षण परिणाम / Work Details & Test Results:</label>
+                <textarea rows="5" style="width: 100%; margin-top: 10px;" placeholder="यहाँ परीक्षण के परिणाम और विवरण दर्ज करें..."></textarea>
+            </div>
+             <div class="footer" style="justify-content: flex-end;">
+                <div class="signature-box" style="text-align: center; width: 300px; border-top: 2px solid var(--royal-blue); padding-top: 5px;">
+                    <strong>ठेकेदार के हस्ताक्षर (सील सहित)</strong><br>
+                    <span style="font-size: 0.9em;">Signature of Electrical Contractor</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM 2: CT Testing Report (8300KW Motor) -->
+    <div id="form2" class="form-container">
+        <div class="report-container">
+             <h2>SITE TEST REPORT</h2><div class="sub-text">CT TESTING REPORT (सी.टी. परीक्षण रिपोर्ट)</div>
+             <table>
+                 <tr><td class="label-cell">Installation Area/Site</td><td colspan="3"><input type="text" value="ABC Pvt. Ltd./LC-2"></td></tr>
+                <tr><td class="label-cell">Equipment</td><td colspan="3"><input type="text" value="THREE PHASE AC SR INDUCTION MOTOR"></td></tr>
+                <tr><td class="label-cell">Rated voltage</td><td><input type="text" value="11 KV"></td><td class="label-cell">Rated current</td><td><input type="text" value="514 Amp"></td></tr>
+            </table>
+            <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">सी.टी. नेम प्लेट विवरण (CT Name Plate Details)</div>
+             <table>
+                <tr><td class="label-cell">Make</td><td><input type="text" value="CG POWER"></td><td class="label-cell">Ratio</td><td><input type="text" value="600/1-1A"></td></tr>
+                <tr><td class="label-cell">Sr. No.</td><td colspan="3">R: <input type="text" style="width:25%"> Y: <input type="text" style="width:25%"> B: <input type="text" style="width:25%"></td></tr>
+            </table>
+            <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">IR मापन परीक्षण (IR Measurement Test - 500V DC)</div>
+             <table>
+                <thead><tr><th>Between</th><th>R-Ph (GΩ)</th><th>Y-Ph (GΩ)</th><th>B-Ph (GΩ)</th></tr></thead>
+                <tbody><tr><td>Primary - Earth</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+            </table>
+             <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">अनुपात परीक्षण (Ratio Test - Core 1 )</div>
+             <table>
+                <thead><tr><th rowspan="2">Primary Current (A)</th><th colspan="3">Secondary Current (A)</th></tr><tr><th>R-Ph</th><th>Y-Ph</th><th>B-Ph</th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+            </table>
+                <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">अनुपात परीक्षण (Ratio Test - Core 2)</div>
+             <table>
+                <thead><tr><th rowspan="2">Primary Current (A)</th><th colspan="3">Secondary Current (A)</th></tr><tr><th>R-Ph</th><th>Y-Ph</th><th>B-Ph</th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+            </table>
+                  <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">परीक्षण (Winding Resistance Test:)</div>
+             <table>
+                <thead><tr><th rowspan="2">Primary Current (A)</th><th colspan="3">Secondary Current (A)</th></tr><tr><th>R-Ph</th><th>Y-Ph</th><th>B-Ph</th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                
+            </table>
+                 <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;"> परीक्षण (Polarity Test:)</div>
+             <table>
+                <thead><tr><th rowspan="2">Primary Current (A)</th><th colspan="3">Secondary Current (A)</th></tr><tr><th>R-Ph</th><th>Y-Ph</th><th>B-Ph</th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+            </table>
+                 
+             <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+                <div style="text-align: center; border-top: 1px solid #000; width: 200px; padding-top: 5px;">परीक्षण इंजीनियर <span class="lang-en">(Testing Engineer)</span></div>
+                <div style="text-align: center; border-top: 1px solid #000; width: 200px; padding-top: 5px;">अनुमोदित <span class="lang-en">(Approved By)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM 3: Transformer Site Test Report (TR-01, 2000KVA) -->
+    <div id="form3" class="form-container">
+        <div class="report-container">
+            <div class="header-section" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <div>(Annexure-I)</div>
+                <div>दिनांक / DATE: <input type="date" style="width: 130px;"></div>
+            </div>
+            <h2>ट्रांसफार्मर साइट टेस्ट रिपोर्ट</h2>
+            <div class="sub-text">SITE TEST REPORT OF DISTRIBUTION TRANSFORMER</div>
+             <table>
+                 <tr><td class="label-cell">Installation Area/Site</td><td colspan="3"><input type="text" value="ABC Pvt. Ltd./LC-2"></td></tr>
+                <tr><td class="label-cell">Equipment</td><td colspan="3"><input type="text" value="Distribution Transformer No-2"></td></tr>
+                <tr><td class="label-cell">Rated voltage</td><td><input type="text" value="11 KV"></td><td class="label-cell">Rated current</td><td><input type="text" value="514 Amp"></td></tr>
+            </table>
+            <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">नेम प्लेट विवरण (Name Plate Details)</div>
+             <table>
+                <tr><td class="label-cell">MAKE</td><td><input type="text"></td><td class="label-cell">RATING (KVA)</td><td><input type="text"></td></tr>
+                <tr><td class="label-cell">SERIAL NO.</td><td><input type="text"></td><td class="label-cell">FREQUENCY</td><td><input type="text"></td></tr>
+                <tr><td class="label-cell">VOLTAGE RATIO</td><td><input type="text"></td><td class="label-cell">% IMPEDANCE</td><td><input type="text"></td></tr>
+                <tr><td class="label-cell">%TAPPING</td><td><input type="text"></td><td class="label-cell">VATOR GROUP</td><td><input type="text"></td></tr>
+            </table>
+            <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">1. इन्सुलेशन प्रतिरोध परीक्षण (Insulation Resistance Test)</div>
+             <table>
+                <tr><th>Test Between</th><th>HV - E</th><th>HV – LV</th><th>LV - E</th></tr>
+                <tr><td class="label-cell"><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tbody><tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr></tbody>
+            </table>
+
+             
+<!-- 1. Magnetic Balance Test -->
+<div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+  चुंबकीय संतुलन परीक्षण (Magnetic Balance Test) – (A) HV SIDE
+</div>
+
+<table>
+  <tr>
+    <th>Side</th>
+    <th>Tap Position</th>
+    <th>Measured Volts (V) 1U1V</th>
+    <th>Measured Volts (V) 1V1W</th>
+    <th>Measured Volts (V) 1W1U</th>
+    <th>Remarks</th>
+  </tr>
+  <tr>
+    <td><input type="text" value="HV"></td>
+    <td><input type="text" value="3"></td>
+    <td><input type="text" value="216"></td>
+    <td><input type="text" value="426"></td>
+    <td><input type="text" value="209"></td>
+    <td><input type="text" value="Satisfactory"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="HV"></td>
+    <td><input type="text" value="3"></td>
+    <td><input type="text" value="205"></td>
+    <td><input type="text" value="218"></td>
+    <td><input type="text" value="426"></td>
+    <td><input type="text" value="Satisfactory"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="HV"></td>
+    <td><input type="text" value="3"></td>
+    <td><input type="text" value="425"></td>
+    <td><input type="text" value="218"></td>
+    <td><input type="text" value="208"></td>
+    <td><input type="text" value="Satisfactory"></td>
+  </tr>
+</table>
+
+<div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+  चुंबकीय संतुलन परीक्षण (Magnetic Balance Test) – (B) LV SIDE
+</div>
+
+<table>
+  <tr>
+    <th>Side</th>
+    <th>Tap Position</th>
+    <th>Measured Volts (V) 2U2V</th>
+    <th>Measured Volts (V) 2V2W</th>
+    <th>Measured Volts (V) 2U2W</th>
+    <th>Remarks</th>
+  </tr>
+  <tr>
+    <td><input type="text" value="LV"></td>
+    <td><input type="text" value=""></td>
+    <td><input type="text" value="22"></td>
+    <td><input type="text" value="45"></td>
+    <td><input type="text" value="21"></td>
+    <td><input type="text" value=""></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="LV"></td>
+    <td><input type="text" value=""></td>
+    <td><input type="text" value="11"></td>
+    <td><input type="text" value="32"></td>
+    <td><input type="text" value="45"></td>
+    <td><input type="text" value=""></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="LV"></td>
+    <td><input type="text" value=""></td>
+    <td><input type="text" value="45"></td>
+    <td><input type="text" value="32"></td>
+    <td><input type="text" value="11"></td>
+    <td><input type="text" value=""></td>
+  </tr>
+</table>
+
+<!-- 2. Voltage Ratio Test -->
+<div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+  वोल्टेज अनुपात परीक्षण (Voltage Ratio Test) – HV–LV
+</div>
+
+<table>
+  <tr>
+    <th>Tap Pos.</th>
+    <th>Desired Ratio</th>
+    <th>HV 1U1V</th>
+    <th>HV 1V1W</th>
+    <th>HV 1W1U</th>
+    <th>LV 2U2V</th>
+    <th>LV 2V2W</th>
+    <th>LV 2W2U</th>
+    <th>Ratio Obtained</th>
+  </tr>
+  <tr>
+    <td><input type="text" value="1"></td>
+    <td><input type="text" value="1.832"></td>
+    <td><input type="text" value="430V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="44.5V"></td>
+    <td><input type="text" value="44.5V"></td>
+    <td><input type="text" value="44.5V"></td>
+    <td><input type="text" value="1.830"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="2"></td>
+    <td><input type="text" value="1.782"></td>
+    <td><input type="text" value="430V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="45.31V"></td>
+    <td><input type="text" value="45.30V"></td>
+    <td><input type="text" value="45.30V"></td>
+    <td><input type="text" value="1.784"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="3"></td>
+    <td><input type="text" value="1.732"></td>
+    <td><input type="text" value="430V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="46.68V"></td>
+    <td><input type="text" value="46.43V"></td>
+    <td><input type="text" value="46.43V"></td>
+    <td><input type="text" value="1.731"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="4"></td>
+    <td><input type="text" value="1.682"></td>
+    <td><input type="text" value="430V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="47.80V"></td>
+    <td><input type="text" value="47.62V"></td>
+    <td><input type="text" value="47.62V"></td>
+    <td><input type="text" value="1.681"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="5"></td>
+    <td><input type="text" value="1.632"></td>
+    <td><input type="text" value="430V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="427V"></td>
+    <td><input type="text" value="49.20V"></td>
+    <td><input type="text" value="48.85V"></td>
+    <td><input type="text" value="48.85V"></td>
+    <td><input type="text" value="1.631"></td>
+  </tr>
+</table>
+
+<!-- 3. Winding Resistance Measurement -->
+<div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+  वाइंडिंग रेजिस्टेंस मापन (Winding Resistance Measurement) – (A) HV Side @ 33°C
+</div>
+
+<table>
+  <tr>
+    <th>Tap Pos.</th>
+    <th>1U1V (Ω)</th>
+    <th>1V1W (Ω)</th>
+    <th>1W1U (Ω)</th>
+  </tr>
+  <tr>
+    <td><input type="text" value="4"></td>
+    <td><input type="text" value="0.0863"></td>
+    <td><input type="text" value="0.0865"></td>
+    <td><input type="text" value="0.0864"></td>
+  </tr>
+</table>
+
+<div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+  वाइंडिंग रेजिस्टेंस मापन (Winding Resistance Measurement) – (B) LV Side @ 33°C
+</div>
+
+<table>
+  <tr>
+    <th>2U2V (mΩ)</th>
+    <th>2V2W (mΩ)</th>
+    <th>2W2U (mΩ)</th>
+  </tr>
+  <tr>
+    <td><input type="text" value="0.5205"></td>
+    <td><input type="text" value="0.5131"></td>
+    <td><input type="text" value="0.5204"></td>
+  </tr>
+</table>
+
+<!-- 4. BDV TEST -->
+<div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+  ब्रेकडाउन वोल्टेज परीक्षण (BDV Test) – Insulating Oil
+</div>
+
+<table>
+  <tr>
+    <th>Sl. No.</th>
+    <th>Sample Taken</th>
+    <th>BDV (kV)</th>
+    <th>Temp (°C)</th>
+  </tr>
+  <tr>
+    <td><input type="text" value="1"></td>
+    <td><input type="text" value="Top Sample"></td>
+    <td><input type="text" value="72"></td>
+    <td><input type="text" value="64"></td>
+  </tr>
+  <tr>
+    <td><input type="text" value="2"></td>
+    <td><input type="text" value="Bottom Sample"></td>
+    <td><input type="text" value="77"></td>
+    <td><input type="text" value="66"></td>
+  </tr>
+</table>
+
+
+
+            <div style="margin-top: 50px; display: flex; justify-content: flex-end;">
+                <div style="text-align: center; border-top: 2px solid var(--royal-blue); width: 300px; padding-top: 5px;">
+                    <span class="lang-hi"><b>हस्ताक्षर "A" श्रेणी विद्युत ठेकेदार</b></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+<!-- FORM 4: VCB Site Test Report (Schneider, 12KV) -->
+<div id="form4" class="form-container">
+  <div class="report-container">
+    <h2>वैक्यूम सर्किट ब्रेकर परीक्षण रिपोर्ट</h2>
+    <div class="sub-text">SITE TEST REPORT OF VACUUM CIRCUIT BREAKER (VCB)</div>
+
+    <!-- Header: Equipment & Date -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      Equipment & Date / उपकरण एवं दिनांक
+    </div>
+    <table>
+      <tr>
+        <th>Equipment</th>
+        <th>MFG Year</th>
+        <th>Testing</th>
+        <th>Date</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="VACUUM CIRCUIT BREAKER"></td>
+        <td><input type="text" value="2024"></td>
+        <td><input type="text" value="VCB Testing"></td>
+        <td><input type="text" value="14.02.2025"></td>
+      </tr>
+    </table>
+
+    <!-- Name Plate Details -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      नेम प्लेट विवरण (Name Plate Details)
+    </div>
+    <table>
+      <tr>
+        <td class="label-cell">निर्माता / MAKE</td>
+        <td><input type="text" value="SCHNEIDER ELECTRIC"></td>
+        <td class="label-cell">रेटेड वोल्टेज / RATED VOLTAGE</td>
+        <td><input type="text" value="12 KV"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">TYPE</td>
+        <td><input type="text" value="PX"></td>
+        <td class="label-cell">Ui</td>
+        <td><input type="text" value="1000 V"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Rated Normal Current (In)</td>
+        <td><input type="text" value="1600 A"></td>
+        <td class="label-cell">Rated Short Time Current (Main Circuit)</td>
+        <td><input type="text" value="Ik = 40 kA for 3 sec"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Icu / Ics</td>
+        <td><input type="text" value=""></td>
+        <td class="label-cell">Sr. No.</td>
+        <td><input type="text" value="0226964195/01/10"></td>
+      </tr>
+    </table>
+
+    <!-- ACB Details (from your note) -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      ACB Details (as provided)
+    </div>
+    <table>
+      <tr>
+        <td class="label-cell">Rating</td>
+        <td><input type="text" value="12 KV"></td>
+        <td class="label-cell">Make</td>
+        <td><input type="text" value="SCHNEIDER"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Sr. No.</td>
+        <td colspan="3"><input type="text" value="0226964195/01/10"></td>
+      </tr>
+    </table>
+
+    <!-- 1. IR Measurement Test - Close Condition -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      1. IR मापन परीक्षण (IR Measurement Test - 5KV DC) — ब्रेकर बंद स्थिति (Close Condition)
+    </div>
+    <table>
+      <tr>
+        <th>Test Voltage</th>
+        <th>Between</th>
+        <th>IR Value (GΩ)</th>
+        <th>Test Voltage</th>
+        <th>Between</th>
+        <th>IR Value (GΩ)</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="R-E"></td>
+        <td><input type="text" value=">1000"></td>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="R-Y"></td>
+        <td><input type="text" value=">1000"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="Y-E"></td>
+        <td><input type="text" value=">1000"></td>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="Y-B"></td>
+        <td><input type="text" value=">1000"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="B-E"></td>
+        <td><input type="text" value=">1000"></td>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="B-R"></td>
+        <td><input type="text" value=">1000"></td>
+      </tr>
+    </table>
+
+    <!-- 1(b). IR Measurement Test - Open Condition -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      1(b). IR मापन परीक्षण — ब्रेकर ओपन स्थिति (Open Condition)
+    </div>
+    <table>
+      <tr>
+        <th>Test Voltage</th>
+        <th>Between</th>
+        <th>IR Value (GΩ)</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="R-R1"></td>
+        <td><input type="text" value=">1000"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="Y-Y1"></td>
+        <td><input type="text" value=">1000"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="5KV"></td>
+        <td><input type="text" value="B-B1"></td>
+        <td><input type="text" value=">1000"></td>
+      </tr>
+    </table>
+
+    <!-- d) Resistance Measurement Test -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      2. रेजिस्टेंस मापन परीक्षण (Resistance Measurement Test)
+    </div>
+    <table>
+      <tr>
+        <th>Element</th>
+        <th>Resistance (Ω)</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="Spring Charging Motor"></td>
+        <td><input type="text" value="36.2"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Closing Coil Resistance"></td>
+        <td><input type="text" value="66.9"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Tripping Coil Resistance"></td>
+        <td><input type="text" value="67.0"></td>
+      </tr>
+    </table>
+
+    <!-- e) Breaker Timing Test -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      3. ब्रेकर टाइमिंग परीक्षण (Breaker Timing Test)
+    </div>
+    <table>
+      <tr>
+        <th>Voltage</th>
+        <th>CB Operation</th>
+        <th>R-ph (ms)</th>
+        <th>Y-ph (ms)</th>
+        <th>B-ph (ms)</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="100% - 110VDC"></td>
+        <td><input type="text" value="Close"></td>
+        <td><input type="text" value="53"></td>
+        <td><input type="text" value="52"></td>
+        <td><input type="text" value="53"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="100% - 110VDC"></td>
+        <td><input type="text" value="Open"></td>
+        <td><input type="text" value="43"></td>
+        <td><input type="text" value="43"></td>
+        <td><input type="text" value="43"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="100% - 110VDC"></td>
+        <td><input type="text" value="Close-Open"></td>
+        <td><input type="text" value="39"></td>
+        <td><input type="text" value="39"></td>
+        <td><input type="text" value="39"></td>
+      </tr>
+    </table>
+
+    <!-- f) Breaker Contact Resistance Measurement (CRM) -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      4. कॉन्टैक्ट रेजिस्टेंस (CRM) परीक्षण (Breaker Contact Resistance Measurement)
+    </div>
+    <table>
+      <tr>
+        <th>Phase</th>
+        <th>Current Injected (A<small>dc</small>)</th>
+        <th>Contact Resistance (µΩ)</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="R-R’"></td>
+        <td><input type="text" value="100.3"></td>
+        <td><input type="text" value="20.1"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Y-Y’"></td>
+        <td><input type="text" value="100.3"></td>
+        <td><input type="text" value="20.4"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="B-B’"></td>
+        <td><input type="text" value="100.3"></td>
+        <td><input type="text" value="20.0"></td>
+      </tr>
+    </table>
+
+    <!-- Functional Checks -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      5. Functional Checks / क्रियात्मक जांच
+    </div>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="Breaker ON / OFF Indication"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Spring Charge Indication"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Breaker Auxiliary Contacts"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Counter Operation"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Limit Switch Operation"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Service-Test-Isolate Indication"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+    </table>
+
+    <!-- Operational Checks -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      6. Operational Checks / परिचालन जांच
+    </div>
+    <table>
+      <tr>
+        <th>Operation</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td><input type="text" value="Manual (Close / Trip)"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Electrical"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Local / Remote Close"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Local / Remote Trip"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Protection Tripping"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Anti Pumping Circuit"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Spring Charge Circuit"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+      <tr>
+        <td><input type="text" value="Interlock Circuit"></td>
+        <td><input type="text" value="OK"></td>
+      </tr>
+    </table>
+
+    <!-- Signatures -->
+    <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+      <div style="text-align: center; border-top: 1px solid #000; width: 250px; padding-top: 5px;">परीक्षण इंजीनियर</div>
+      <div style="text-align: center; border-top: 1px solid #000; width: 250px; padding-top: 5px;">अनुमोदित (Approved By)</div>
+    </div>
+  </div>
+</div>
+
+
+    
+<!-- FORM 5: Motor Testing Report (3MW) (IR, PI, Winding Res) -->
+<div id="form5" class="form-container">
+  <div class="report-container">
+    <h2>मोटर परीक्षण रिपोर्ट</h2>
+    <div class="sub-text">SITE TEST REPORT OF THREE PHASE AC INDUCTION MOTOR</div>
+
+    <!-- Date -->
+    <div style="text-align: right; margin-bottom: 15px;">
+      दिनांक / DATE: <input type="date" style="width: 150px;">
+    </div>
+
+    <!-- Name Plate Details -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      नेम प्लेट विवरण (Name Plate Details)
+    </div>
+    <table>
+      <tr>
+        <td class="label-cell">उपकरण / Equipment</td>
+        <td><input type="text" value="THREE PHASE AC INDUCTION MOTOR"></td>
+        <td class="label-cell">निर्माता / Make</td>
+        <td><input type="text" ></td>
+      </tr>
+      <tr>
+        <td class="label-cell">M/C No.</td>
+        <td><input type="text" ></td>
+        <td class="label-cell">Rated Voltage</td>
+        <td><input type="text" value="11 kV"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Connection</td>
+        <td><input type="text" value="STAR"></td>
+        <td class="label-cell">Rated Current</td>
+        <td><input type="text" value="51 A"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Rated Output</td>
+        <td><input type="text" value="807 kW"></td>
+        <td class="label-cell"></td>
+        <td><input type="text" value=""></td>
+      </tr>
+    </table>
+
+    <!-- 1. Winding Resistance Test -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      1. वाइंडिंग रेसिस्टेंस परीक्षण (Winding Resistance Test)
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Resistance (Ω)</th>
+          <th>Phase (Phase‑Phase)</th>
+          <th>Resistance (Ω)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>U1‑U2</td>
+          <td><input type="text" value="1.41"></td>
+          <td>U‑V</td>
+          <td><input type="text" value="2.82"></td>
+        </tr>
+        <tr>
+          <td>V1‑V2</td>
+          <td><input type="text" value="1.41"></td>
+          <td>V‑W</td>
+          <td><input type="text" value="2.82"></td>
+        </tr>
+        <tr>
+          <td>W1‑W2</td>
+          <td><input type="text" value="1.41"></td>
+          <td>W‑U</td>
+          <td><input type="text" value="2.82"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 2. IR Measurement Test -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      2. इन्सुलेशन रेसिस्टेंस (IR) परीक्षण (5 kV DC, 1 मिनट)
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Between</th>
+          <th>Test Voltage</th>
+          <th>IR Value (GΩ)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>U‑E</td>
+          <td><input type="text" value="5 kV for 1 min"></td>
+          <td><input type="text" value="19.6"></td>
+        </tr>
+        <tr>
+          <td>V‑E</td>
+          <td><input type="text" value="5 kV for 1 min"></td>
+          <td><input type="text" value="25.4"></td>
+        </tr>
+        <tr>
+          <td>W‑E</td>
+          <td><input type="text" value="5 kV for 1 min"></td>
+          <td><input type="text" value="28.2"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 3. PI Test -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      3. पोलराइजेशन इंडेक्स (PI) परीक्षण
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Apply Volt (Between)</th>
+          <th>PI Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>(U‑E) 5 kV</td>
+          <td><input type="text" value="5.47"></td>
+        </tr>
+        <tr>
+          <td>(V‑E) 5 kV</td>
+          <td><input type="text" value="4.84"></td>
+        </tr>
+        <tr>
+          <td>(W‑E) 5 kV</td>
+          <td><input type="text" value="5.13"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Signatures -->
+    <div style="margin-top: 60px; display: flex; justify-content: space-between;">
+      <div style="text-align: center; border-top: 1px solid #000; width: 250px; padding-top: 5px;">परीक्षण इंजीनियर</div>
+      <div style="text-align: center; border-top: 1px solid #000; width: 250px; padding-top: 5px;">अनुमोदित (सील सहित)</div>
+    </div>
+  </div>
+</div>
+
+    
+<!-- FORM 6: Earth Pit Testing Results (with Add & Delete Row) -->
+<div id="form6" class="form-container">
+  <div class="report-container">
+    <h2>अर्थ पिट परीक्षण परिणाम</h2>
+    <div class="sub-text">EARTH PIT TESTING RESULTS REPORT</div>
+
+    <table id="earthPitTable">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>दिनांक / Date</th>
+          <th>अर्थ पिट नं. / Pit No.</th>
+          <th>स्थान / Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><input type="date" value="2025-03-01"></td>
+          <td><input type="text" value="E1"></td>
+          <td><input type="text" value="Cement Mill Load Center"></td>
+          <td>
+            <button type="button" onclick="deletePitRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><input type="date" value="2025-03-01"></td>
+          <td><input type="text" value="E2"></td>
+          <td><input type="text" ></td>
+          <td>
+            <button type="button" onclick="deletePitRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><input type="date" value="2025-03-01"></td>
+          <td><input type="text" value="E3"></td>
+          <td><input type="text" ></td>
+          <td>
+            <button type="button" onclick="deletePitRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Row Button -->
+    <div style="margin-top: 15px;">
+      <button type="button" onclick="addPitRow()" style="background: var(--royal-blue); color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
+        + Add Row
+      </button>
+    </div>
+
+    <!-- Signature -->
+    <div style="margin-top: 50px; display: flex; justify-content: flex-end;">
+      <div style="text-align: center; border-top: 2px solid var(--royal-blue); width: 300px; padding-top: 5px;">
+        <span class="lang-hi"><b>हस्ताक्षर "A" श्रेणी ठेकेदार</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript: Add & Delete Row with Auto-Renumber -->
+<script>
+function renumberPitRows() {
+  const tbody = document.getElementById('earthPitTable').getElementsByTagName('tbody')[0];
+  Array.from(tbody.rows).forEach((row, idx) => {
+    row.cells[0].textContent = idx + 1; // Sr. No.
+  });
+}
+
+function deletePitRow(btn) {
+  const row = btn.closest('tr');
+  const pitNo = row.cells[2]?.querySelector('input')?.value || '';
+  if (confirm('Delete this entry' + (pitNo ? ' (Pit: ' + pitNo + ')' : '') + '?')) {
+    row.remove();
+    renumberPitRows();
+  }
+}
+
+function addPitRow() {
+  const tbody = document.getElementById('earthPitTable').getElementsByTagName('tbody')[0];
+  const newRow = tbody.insertRow();
+  const today = new Date().toISOString().split('T')[0];
+
+  const cellsHTML = [
+    '', // Sr. No. will be set by renumberPitRows()
+    `<input type="date" value="${today}">`,
+    '<input type="text" placeholder="Pit No. (e.g., E4)">',
+    '<input type="text" placeholder="Location">',
+    '<button type="button" onclick="deletePitRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button>'
+  ];
+
+  cellsHTML.forEach(html => {
+    const cell = newRow.insertCell();
+    cell.innerHTML = html;
+  });
+
+  renumberPitRows();
+}
+
+document.addEventListener('DOMContentLoaded', renumberPitRows);
+</script>
+
+
+   
+
+
+<!-- FORM 7: 11kV HT Cable IR Test Report (with Add & Delete Row) -->
+<div id="form7" class="form-container">
+  <div class="report-container">
+    <div class="header-section" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>(ANNEXURE-II)</div>
+      <div>दिनांक / DATE: <input type="date" style="width: 150px;"></div>
+    </div>
+
+    <h2>11kV HT केबल साइट टेस्ट रिपोर्ट</h2>
+    <div class="sub-text">SITE TEST REPORT OF 11kV HT CABLE (BY 5 kV MEGGER)</div>
+
+    <!-- Cable Details -->
+    <div class="section-title" style="background: var(--royal-blue); color: white; padding: 5px 15px;">
+      केबल विवरण (Cable IR Measurement – Per Phase)
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label>केबल स्थान (Cable Location / Description):</label>
+      <input type="text" placeholder="e.g., VCB to Transformer / Feeder details" style="width: 100%;">
+    </div>
+
+    <!-- IR Values Per Phase Table -->
+    <table id="cableTable">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>DESCRIPTION</th>
+          <th>RUN</th>
+          <th>CABLE SIZE</th>
+          <th>CABLE LENGTH (m)</th>
+          <th>R‑E (IR)</th>
+          <th>Y‑E (IR)</th>
+          <th>B‑E (IR)</th>
+          <th>Hi‑Pot</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><input type="text" ></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="3CX185 sqmm"></td>
+          <td><input type="text" value="1200"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><input type="text" value="VCB To 1600 KVA Transformer (Tr-4)"></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="3CX185 sqmm"></td>
+          <td><input type="text" value="60"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><input type="text" value="VCB To 500 kW Motor (Stacker Belt Conveyor)"></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="3CX185 sqmm"></td>
+          <td><input type="text" value="500"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><input type="text" value="VCB To O/G Feeder To Reclaimer CRD JB"></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="3CX185 sqmm"></td>
+          <td><input type="text" value="400"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><input type="text" value="VCB O/G Feeder To Stacker CRD JB"></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="3CX185 sqmm"></td>
+          <td><input type="text" value="450"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><input type="text" value="Stacker CRD JB to Isolator Panel"></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="4CX16 sqmm"></td>
+          <td><input type="text" value="500"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><input type="text" value="Isolator Panel to Stacker Transformer"></td>
+          <td><input type="text" value="1"></td>
+          <td><input type="text" value="4CX16 sqmm"></td>
+          <td><input type="text" value="20"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><input type="text" value="Reclaimer CRD JB to Isolator Panel"></td>
+          <td><input type="text" value="2"></td>
+          <td><input type="text" value="4CX16 sqmm"></td>
+          <td><input type="text" value="500"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><input type="text" value="Isolator Panel to Reclaimer Transformer"></td>
+          <td><input type="text" value="3"></td>
+          <td><input type="text" value="4CX16 sqmm"></td>
+          <td><input type="text" value="20"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text" value="1000 MΩ"></td>
+          <td><input type="text"></td>
+          <td><button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Row Button -->
+    <div style="margin-top: 15px;">
+      <button type="button" onclick="addCableRow()" style="background: var(--royal-blue); color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
+        + Add Row
+      </button>
+    </div>
+
+    <!-- Signatures -->
+    <div style="margin-top: 50px; display: flex; justify-content: flex-end;">
+      <div style="text-align: center; border-top: 2px solid var(--royal-blue); width: 300px; padding-top: 5px;">
+        <span class="lang-hi"><b>हस्ताक्षर "A" श्रेणी विद्युत ठेकेदार</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript: Add & Delete Row with Auto-Renumber -->
+<script>
+function renumberRows() {
+  const tbody = document.getElementById('cableTable').getElementsByTagName('tbody')[0];
+  Array.from(tbody.rows).forEach((row, idx) => {
+    row.cells[0].textContent = idx + 1; // S.No. is the first cell
+  });
+}
+
+function deleteCableRow(btn) {
+  const row = btn.closest('tr');
+  const desc = row.cells[1]?.querySelector('input')?.value || '';
+  if (confirm('Delete this row' + (desc ? ':\n' + desc : '') + '?')) {
+    row.remove();
+    renumberRows();
+  }
+}
+
+function addCableRow() {
+  const tbody = document.getElementById('cableTable').getElementsByTagName('tbody')[0];
+  const newRow = tbody.insertRow();
+
+  const cellsHTML = [
+    '', // S.No. will be set by renumberRows()
+    '<input type="text" placeholder="Description">',
+    '<input type="text" placeholder="Run">',
+    '<input type="text" placeholder="Cable Size">',
+    '<input type="text" placeholder="Length (m)">',
+    '<input type="text" placeholder="R-E">',
+    '<input type="text" placeholder="Y-E">',
+    '<input type="text" placeholder="B-E">',
+    '<input type="text" placeholder="Hi-Pot">',
+    '<button type="button" onclick="deleteCableRow(this)" style="background:#C00000;color:#fff;padding:6px 10px;border:none;border-radius:4px;cursor:pointer;">Delete</button>'
+  ];
+
+  cellsHTML.forEach(html => {
+    const cell = newRow.insertCell();
+    cell.innerHTML = html;
+  });
+
+  renumberRows();
+}
+
+// Ensure numbering is correct on initial load
+document.addEventListener('DOMContentLoaded', renumberRows);
+</script>
+
+
+
+
+</body>
+</html>

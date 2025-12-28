@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Bill: Complete Bilingual Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --royal-blue: #003399; --accent-red: #e63946; --light-bg: #f4f7f9; }
+        body { zoom: 80%; font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); margin: 0; color: #222; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
+        
+        .header { background: linear-gradient(135deg, var(--royal-blue), #001a4d); color: white; padding: 30px; border-radius: 15px; text-align: center; border-bottom: 8px solid var(--accent-red); margin-bottom: 20px; }
+        
+        .section-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--royal-blue); }
+        h2 { color: var(--royal-blue); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 1.6rem; }
+        h3 { color: var(--accent-red); font-size: 1.3rem; margin-top: 25px; border-left: 4px solid var(--royal-blue); padding-left: 10px; }
+        
+        .dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .term-item { margin-bottom: 12px; line-height: 1.5; border-bottom: 1px solid #f2f2f2; padding-bottom: 8px; }
+        .term-item b { color: var(--royal-blue); font-size: 1.1rem; }
+        .hin-text { color: #555; font-size: 0.95rem; display: block; margin-top: 4px; font-style: italic; }
+        
+        .formula { background: #f0f4ff; padding: 10px; border-radius: 6px; font-family: monospace; font-weight: bold; color: #000; margin: 8px 0; border: 1px solid #d0daff; }
+        
+        /* Calculator Section */
+        .calc-box { background: #fff; border: 3px solid var(--royal-blue); border-radius: 15px; padding: 30px; margin-top: 30px; }
+        .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        
+        .btn { background: var(--royal-blue); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
+        .results { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #fff5f5; padding: 20px; border-radius: 10px; border: 1px solid #ffcccc; }
+        .res-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee; }
+        .total-display { grid-column: 1 / -1; text-align: center; font-size: 2.5rem; color: var(--accent-red); font-weight: bold; border-top: 2px solid var(--accent-red); padding-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Know Your Electricity Bill / बिजली बिल को समझें</h1>
+        <p>Comprehensive Bilingual Analysis & Calculator / विस्तृत द्विभाषी विश्लेषण और कैलकुलेटर</p>
+    </div>
+
+    <div class="section-card">
+        <h2>1. Understand Component Use / बिल के घटकों को समझें</h2>
+        <div class="dual-grid">
+            <div>
+                <div class="term-item">
+                    <b>Current / Previous Reading:</b> Cumulative energy at cycle start/end.
+                    <span class="hin-text">रीडिंग: चक्र के प्रारंभ और अंत में दर्ज संचयी ऊर्जा।</span>
+                </div>
+                <div class="term-item">
+                    <b>Difference:</b> Consumption (Current – Previous).
+                    <span class="hin-text">अंतर: बिलिंग अवधि के दौरान खपत।</span>
+                </div>
+                <div class="term-item">
+                    <b>Multiplying Factor (MF):</b> Scaling for CT/PT ratios.
+                    <div class="formula">Units = Difference × MF</div>
+                    <span class="hin-text">गुणक कारक (MF): मीटर रीडिंग में लगाया जाने वाला स्केलिंग फैक्टर।</span>
+                </div>
+                <div class="term-item">
+                    <b>Contract Demand (CD):</b> Agreed maximum demand with utility.
+                    <span class="hin-text">कॉन्ट्रैक्ट डिमांड (CD): बिजली विभाग के साथ सहमत अधिकतम मांग।</span>
+                </div>
+                <div class="term-item">
+                    <b>Billing Demand:</b> Demand used for actual charges.
+                    <div class="formula">max(Recorded MD, 85% of CD, Tariff Minimum)</div>
+                    <span class="hin-text">बिलिंग डिमांड: वह मांग जिस पर शुल्क लगाया जाता है।</span>
+                </div>
+            </div>
+            <div>
+                <div class="term-item">
+                    <b>kVAh Units:</b> Apparent Energy including Power Factor effect.
+                    <span class="hin-text">kVAh यूनिट: पावर फैक्टर के प्रभाव सहित ऊर्जा खपत।</span>
+                </div>
+                <div class="term-item">
+                    <b>TOD Units (On/Off Peak):</b> Energy split by time blocks for differential rates.
+                    <span class="hin-text">TOD यूनिट: अलग-अलग टैरिफ दरों के लिए समय के आधार पर ऊर्जा का विभाजन।</span>
+                </div>
+                <div class="term-item">
+                    <b>FPPAS:</b> Fuel & Power Purchase Adjustment Surcharge.
+                    <span class="hin-text">FPPAS: ईंधन और बिजली खरीद मूल्य में बदलाव के लिए अधिभार।</span>
+                </div>
+                <div class="term-item">
+                    <b>Solar PP Adjustments:</b> Credits for exported solar energy.
+                    <span class="hin-text">सोलर पीपी समायोजन: निर्यात की गई सौर ऊर्जा के लिए क्रेडिट।</span>
+                </div>
+                <div class="term-item">
+                    <b>ASD Refund:</b> Refund of Additional Security Deposit.
+                    <span class="hin-text">ASD रिफंड: अतिरिक्त सुरक्षा जमा की वापसी (ऋणात्मक राशि)।</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="section-card" style="border-left-color: var(--accent-red);">
+        <h2>2. Determine Future Bills / भविष्य के बिलों का निर्धारण</h2>
+        <div class="dual-grid">
+            <div>
+                <h3>Computation Steps / गणना के चरण</h3>
+                <ol>
+                    <li><b>Compute Units:</b> ΔkWh × MF & ΔkVAh × MF.</li>
+                    <li><b>Determine BD:</b> max(Recorded MD, 85% of CD).</li>
+                    <li><b>Energy Total:</b> Sum of TOD Blocks × Rates.</li>
+                    <li><b>Solar Deductions:</b> Subtract Solar PP credits.</li>
+                    <li><b>Statutory Levies:</b> Add Duty and Cess (₹0.10/unit).</li>
+                    <li><b>Adjustments:</b> Add FPPAS, Rent, and Surcharges.</li>
+                </ol>
+            </div>
+            <div>
+                <h3>Bill Control / बिल नियंत्रण</h3>
+                <div class="term-item">
+                    <b>Demand Management:</b> Right-size CD to avoid 85% penalty.
+                    <span class="hin-text">डिमांड मैनेजमेंट: 85% पेनल्टी से बचने के लिए CD को सही करें।</span>
+                </div>
+                <div class="term-item">
+                    <b>Power Factor:</b> Keep kVAh close to kWh to reduce units.
+                    <span class="hin-text">पावर फैक्टर: kVAh यूनिट कम करने के लिए PF सुधारें।</span>
+                </div>
+                <div class="term-item">
+                    <b>TOD Shifting:</b> Shift load to Off-Peak hours.
+                    <span class="hin-text">TOD शिफ्टिंग: लोड को ऑफ-पीक घंटों में शिफ्ट करें।</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="calc-box">
+        <h2 style="text-align: center;">3. Bill Estimator / बिल कैलकुलेटर</h2>
+        <div class="input-grid">
+            <div class="input-group"><label>Curr kVAh Reading</label><input type="number" id="c_kvah"></div>
+            <div class="input-group"><label>Prev kVAh Reading</label><input type="number" id="p_kvah"></div>
+            <div class="input-group"><label>Mult. Factor (MF)</label><input type="number" id="mf" value="1"></div>
+            <div class="input-group"><label>Contract Demand (CD)</label><input type="number" id="cd"></div>
+            <div class="input-group"><label>Recorded MD (kVA)</label><input type="number" id="md"></div>
+            <div class="input-group"><label>Energy Rate (₹/unit)</label><input type="number" id="er" value="6.5"></div>
+            <div class="input-group"><label>Demand Rate (₹/kVA)</label><input type="number" id="dr" value="450"></div>
+            <div class="input-group"><label>Solar Export (Units)</label><input type="number" id="sol" value="0"></div>
+            <div class="input-group"><label>Cess/Duty/Rent (₹)</label><input type="number" id="misc" value="0"></div>
+        </div>
+        <button class="btn" onclick="calculateBill()">Calculate Net Payable / गणना करें</button>
+        
+        <div class="results" id="res">
+            <div>
+                <div class="res-row"><span>Units (kVAh):</span> <b id="r_u">0</b></div>
+                <div class="res-row"><span>Billing Demand:</span> <b id="r_bd">0</b></div>
+                <div class="res-row"><span>Energy Charges:</span> <b id="r_ec">₹ 0</b></div>
+            </div>
+            <div>
+                <div class="res-row"><span>Demand Charges:</span> <b id="r_dc">₹ 0</b></div>
+                <div class="res-row"><span>Solar Adjustments:</span> <b id="r_sa">- ₹ 0</b></div>
+                <div class="res-row"><span>Taxes & Misc:</span> <b id="r_tx">₹ 0</b></div>
+            </div>
+            <div class="total-display" id="r_tot">₹ 0.00</div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 40px; color: #666;">
+        For specific support on ASD Refunds or Solar Net-Metering: <b>Poweri_con@outlook.com</b>
+    </div>
+</div>
+
+<script>
+function calculateBill() {
+    const ck = parseFloat(document.getElementById('c_kvah').value) || 0;
+    const pk = parseFloat(document.getElementById('p_kvah').value) || 0;
+    const mf = parseFloat(document.getElementById('mf').value) || 1;
+    const cd = parseFloat(document.getElementById('cd').value) || 0;
+    const md = parseFloat(document.getElementById('md').value) || 0;
+    const er = parseFloat(document.getElementById('er').value) || 0;
+    const dr = parseFloat(document.getElementById('dr').value) || 0;
+    const sol = parseFloat(document.getElementById('sol').value) || 0;
+    const misc = parseFloat(document.getElementById('misc').value) || 0;
+
+    const units = (ck - pk) * mf;
+    const bd = Math.max(md, (cd * 0.85));
+    const energyCharges = units * er;
+    const demandCharges = bd * dr;
+    const solarCredit = sol * er;
+    const tax = (energyCharges + demandCharges - solarCredit) * 0.12; // Est Duty 12%
+    const total = (energyCharges + demandCharges + tax + misc) - solarCredit;
+
+    document.getElementById('r_u').innerText = units.toLocaleString();
+    document.getElementById('r_bd').innerText = bd.toFixed(2) + " kVA";
+    document.getElementById('r_ec').innerText = "₹ " + energyCharges.toLocaleString();
+    document.getElementById('r_dc').innerText = "₹ " + demandCharges.toLocaleString();
+    document.getElementById('r_sa').innerText = "- ₹ " + solarCredit.toLocaleString();
+    document.getElementById('r_tx').innerText = "₹ " + (tax + misc).toLocaleString();
+    document.getElementById('r_tot').innerText = "₹ " + total.toLocaleString(undefined, {minimumFractionDigits: 2});
+}
+</script>
+
+</body>
+</html>

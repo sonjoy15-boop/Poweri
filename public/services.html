@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products & Services | PowerI.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+            --light-bg: #f8fafc;
+        }
+
+        /* 20% PAGE SIZE REDUCTION */
+        body {
+            zoom: 80%;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 5px solid var(--accent-red);
+            padding-bottom: 20px;
+        }
+
+        .header-section h1 { color: var(--royal-blue); font-size: 2.8rem; margin: 0; }
+
+        /* Service Packages */
+        .section-title {
+            background: var(--royal-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin: 40px 0 25px 0;
+            display: inline-block;
+        }
+
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .package-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-top: 8px solid var(--royal-blue);
+            transition: transform 0.3s;
+        }
+
+        .package-card:hover { transform: translateY(-5px); }
+        .package-card h3 { color: var(--royal-blue); margin-top: 0; font-size: 1.4rem; }
+        .package-card p { line-height: 1.7; color: #444; text-align: justify; }
+
+        /* Job Specific Services */
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .job-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--accent-red);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .job-item i { color: var(--accent-red); font-size: 1.2rem; }
+        .job-item span { font-weight: 600; font-size: 1rem; color: #333; }
+
+        .footer-cta {
+            background: var(--royal-blue);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 60px;
+        }
+
+        .footer-cta a { color: #ffeb3b; font-weight: bold; text-decoration: none; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h1>Products & Services</h1>
+        <p>Expert Industrial Electrical Compliance & Connectivity Solutions</p>
+    </div>
+
+    <h2 class="section-title"><i class="fas fa-box-open"></i> Premium Service Packages</h2>
+    
+    
+
+    <div class="package-grid">
+        <div class="package-card">
+            <h3>1. Power Supply Connectivity for Industry/Plant</h3>
+            <p>A single subscription end-to-end power connection service covering online & offline application processing, technical and regulatory approvals, fee and deposit management, infrastructure setup, metering management, CEIG inspection to approvals, and final load release—ensuring seamless transition from application to energized supply.</p>
+        </div>
+
+        <div class="package-card">
+            <h3>2. Electrical Inspector Approvals Post-Commissioning</h3>
+            <p>Comprehensive CEIG Compliance Package including drawing approvals, safety clearance documentation, site inspection coordination, post-commissioning liaison with the Electrical Inspector, and ongoing support for periodic inspections to ensure full regulatory compliance.</p>
+        </div>
+
+        <div class="package-card" style="border-top-color: var(--accent-red);">
+            <h3>3. Solar Plant Net Metering Approvals</h3>
+            <p>Provide an end-to-end net metering service for a rooftop or ground-mounted solar plant that takes the customer from initial application through to energized supply and handover. The service covers online and offline application preparation and submission, technical and regulatory approvals, payments and deposits, infrastructure and metering installation, inspections, and final load release to ensure a seamless transition from proposal to commissioned operation.</p>
+        </div>
+    </div>
+
+    <h2 class="section-title" style="background: var(--accent-red);"><i class="fas fa-tools"></i> Job-Specific Services</h2>
+    
+    
+
+    <div class="job-grid">
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Liaisoning for Electrical Inspector Approvals Post-Commissioning</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Periodical Inspection and CEIG Compliance Support</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Preliminary Site Study for Power Line Connectivity</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Prepare Power Connectivity Application & Submission</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Liaison Approval for Utility Meter Installation and Energization</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Industrial Electrical Load Enhancement or Reduction Consulting</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Consulting Liaison Approval for HT Line Shifting or Modification</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Consulting Liaison Approval for Industrial Electrical Tariff Change</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Renewable Energy Grid Connectivity (Solar/Wind) Liaison</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Industrial Electrical Compliance Audit Support</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Preliminary Site Study for Construction Power Distribution Plan</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Preparation of Basic Electrical SLD (CEA & NEC 2023)</span></div>
+        <div class="job-item"><i class="fas fa-check-circle"></i><span>Supervision of Transformer Erection & Commissioning</span></div>
+    </div>
+
+    <div class="footer-cta">
+        <h2>Ready to start your project?</h2>
+        <p>Write to us for any specific guidance or service required at any point.</p>
+        <a href="mailto:Poweri_con@outlook.com"><i class="fas fa-envelope"></i> Poweri_con@outlook.com</a>
+    </div>
+
+    <a href="index.html" style="display:block; text-align:center; margin-top:30px; font-weight:bold; color:var(--royal-blue); text-decoration:none;">
+        ← Back to Home Page
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIG Inspection Checklist | PowerI.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+            --light-bg: #f4f7f9;
+        }
+
+        /* 20% PAGE SIZE REDUCTION */
+        body {
+            zoom: 80%;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, #001a4d 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            border-bottom: 8px solid var(--accent-red);
+            margin-bottom: 30px;
+        }
+
+        .objective-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--royal-blue);
+            margin-bottom: 25px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .section-header {
+            background: var(--royal-blue);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .content-col {
+            padding: 25px;
+        }
+
+        .eng-col { border-right: 1px solid #eee; }
+        .hin-col { background-color: #fdfdfd; }
+
+        h3 { color: var(--royal-blue); margin-top: 0; font-size: 1.3rem; }
+        .hin-col h3 { color: var(--accent-red); }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; line-height: 1.6; font-size: 1.05rem; }
+
+        .safety-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: #fff5f5;
+        }
+
+        .safety-item {
+            background: white;
+            padding: 10px;
+            border: 1px solid #ffcccc;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .footer-cta {
+            background: var(--royal-blue);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        .footer-cta a { color: #ffeb3b; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="main-header">
+        <h1>CEIG Inspection Checklist</h1>
+        <p>विद्युत निरीक्षक निरीक्षण चेकलिस्ट (उद्योग/प्लांट/फैक्ट्री)</p>
+    </header>
+
+    <div class="objective-box">
+        <strong>Objective / उद्देश्य:</strong> Ensure the safety of personnel and equipment before inspection. / निरीक्षण से पहले कर्मियों और उपकरणों की सुरक्षा सुनिश्चित करना।
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <span>1. Substation & Room Readiness</span>
+            <span>1. सबस्टेशन और कमरों की तैयारी</span>
+        </div>
+        
+        <div class="dual-grid">
+            <div class="content-col eng-col">
+                <h3>Civil & Preparation</h3>
+                <ul>
+                    <li>Brickwork completed and cured.</li>
+                    <li>Doors/windows installed and lockable.</li>
+                    <li>Free from dust, debris, and construction material.</li>
+                    <li>Adequate ventilation and clear warning signage.</li>
+                </ul>
+            </div>
+            <div class="content-col hin-col">
+                <h3>सिविल और तैयारी</h3>
+                <ul>
+                    <li>ईंटों का काम पूरा और पका हुआ।</li>
+                    <li>दरवाजे/खिड़कियां लगे हुए और लॉक करने योग्य।</li>
+                    <li>धूल, मलबे और निर्माण सामग्री से मुक्त।</li>
+                    <li>पर्याप्त वेंटिलेशन और स्पष्ट चेतावनी संकेत।</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <span>2. General Electrical Safety & Compliance</span>
+            <span>2. सामान्य विद्युत सुरक्षा और अनुपालन</span>
+        </div>
+        
+        <div class="dual-grid">
+            <div class="content-col eng-col">
+                <h3>Installation Standards</h3>
+                <ul>
+                    <li>Proper nomenclature for panels and earth pits.</li>
+                    <li>Cable tag markers on all cables.</li>
+                    <li><strong>Two distinct earth connections</strong> for transformers, panels, and motors.</li>
+                    <li>Rubber mats (IS specification) in front of panels.</li>
+                    <li>Single-line diagram (SLD) displayed.</li>
+                </ul>
+            </div>
+            <div class="content-col hin-col">
+                <h3>स्थापना मानक</h3>
+                <ul>
+                    <li>पैनलों और अर्थ पिट्स के लिए उचित नामकरण।</li>
+                    <li>सभी केबलों पर केबल टैग मार्कर।</li>
+                    <li>ट्रांसफार्मर, पैनल और मोटर के लिए <strong>दो अलग-अलग अर्थ कनेक्शन</strong>।</li>
+                    <li>पैनलों के सामने रबर मैट (IS मानक)।</li>
+                    <li>सिंगल-लाइन डायग्राम (SLD) प्रदर्शित।</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="text-align: center; color: var(--accent-red);">Essential Safety Gear / आवश्यक सुरक्षा उपकरण</h3>
+    <div class="safety-grid">
+        <div class="safety-item"><i class="fas fa-mitten"></i><br>Insulated Gloves</div>
+        <div class="safety-item"><i class="fas fa-hand-holding-medical"></i><br>First Aid Box</div>
+        <div class="safety-item"><i class="fas fa-fire-extinguisher"></i><br>Fire Extinguishers</div>
+        <div class="safety-item"><i class="fas fa-sign"></i><br>Danger Boards</div>
+        <div class="safety-item"><i class="fas fa-exclamation-triangle"></i><br>Discharge Rods</div>
+        <div class="safety-item"><i class="fas fa-notes-medical"></i><br>Shock Chart</div>
+    </div>
+
+    <div class="section-card" style="margin-top: 25px;">
+        <div class="section-header">
+            <span>3. Control Room & Emergency Requirements</span>
+            <span>3. कंट्रोल रूम और आपातकालीन आवश्यकताएं</span>
+        </div>
+        
+        <div class="dual-grid">
+            <div class="content-col eng-col">
+                <ul>
+                    <li>Two emergency escape doors in opposite directions.</li>
+                    <li>Emergency lighting from DC source.</li>
+                    <li>List of authorized personnel with license numbers.</li>
+                    <li>Shock treatment chart (English/Hindi) laminated.</li>
+                    <li>Fire buckets under shed near generator room.</li>
+                </ul>
+            </div>
+            <div class="content-col hin-col">
+                <ul>
+                    <li>विपरीत दिशाओं में दो आपातकालीन निकास द्वार।</li>
+                    <li>DC स्रोत से आपातकालीन लाइटिंग।</li>
+                    <li>लाइसेंस नंबर के साथ अधिकृत कर्मियों की सूची।</li>
+                    <li>शॉक ट्रीटमेंट चार्ट (अंग्रेजी/हिंदी) लेमिनेटेड।</li>
+                    <li>जनरेटर रूम के पास शेड के नीचे फायर बाल्टी।</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <span>4. Recommendations</span>
+            <span>4. अतिरिक्त सिफारिशें</span>
+        </div>
+        <div class="dual-grid">
+            <div class="content-col eng-col">
+                <ul>
+                    <li>Verify earth resistance values and maintain records.</li>
+                    <li>Battery Room: Acid-proof flooring and ventilation.</li>
+                    <li>Emergency contact numbers displayed prominently.</li>
+                </ul>
+            </div>
+            <div class="content-col hin-col">
+                <ul>
+                    <li>अर्थ रेजिस्टेंस वैल्यू को सत्यापित करें और रिकॉर्ड बनाए रखें।</li>
+                    <li>बैटरी रूम: एसिड-प्रूफ फ्लोरिंग और वेंटिलेशन।</li>
+                    <li>आपातकालीन संपर्क नंबर प्रमुखता से प्रदर्शित।</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-cta">
+        <p>Ensure your HT 'A' Class signatures are ready before inspection / निरीक्षण से पहले अपने HT 'A' क्लास सिग्नेचर तैयार रखें:</p>
+        <a href="mailto:Poweri_con@outlook.com">Poweri_con@outlook.com</a>
+    </footer>
+
+    <a href="index.html" style="display:block; text-align:center; margin-top:30px; font-weight:bold; color:var(--royal-blue); text-decoration:none;">← Back to Home / मुख्य पृष्ठ पर वापस जाएं</a>
+</div>
+
+</body>
+</html>

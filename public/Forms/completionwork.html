@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Work Completion Certificate - 2025</title>
+    <style>
+        :root {
+            --royal-blue: #002366;
+            --royal-red: #C41E3A;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; line-height: 1.6; }
+        .certificate-container { 
+            background: #fff; 
+            padding: 40px 50px; 
+            max-width: 850px; 
+            margin: auto; 
+            border: 2px solid var(--royal-blue);
+            border-top: 12px solid var(--royal-red);
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        }
+        h2 { 
+            text-align: center; 
+            color: var(--royal-blue); 
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .sub-heading { text-align: center; color: var(--royal-red); font-weight: bold; margin-bottom: 25px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+        
+        .header-info { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .input-row { margin-bottom: 15px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        
+        label { font-weight: bold; color: var(--royal-blue); }
+        .lang-en { font-style: italic; color: #666; font-size: 0.85em; display: block; line-height: 1.2; }
+        
+        input[type="text"], input[type="date"], textarea {
+            border: none;
+            border-bottom: 1px solid #999;
+            padding: 2px 5px;
+            outline: none;
+            font-size: 15px;
+            flex-grow: 1;
+            background: transparent;
+        }
+        input:focus { border-bottom: 2px solid var(--royal-red); color: var(--royal-red); }
+        
+        .regulation-text { 
+            background-color: #fff8f8; 
+            padding: 15px; 
+            border: 1px dashed var(--royal-red); 
+            margin: 20px 0;
+            font-size: 0.95em;
+            color: #222;
+        }
+
+        .details-area { margin-top: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 4px; }
+        .footer { margin-top: 50px; display: flex; justify-content: flex-end; }
+        .signature-box { text-align: center; width: 280px; color: var(--royal-blue); border-top: 2px solid var(--royal-blue); padding-top: 8px; }
+        
+        .btn-print { 
+            display: block; width: 220px; margin: 25px auto; padding: 12px; 
+            background: var(--royal-blue); color: white; border: none; border-radius: 4px; 
+            cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .btn-print:hover { background: var(--royal-red); }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .btn-print { display: none; }
+            .certificate-container { border: none; box-shadow: none; width: 100%; padding: 10px; }
+            input { border: none !important; border-bottom: 1px solid #eee !important; }
+            textarea { border: 1px solid #eee !important; resize: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="certificate-container">
+    <h2>विद्युत कार्य पूर्णता प्रमाण पत्र</h2>
+    <div class="sub-heading">ELECTRICAL WORK COMPLETION CERTIFICATE</div>
+
+    <div class="header-info">
+        <div style="width: 45%;">
+            <label>पत्रांक / Ref No:</label>
+            <input type="text" placeholder="...........................">
+        </div>
+        <div style="width: 40%;">
+            <label>दिनांक / Date:</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <div class="section">
+        <p><strong>1. प्रमाणित किया जाता है कि / Certified that:</strong></p>
+        
+        <div class="input-row">
+            <div>
+                <span class="lang-hi">(1) मेरे पास 'ए' श्रेणी विद्युत ठेकेदारी अनुज्ञप्ति क्रमांक</span>
+                <span class="lang-en">I hold Class 'A' Electrical Contractor License No.</span>
+            </div>
+            <input type="text" style="width: 150px;" value="22/3005/A">
+            <div>
+                <span class="lang-hi">दिनांक</span>
+                <span class="lang-en">Valid Upto</span>
+            </div>
+            <input type="text" style="width: 120px;" value="09/01/2025">
+            <span>तक वैध है।</span>
+        </div>
+
+        <div class="input-row">
+            <div style="width: 100%;">
+                <span class="lang-hi">(2) मेसर्स (संस्थान का नाम एवं पता)</span>
+                <span class="lang-en">M/s (Name of Establishment & Address)</span>
+                <input type="text" style="width: 100%; margin-top: 5px;" placeholder="यहाँ संस्थान का नाम और पता दर्ज करें...">
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div>
+                <span class="lang-hi">के विद्युत कार्य की सूचना पत्र क्रमांक</span>
+                <span class="lang-en">Notification of work vide Letter No.</span>
+            </div>
+            <input type="text" style="width: 150px;">
+            <div>
+                <span class="lang-hi">दिनांक</span>
+                <span class="lang-en">Dated</span>
+            </div>
+            <input type="date" style="width: 140px;">
+            <span>द्वारा दी गई थी।</span>
+        </div>
+
+        <div class="input-row">
+            <div>
+                <span class="lang-hi">(3) पर्यवेक्षक का नाम</span>
+                <span class="lang-en">Name of Supervisor</span>
+            </div>
+            <input type="text" placeholder="नाम लिखें">
+            <div>
+                <span class="lang-hi">कार्य अवधि</span>
+                <span class="lang-en">Duration</span>
+            </div>
+            <input type="text" style="width: 100px;">
+        </div>
+
+        <div class="input-row">
+            <div>
+                <span class="lang-hi">(4) स्वीकृत रेखाचित्र पत्रांक</span>
+                <span class="lang-en">Approved Drawing Letter No.</span>
+            </div>
+            <input type="text" style="width: 180px;">
+            <div>
+                <span class="lang-hi">दिनांक</span>
+                <span class="lang-en">Dated</span>
+            </div>
+            <input type="date" style="width: 140px;">
+        </div>
+
+        <div class="regulation-text">
+            <strong>वैधानिक अनुपालन (Statutory Compliance):</strong><br>
+            "स्वीकृत किए गए रेखाचित्र के अनुसार हैं। सभी प्रकार के केंद्रीय विद्युत प्राधिकरण (विद्युत आपूर्ति तथा सुरक्षा संबंधी उपाय) विनियम 2010 तथा उसके संबंध में लागू इंडियन कोड ऑफ़ प्रैक्टिस का पालन करता है।"
+            <br>
+            <span style="font-size: 0.85em; font-style: italic;">(In accordance with the approved drawings. Complies with all Central Electricity Authority Regulations, 2010 and applicable Indian Code of Practice.)</span>
+        </div>
+    </div>
+
+    <div class="details-area">
+        <label style="color: var(--royal-red);">2. कार्य का विवरण तथा परीक्षण परिणाम / Work Details & Test Results:</label>
+        <textarea rows="5" style="width: 100%; margin-top: 10px;" placeholder="यहाँ परीक्षण के परिणाम और विवरण दर्ज करें..."></textarea>
+    </div>
+
+    <div class="footer">
+        <div class="signature-box">
+            <strong>ठेकेदार के हस्ताक्षर (सील सहित)</strong><br>
+            <span style="font-size: 0.9em;">Signature of Electrical Contractor</span>
+        </div>
+    </div>
+</div>
+
+<button class="btn-print" onclick="window.print()">Print Certificate / Save as PDF</button>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>PowerI.in - Single Page Job Card</title>
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f2f5;
+            padding: 5px;
+            margin: 0;
+            zoom: 80%; /* Browser view zoom */
+        }
+        .form-container {
+            max-width: 980px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border: 2px solid #333;
+            box-sizing: border-box;
+        }
+        .header-table {
+            width: 100%;
+            border-bottom: 3px solid var(--royal-blue);
+            margin-bottom: 10px;
+        }
+        
+        .en-detail { font-weight: 600; color: #000; font-size: 0.88rem; display: block; line-height: 1.2; }
+        .hi-detail { color: #555; font-size: 0.8rem; display: block; margin-top: 1px; line-height: 1.2; }
+
+        input[type="text"], input[type="date"], textarea {
+            border: none;
+            border-bottom: 1px solid #000;
+            background: transparent;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+        }
+        textarea { height: 35px; }
+
+        .job-details {
+            width: 100%;
+            margin-bottom: 10px;
+            border-collapse: collapse;
+        }
+        .job-details td {
+            padding: 5px 8px;
+            vertical-align: top;
+            border: 1px solid #eee;
+        }
+
+        .safety-header {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* 2-Column Grid to ensure single page fit */
+        .precaution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .precaution-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 6px;
+            border: 1px solid #eee;
+            background: #fafafa;
+        }
+        
+        .safety-checkbox {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            accent-color: var(--royal-blue);
+            margin-top: 3px;
+        }
+
+        .footer-signs {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .sign-box {
+            text-align: center;
+            width: 45%;
+        }
+        .sign-line {
+            border-top: 2px solid #000;
+            margin-bottom: 5px;
+        }
+
+        @media print {
+            @page { size: A4; margin: 1cm; }
+            body { background: none; padding: 0; zoom: 100%; }
+            .form-container { border: 2px solid #000; width: 100%; box-shadow: none; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <table class="header-table">
+        <tr>
+            <td width="20%"><div style="font-weight: bold; color: var(--royal-blue); font-size: 1.4rem;">PowerI.in</div></td>
+            <td style="text-align: center;">
+                <h2 style="margin: 0; color: var(--royal-blue); font-size: 1.3rem;">NEW INSTALLATION JOB ASSIGNMENT</h2>
+                <h3 style="margin: 0; color: var(--accent-red); font-size: 1.1rem;">नया इंस्टालेशन कार्य आवंटन एवं सुरक्षा चेकलिस्ट</h3>
+            </td>
+        </tr>
+    </table>
+
+    <form>
+        <table class="job-details">
+            <tr>
+                <td width="50%"><strong>Date (दिनांक):</strong> <input type="date"></td>
+                <td width="50%"><strong>Job Card No (क्रमांक):</strong> <input type="text"></td>
+            </tr>
+            <tr>
+                <td><strong>Engineer Incharge:</strong> <input type="text"></td>
+                <td><strong>Working Area:</strong> <input type="text"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Work Description (विवरण):</strong><textarea></textarea></td>
+            </tr>
+        </table>
+
+        <div class="safety-header">MANDATORY SAFETY CHECKLIST | अनिवार्य सुरक्षा चेकलिस्ट</div>
+
+        <div class="precaution-grid">
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">1. Ensure power isolation: Confirm breaker is off and verify with a voltage tester.</span>
+                    <span class="hi-detail">1. सुनिश्चित करें कि बिजली बंद है और वोल्टेज टेस्टर से पुष्टि की गई है।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">2. Ensure right tools: Use wire strippers and non-contact voltage testers.</span>
+                    <span class="hi-detail">2. सुनिश्चित करें कि वायर स्ट्रिपर और नॉन-कॉन्टैक्ट टेस्टर जैसे सही उपकरण उपलब्ध हैं।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">3. Ensure safe touch: Avoid contact with exposed wires or live components.</span>
+                    <span class="hi-detail">3. सुनिश्चित करें कि आप खुले तारों या लाइव कंपोनेंट्स को छूने से बच रहे हैं।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">4. Ensure insulated tools: Use only VDE certified insulated tools for safety.</span>
+                    <span class="hi-detail">4. सुनिश्चित करें कि केवल प्रमाणित इन्सुलेटेड औजारों का उपयोग किया जा रहा है।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">5. Ensure PPE usage: Wear electrical grade gloves and safety goggles.</span>
+                    <span class="hi-detail">5. सुनिश्चित करें कि इलेक्ट्रिकल ग्रेड दस्ताने और सुरक्षा चश्मा पहने गए हैं।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">6. Ensure dry conditions: Never work in damp or wet electrical environments.</span>
+                    <span class="hi-detail">6. सुनिश्चित करें कि परिवेश सूखा है और बिजली क्षेत्र के पास पानी नहीं है।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">7. Ensure code compliance: Follow NEC 2023 and local safety standards.</span>
+                    <span class="hi-detail">7. सुनिश्चित करें कि कार्य नेशनल इलेक्ट्रिकल कोड 2023 के अनुरूप है।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">8. Ensure correct wire: Use right gauge wire for 120V vs 240V circuits.</span>
+                    <span class="hi-detail">8. सुनिश्चित करें कि वोल्टेज के अनुसार सही रेटिंग के तारों का उपयोग हो रहा है।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">9. Ensure tight connections: Properly connect wires to prevent arcing/fire.</span>
+                    <span class="hi-detail">9. सुनिश्चित करें कि आर्किंग और आग को रोकने के लिए कनेक्शन पूरी तरह टाइट हैं।</span>
+                </div>
+            </div>
+            <div class="precaution-item">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">10. Ensure junction box use: Keep wires organized and safe inside boxes.</span>
+                    <span class="hi-detail">10. सुनिश्चित करें कि तारों को सुरक्षित रखने के लिए जंक्शन बॉक्स का उपयोग हो रहा है।</span>
+                </div>
+            </div>
+            <div class="precaution-item" style="grid-column: span 2;">
+                <input type="checkbox" class="safety-checkbox">
+                <div>
+                    <span class="en-detail">11. Ensure labeling: Mark all wires at both ends for identification and maintenance.</span>
+                    <span class="hi-detail">11. सुनिश्चित करें कि भविष्य के रखरखाव के लिए सभी तारों के दोनों सिरों पर स्पष्ट लेबल लगा है।</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-signs">
+            <div class="sign-box">
+                <div class="sign-line"></div>
+                <strong>Engineer Signature / हस्ताक्षर</strong>
+            </div>
+            <div class="sign-box">
+                <div class="sign-line"></div>
+                <strong>HOD Signature / विभागाध्यक्ष के हस्ताक्षर</strong>
+            </div>
+        </div>
+    </form>
+
+    <div class="no-print" style="margin-top: 15px; text-align: center;">
+        <button onclick="window.print()" style="padding: 10px 25px; background: var(--royal-blue); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Print Job Card</button>
+    </div>
+</div>
+
+</body>
+</html>

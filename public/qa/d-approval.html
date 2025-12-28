@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIG Drawing Approval | PowerI.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+            --light-bg: #f4f7f9;
+        }
+
+        /* 20% PAGE SIZE REDUCTION */
+        body {
+            zoom: 80%;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, #001a4d 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            border-bottom: 8px solid var(--accent-red);
+            margin-bottom: 30px;
+        }
+
+        .dual-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            height: fit-content;
+        }
+
+        .eng-side { border-left: 6px solid var(--royal-blue); }
+        .hin-side { border-left: 6px solid var(--accent-red); }
+
+        h2, h3 { margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .eng-side h2 { color: var(--royal-blue); }
+        .hin-side h2 { color: var(--accent-red); }
+
+        p, li { line-height: 1.7; font-size: 1.1rem; text-align: justify; }
+
+        /* Document Box with Checkboxes */
+        .doc-box {
+            grid-column: 1 / -1;
+            background: white;
+            border: 2px solid var(--royal-blue);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #d0daff;
+        }
+
+        .checklist li i {
+            color: var(--royal-blue);
+            font-size: 1.2rem;
+        }
+
+        .note-alert {
+            background: #fff5f5;
+            border: 1px dashed var(--accent-red);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .footer-cta {
+            background: var(--royal-blue);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .footer-cta a { color: #ffeb3b; font-weight: bold; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="main-header">
+        <h1>CEIG Drawing Approval Process</h1>
+        <p>विद्युत निरीक्षक आरेख अनुमोदन प्रक्रिया</p>
+    </header>
+
+    <div class="dual-column">
+        <div class="card eng-side">
+            <h2>1. Objective</h2>
+            <p>Submit a complete, accurate, and properly formatted application through the designated channel to minimize errors, enable fast-track processing, and get the drawing approved.</p>
+        </div>
+        <div class="card hin-side">
+            <h2>1. उद्देश्य</h2>
+            <p>त्रुटियों को कम करने, फास्ट-ट्रैक प्रोसेसिंग को सक्षम करने और ड्राइंग को अनुमोदित कराने के लिए निर्धारित चैनल के माध्यम से एक पूर्ण, सटीक और उचित रूप से स्वरूपित आवेदन जमा करें।</p>
+        </div>
+    </div>
+
+    <div class="doc-box">
+        <h2 style="text-align: center; margin-bottom: 25px;"><i class="fas fa-file-signature"></i> 2. Preparation Checklist / तैयारी चेकलिस्ट</h2>
+        
+        
+        
+        <ul class="checklist">
+            <li><i class="far fa-check-square"></i> HT Equipment List or Generator / HT उपकरण सूची या जनरेटर</li>
+            <li><i class="far fa-check-square"></i> Equipment Location Map (Safety Distances) / उपकरण स्थान मानचित्र (सुरक्षा दूरी)</li>
+            <li><i class="far fa-check-square"></i> Single Line Diagram (SLD) / सिंगल लाइन डायग्राम (SLD)</li>
+            <li><i class="far fa-check-square"></i> Equipment GA / उपकरण GA</li>
+            <li><i class="far fa-check-square"></i> Cable Route Drawing (for HT) / केबल रूट ड्राइंग (HT के लिए)</li>
+            <li><i class="far fa-check-square"></i> Earthing Layout / अर्थिंग लेआउट</li>
+            <li><i class="far fa-check-square"></i> Lightning Protection Layout / लाइटनिंग प्रोटेक्शन लेआउट</li>
+            <li><i class="far fa-check-square"></i> Protection Details / सभी सुरक्षा विवरण</li>
+        </ul>
+
+        <div class="note-alert">
+            <p><strong>Note (English):</strong> All drawings should be signed by an HT ‘A’ Class licensee contractor in Chhattisgarh. If equipment quantity is low, documents can be consolidated into one comprehensive drawing.</p>
+            <p><strong>नोट (हिंदी):</strong> सभी आरेख छत्तीसगढ़ में एक HT 'A' श्रेणी के लाइसेंसधारी ठेकेदार द्वारा हस्ताक्षरित होने चाहिए। यदि उपकरण कम हैं, तो सभी दस्तावेजों को एक व्यापक ड्राइंग में समेकित किया जा सकता है।</p>
+        </div>
+    </div>
+
+    <div class="dual-column">
+        <div class="card eng-side">
+            <h2>3. Application Submission</h2>
+            <p><strong>Online:</strong> Submit data and upload drawing files.<br>
+            <strong>Offline:</strong> Fill application and submit physical drawings to the CEIG office.</p>
+            <p style="color: var(--royal-blue); font-weight: bold;">Approval can be done within 2–4 hours. No fees required.</p>
+        </div>
+        <div class="card hin-side">
+            <h2>3. आवेदन जमा करना</h2>
+            <p><strong>ऑनलाइन:</strong> डेटा जमा करें और ड्राइंग फाइलें अपलोड करें।<br>
+            <strong>ऑफलाइन:</strong> आवेदन भरें और CEIG कार्यालय में भौतिक चित्र जमा करें।</p>
+            <p style="color: var(--accent-red); font-weight: bold;">अनुमोदन 2-4 घंटे के भीतर किया जा सकता है। कोई शुल्क आवश्यक नहीं है।</p>
+        </div>
+    </div>
+
+    <footer class="footer-cta">
+        <p>For more information, write to us at / अधिक जानकारी के लिए हमें लिखें:</p>
+        <a href="mailto:Poweri_con@outlook.com">Poweri_con@outlook.com</a>
+    </footer>
+
+    <a href="index.html" style="display:block; text-align:center; margin-top:30px; font-weight:bold; color:var(--royal-blue); text-decoration:none;">← Back to Home / मुख्य पृष्ठ पर वापस जाएं</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Annexure C - Generator Specifications | PowerI.in</title>
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+        }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #f0f2f5;
+            margin: 0; 
+            padding: 10px;
+            zoom: 80%; 
+        }
+        .form-container { 
+            border: 2px solid #333; 
+            padding: 25px; 
+            max-width: 900px; 
+            margin: auto; 
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .header-box {
+            border-bottom: 4px solid var(--royal-blue);
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        h1 { 
+            color: var(--royal-blue); 
+            text-transform: uppercase; 
+            margin: 0; 
+            font-size: 1.8rem;
+        }
+        .sub-header {
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .header-info { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            padding: 12px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .header-input-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 3px 0;
+        }
+
+        .section-head { 
+            background: #f0f4ff; 
+            color: var(--royal-blue);
+            font-weight: bold; 
+            padding: 8px; 
+            margin: 15px 0 10px 0; 
+            border: 1px solid var(--royal-blue);
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+
+        /* Form Row Styling */
+        .row { 
+            display: flex; 
+            align-items: center;
+            margin-bottom: 8px; 
+        }
+        .label { 
+            width: 400px; 
+            font-weight: 600; 
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        .hi-text {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: normal;
+        }
+        .value { 
+            flex-grow: 1; 
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 3px;
+            font-size: 1rem;
+            outline: none;
+            background: transparent;
+        }
+        input[type="text"]:focus {
+            border-bottom: 2px solid var(--royal-blue);
+            background: #f0f4ff;
+        }
+        
+        .header-info input[type="text"] {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .footer { 
+            margin-top: 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            font-weight: bold; 
+        }
+        .sign-box {
+            text-align: center;
+            width: 320px;
+            border-top: 2px solid #000;
+            padding-top: 8px;
+        }
+
+        @media print {
+            @page { size: A4; margin: 1cm; }
+            body { background: none; padding: 0; zoom: 100%; }
+            .form-container { border: 2px solid #000; box-shadow: none; width: 100%; }
+            .no-print { display: none; }
+            input { border-bottom: 1px solid #000 !important; }
+            input::placeholder { color: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header-box">
+            <h1>Annexure – C</h1>
+            <div class="sub-header">परिशिष्ट – सी</div>
+        </div>
+
+        <div class="header-info">
+            <div class="header-input-row">
+                <span>Details of Diesel Generator installed by:</span>
+                <div style="width: 300px;"><input type="text" placeholder="e.g. 250 kVA, 415V DG"></div>
+            </div>
+            <div class="header-input-row" style="margin-top: 5px;">
+                <span style="color: var(--royal-blue);">M/s:</span>
+                <div style="width: 500px;"><input type="text" placeholder="Enter Company Name & Address" style="color: var(--royal-blue);"></div>
+            </div>
+        </div>
+
+        <form>
+            <div class="section-head">(A) GENERATOR / ALTERNATOR (जनरेटर / अल्टरनेटर)</div>
+            
+            <div class="row">
+                <div class="label">1. Manufacturer Name: <span class="hi-text">निर्माता का नाम</span></div>
+                <div class="value"><input type="text" placeholder="e.g. Jakson / Stamford"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">2. Capacity (kVA): <span class="hi-text">क्षमता (केवीए)</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">3. Voltage (Volts): <span class="hi-text">वोल्टेज</span></div>
+                <div class="value"><input type="text" value="415 V"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">4. Serial Number: <span class="hi-text">सरल क्रमांक</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">5. Excitation Voltage: <span class="hi-text">एक्साइटेशन वोल्टेज</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">6. RPM: <span class="hi-text">आरपीएम</span></div>
+                <div class="value"><input type="text" value="1500"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">7. Exciter Capacity & Voltage: <span class="hi-text">एक्साइटर क्षमता और वोल्टेज</span></div>
+                <div class="value"><input type="text" placeholder="e.g. 95 AH, 12V"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">8. Year of Manufacture: <span class="hi-text">निर्माण का वर्ष</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="section-head">(B) ENERGY METER (एनर्जी मीटर)</div>
+
+            <div class="row">
+                <div class="label">1. Manufacturer & Type: <span class="hi-text">निर्माता और प्रकार</span></div>
+                <div class="value"><input type="text" placeholder="e.g. HPL, 3 Phase 4 Wire"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">2. Meter Serial Number: <span class="hi-text">मीटर क्रमांक</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">3. CT Ratio / PT Ratio: <span class="hi-text">सीटी / पीटी अनुपात</span></div>
+                <div class="value"><input type="text" placeholder="e.g. 400/5, 1:1"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">4. CT Details (Make & S.Nos): <span class="hi-text">सीटी विवरण (मेक और नंबर)</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">5. Multiplying Factor (MF): <span class="hi-text">मल्टीप्लाइंग फैक्टर</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">6. Initial Reading (kWh): <span class="hi-text">प्रारंभिक रीडिंग</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="footer">
+                <div class="sign-box">
+                    Signature of Contractor<br>
+                    <span class="hi-text">(ठेकेदार के हस्ताक्षर)</span>
+                </div>
+                <div class="sign-box">
+                    Signature of Owner/Occupant<br>
+                    <span class="hi-text">(मालिक/अधिभोगी के हस्ताक्षर)</span>
+                </div>
+            </div>
+        </form>
+
+        <div style="margin-top: 25px; text-align: center;" class="no-print">
+            <button onclick="window.print()" style="padding: 12px 30px; background: var(--royal-blue); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                Print Annexure-C
+            </button>
+        </div>
+    </div>
+</body>
+</html>

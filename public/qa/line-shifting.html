@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overhead Line Shifting Guide | PowerI.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+            --light-bg: #f4f7f9;
+        }
+
+        /* 20% PAGE SIZE REDUCTION */
+        body {
+            zoom: 80%;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, #001a4d 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            border-bottom: 8px solid var(--accent-red);
+            margin-bottom: 30px;
+        }
+
+        .dual-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            height: fit-content;
+        }
+
+        .eng-side { border-left: 6px solid var(--royal-blue); }
+        .hin-side { border-left: 6px solid var(--accent-red); }
+
+        h2, h3 { margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .eng-side h2, .eng-side h3 { color: var(--royal-blue); }
+        .hin-side h2, .hin-side h3 { color: var(--accent-red); }
+
+        p, li { line-height: 1.7; font-size: 1.1rem; text-align: justify; margin-bottom: 10px; }
+        ul { padding-left: 20px; }
+
+        .process-box {
+            grid-column: 1 / -1;
+            background: white;
+            border: 2px solid var(--royal-blue);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .step-indicator {
+            background: var(--royal-blue);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .tip-box {
+            background: #fff5f5;
+            border: 1px dashed var(--accent-red);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .footer-cta {
+            background: var(--royal-blue);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        .footer-cta a { color: #ffeb3b; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="main-header">
+        <h1>Practical Guide – Overhead Line Shifting</h1>
+        <p>ओवरहेड लाइन शिफ्टिंग के लिए व्यावहारिक मार्गदर्शिका</p>
+    </header>
+
+    <div class="dual-column">
+        <div class="card eng-side">
+            <h2><i class="fas fa-bullseye"></i> Objective</h2>
+            <p>Ensure fast processing of line shifting applications by minimizing errors and submitting complete, accurate, and properly formatted documents through the designated channel.</p>
+        </div>
+        <div class="card hin-side">
+            <h2><i class="fas fa-bullseye"></i> उद्देश्य</h2>
+            <p>त्रुटियों को कम करके और निर्धारित चैनल के माध्यम से पूर्ण, सटीक और उचित रूप से स्वरूपित दस्तावेज जमा करके लाइन शिफ्टिंग आवेदनों की तेजी से प्रोसेसिंग सुनिश्चित करना।</p>
+        </div>
+    </div>
+
+    <div class="dual-column">
+        <div class="card eng-side">
+            <h3><i class="fas fa-file-invoice"></i> 1. Documentation</h3>
+            <ul>
+                <li>Layout of premises</li>
+                <li>Land ownership evidence</li>
+                <li>Most recent electricity bill</li>
+                <li>Authorized signatory proof & ID</li>
+            </ul>
+        </div>
+        <div class="card hin-side">
+            <h3><i class="fas fa-file-invoice"></i> 1. आवश्यक दस्तावेज</h3>
+            <ul>
+                <li>परिसर का लेआउट</li>
+                <li>भूमि स्वामित्व का दस्तावेजी प्रमाण</li>
+                <li>नवीनतम बिजली बिल</li>
+                <li>अधिकृत हस्ताक्षरकर्ता प्रमाण और आईडी</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="dual-column">
+        <div class="card eng-side">
+            <h3><i class="fas fa-paper-plane"></i> 2. Application Submission</h3>
+            <p>Prepare application on factory letterhead. <strong>Clearly state the exact reason for shifting.</strong> Submit to Division Office (lines < 33kV) or Circle Office.</p>
+        </div>
+        <div class="card hin-side">
+            <h3><i class="fas fa-paper-plane"></i> 2. आवेदन जमा करना</h3>
+            <p>फैक्ट्री के लेटरहेड पर आवेदन तैयार करें। <strong>शिफ्टिंग का सटीक कारण स्पष्ट रूप से लिखें।</strong> डिवीजन कार्यालय (33kV से नीचे) या सर्कल कार्यालय में जमा करें।</p>
+        </div>
+    </div>
+
+    <div class="process-box">
+        <h2 style="text-align: center;"><i class="fas fa-project-diagram"></i> Line Shifting Procedure / लाइन शिफ्टिंग प्रक्रिया</h2>
+        
+        
+
+        <div class="dual-column" style="margin-top: 20px;">
+            <div class="eng-side">
+                <span class="step-indicator">Step 1: Survey & Diagram</span>
+                <p>Division office intimates Subdivision for survey. Subdivision submits the diagram and layout after field survey.</p>
+                
+                <span class="step-indicator">Step 2: Cost Estimation</span>
+                <p>Division office prepares shifting cost estimate. If > ₹50L, it is forwarded to the Circle office for approval.</p>
+
+                <span class="step-indicator">Step 3: Consent & Payment</span>
+                <p>Choose between <strong>Supervision Scheme</strong> or <strong>Full Construction</strong>. Pay the generated Demand Note amount.</p>
+            </div>
+            <div class="hin-side">
+                <span class="step-indicator">चरण 1: सर्वेक्षण और आरेख</span>
+                <p>डिवीजन कार्यालय सर्वेक्षण के लिए सब-डिवीजन को सूचित करता है। फील्ड सर्वे के बाद सब-डिवीजन आरेख और लेआउट जमा करता है।</p>
+                
+                <span class="step-indicator">चरण 2: लागत अनुमान</span>
+                <p>डिवीजन कार्यालय शिफ्टिंग लागत का अनुमान तैयार करता है। यदि ₹50 लाख से अधिक है, तो अनुमोदन के लिए सर्कल कार्यालय भेजा जाता है।</p>
+
+                <span class="step-indicator">चरण 3: सहमति और भुगतान</span>
+                <p><strong>पर्यवेक्षण योजना (Supervision)</strong> या <strong>पूर्ण निर्माण योजना</strong> के बीच चयन करें। जेनरेट किए गए डिमांड नोट का भुगतान करें।</p>
+            </div>
+        </div>
+
+        
+
+        <div class="dual-column">
+            <div class="eng-side">
+                <span class="step-indicator">Step 4: Execution & Shutdown</span>
+                <p>Division office issues work permit and coordinates necessary shutdowns with consumers.</p>
+                
+                <span class="step-indicator">Step 5: Inspection & Charging</span>
+                <p>Final inspection by Divisional Officer or Electrical Inspector. Permit released to charge the new line.</p>
+            </div>
+            <div class="hin-side">
+                <span class="step-indicator">चरण 4: निष्पादन और शटडाउन</span>
+                <p>डिवीजन कार्यालय कार्य परमिट जारी करता है और अन्य उपभोक्ताओं के साथ आवश्यक शटडाउन का समन्वय करता है।</p>
+                
+                <span class="step-indicator">चरण 5: निरीक्षण और चार्जिंग</span>
+                <p>डिवीजनल अधिकारी या विद्युत निरीक्षक द्वारा अंतिम निरीक्षण। नई लाइन को चार्ज करने के लिए परमिट जारी किया जाता है।</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card eng-side" style="border-left-color: #28a745;">
+        <h2><i class="fas fa-lightbulb"></i> Tips for Fast Processing / तेजी से प्रोसेसिंग के लिए टिप्स</h2>
+        <div class="dual-column" style="box-shadow: none; padding: 0;">
+            <ul>
+                <li>Ensure documents are 100% accurate.</li>
+                <li>Respond promptly to office queries.</li>
+            </ul>
+            <ul>
+                <li>दस्तावेजों की सटीकता सुनिश्चित करें।</li>
+                <li>कार्यालय के प्रश्नों का तुरंत उत्तर दें।</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer-cta" style="margin-top: 30px;">
+        <p>Write to us for any specific guidance or service / किसी भी विशिष्ट मार्गदर्शन या सेवा के लिए हमें लिखें:</p>
+        <a href="mailto:Poweri_con@outlook.com">Poweri_con@outlook.com</a>
+    </footer>
+
+    <a href="index.html" style="display:block; text-align:center; margin-top:30px; font-weight:bold; color:var(--royal-blue); text-decoration:none;">← Back to Home / मुख्य पृष्ठ पर वापस जाएं</a>
+</div>
+
+</body>
+</html>

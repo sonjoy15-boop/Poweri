@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>स्थापना संबंधी विवरण</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root{
+    --primary:#0b3ba7;    /* Royal Blue */
+    --accent:#d62828;     /* Red */
+    --bg:#f5f8ff;
+    --border:#dfe6f7;
+    --text:#222;
+    --muted:#666;
+  }
+  *{box-sizing:border-box}
+  html,body{
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font:15px/1.45 "Segoe UI",system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;
+  }
+
+  /* STRICT A4 single page layout */
+  .page{
+    width: 210mm; 
+    height: 296mm; /* FIXED: 1mm shorter to prevent 2nd page overflow */
+    margin: auto;
+    background:#fff; border:1px solid var(--border); border-radius:12px;
+    box-shadow:0 6px 24px rgba(11,59,167,0.08);
+    padding: 14mm; 
+    position: relative;
+    overflow: hidden; /* FIXED: Hard stop for 1-page guarantee */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @page{
+    size: A4;
+    margin: 0; 
+  }
+  @media print{
+    body{ background:#fff }
+    .page{ border:none; box-shadow:none; border-radius:0; padding:12mm; margin:0; height: 279mm;}
+    .bottom-bar{ display:none !important; }
+    .blank-line, .blank-line-long, .line-block, td .cell{
+      border-bottom: 2px dotted #000;
+    }
+  }
+
+  header{
+    background:linear-gradient(135deg,var(--primary),#0e49c5);
+    color:#fff; padding:12px 14px; border-bottom:4px solid var(--accent);
+    border-radius:8px; margin-bottom:8mm;
+  }
+  header h1{ margin:0 0 4px; font-size:20px; font-weight:800; letter-spacing:.2px }
+  header p{ margin:0; font-size:13px; opacity:.96 }
+
+  .blank-line, .blank-line-long, .line-block{
+    display:inline-block; padding:2px 4px; border-bottom:2px dotted #777; color:#111; outline: none;
+  }
+  .blank-line{ min-width:160px }
+  .blank-line-long{ min-width:340px }
+  .line-block{
+    display:block; min-height:26px; margin:6px 0;
+  }
+  .item{ margin:3mm 0 }
+  .item .num{ font-weight:800; color:#0b2f88; margin-right:4px }
+  .hint{ color:#888; font-size:12px; margin-left:6px }
+
+  table{
+    width:100%; border-collapse:collapse; margin-top:3mm; font-size:13px;
+  }
+  th, td{
+    border:1px solid var(--border); padding:6px 8px; vertical-align:middle;
+  }
+  th{
+    background:#eef3ff; color:#0b2f88; font-weight:800;
+  }
+  td .cell{
+    display:block; min-height:22px; border-bottom:2px dotted #777; padding:2px 4px; outline: none;
+  }
+
+  .sign{
+    display:flex; justify-content:flex-end; margin-top: auto; padding-bottom: 5mm;
+  }
+  .sign-box{
+    width: 70mm; border-top:2px dotted #777; padding-top:4mm; text-align:center;
+  }
+
+  .bottom-bar{
+    position:fixed; left:0; right:0; bottom:0; background:#fff;
+    border-top:1px solid var(--border); padding:10px 14px;
+    display:flex; justify-content:flex-end; gap:10px; z-index:40;
+  }
+  .btn{
+    appearance:none; border:none; cursor:pointer; border-radius:8px;
+    padding:10px 18px; font-weight:800; display: flex; align-items: center; gap: 8px;
+  }
+  .btn.primary{ background:var(--primary); color:#fff }
+  .btn.accent{ background:var(--accent); color:#fff }
+  .btn.outline{ background:#fff; color:var(--primary); border:1px solid var(--primary) }
+</style>
+</head>
+<body>
+
+<div class="page" id="pdf-content">
+  <header>
+    <h1>Form-A / प्रपत्र- 'अ'</h1>
+    <p>उद्योग/स्थापना संबंधी विवरण और कार्य पूर्णता का विवरण / Details of Industry/installation and work completion</p>
+  </header>
+
+  <div class="item">
+    <span class="num">1.</span>
+    <span> Name & Capacity of installation </span>
+    <span class="hint">(स्थापना का नाम एवं क्षमता जिसके लिए अनुमति चाहिए )</span>
+    <div class="line-block" contenteditable="true"></div>
+    <div class="line-block" contenteditable="true"></div>
+    <div class="line-block" contenteditable="true"></div>
+  </div>
+
+  <div class="item">
+    <span class="num">2.</span>
+    <span>Name of installation</span>
+    <span class="hint">(स्थापना का नाम)</span>
+    <span class="blank-line-long" contenteditable="true" id="inst_name"></span>
+  </div>
+
+  <div class="item">
+    <span class="num">3.</span>
+    <span>Expected completion date</span>
+    <span class="hint">(स्थापना पूर्ण होने की संभावित तिथि )</span>
+    <span class="blank-line" contenteditable="true"></span>
+  </div>
+
+  <div class="item">
+    <span class="num">4.</span>
+    <span>Drawing Approval Letter Number and Date</span>
+    <span class="hint">(रेखापट/ड्रॉइंग स्वीकृति पत्र क्रमांक एवं दिनांक)</span>
+    <div style="margin-top:5px">
+          पत्र क्रमांक / Letter No.: <span class="blank-line" contenteditable="true"></span>
+      &nbsp;&nbsp;दिनांक / Date: <span class="blank-line" contenteditable="true"></span>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="num">5.</span>
+    <span>Owner Name & Address</span>
+    <span class="hint">(स्थापना के स्वामी का नाम व पता )</span>
+    <div class="line-block" contenteditable="true"></div>
+    <div class="line-block" contenteditable="true"></div>
+  </div>
+
+  <div class="item">
+    <span class="num">6.</span>
+    <span>If it is a partnership firm, names and addresses of all partners</span>
+    <span class="hint">(यदि साझेदारी फर्म हो तो सभी साझेदारों के नाम व पते )</span>
+
+    <table>
+      <thead>
+        <tr>
+          <th width="10%">Sr.No.</th>
+          <th width="25%">Name/ नाम</th>
+          <th width="25%">Father's Name</th>
+          <th width="10%">Age</th>
+          <th>Address / पता</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="cell" contenteditable="true">1</span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+        </tr>
+        <tr>
+          <td><span class="cell" contenteditable="true">2</span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sign">
+    <div class="sign-box">स्वामी के हस्ताक्षर और मुहर / Signature of Owner & Seal</div>
+  </div>
+  
+  <div style="text-align: center; font-size: 9px; color: #999;">
+    Computer Generated Document via www.poweri.in
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <button class="btn outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">ऊपर जाएँ</button>
+  <button class="btn accent" onclick="saveToMongo()">
+    <i class="fas fa-folder-open"></i> Save to Folder
+  </button>
+  <button class="btn primary" onclick="window.print()">
+    <i class="fas fa-print"></i> Print / PDF
+  </button>
+</div>
+
+<script>
+    async function saveToMongo() {
+        const btn = document.querySelector('.btn.accent');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        const element = document.getElementById('pdf-content');
+        
+        // PDF Options
+        const opt = {
+            margin: 0,
+            filename: 'Form-A_Installation.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        try {
+            // Generate PDF Blob
+            const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+            
+            // Convert to Base64 to send via JSON
+            const reader = new FileReader();
+            reader.readAsDataURL(pdfBlob);
+            reader.onloadend = async () => {
+                const base64data = reader.result;
+
+                const response = await fetch('http://localhost:5000/api/save-document', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        section: "INSTALLATION",
+                        formName: "Form-A_Details.pdf",
+                        pdfFile: base64data,
+                        date: new Date().toLocaleDateString()
+                    })
+                });
+
+                if (response.ok) {
+                    alert("✅ Form-A saved to your Workspace!");
+                } else {
+                    alert("❌ Failed to save. Ensure your local server is running.");
+                }
+                btn.innerHTML = originalText;
+            };
+        } catch (err) {
+            console.error(err);
+            alert("Error generating PDF.");
+            btn.innerHTML = originalText;
+        }
+    }
+</script>
+</body>
+</html>

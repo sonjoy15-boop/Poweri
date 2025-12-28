@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Annexure D - Engine Specifications | PowerI.in</title>
+    <style>
+        :root {
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+        }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #f0f2f5;
+            margin: 0; 
+            padding: 20px;
+            zoom: 80%; /* Consistent with your project format */
+        }
+        .form-container { 
+            border: 2px solid #333; 
+            padding: 30px; 
+            max-width: 900px; 
+            margin: auto; 
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .header-box {
+            border-bottom: 4px solid var(--royal-blue);
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        h1 { 
+            color: var(--royal-blue); 
+            text-transform: uppercase; 
+            margin: 0; 
+            font-size: 1.8rem;
+        }
+        .sub-header {
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .header-info { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        /* Form Row Styling */
+        .row { 
+            display: flex; 
+            align-items: center;
+            margin-bottom: 15px; 
+            padding-bottom: 5px; 
+        }
+        .label { 
+            width: 450px; 
+            font-weight: 600; 
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        .hi-text {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: normal;
+        }
+        .value { 
+            flex-grow: 1; 
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 5px;
+            font-size: 1.1rem;
+            outline: none;
+            background: transparent;
+        }
+        input[type="text"]:focus {
+            border-bottom: 2px solid var(--royal-blue);
+            background: #f0f4ff;
+        }
+
+        .footer { 
+            margin-top: 60px; 
+            display: flex; 
+            justify-content: space-between; 
+            font-weight: bold; 
+        }
+        .sign-box {
+            text-align: center;
+            width: 300px;
+            border-top: 2px solid #000;
+            padding-top: 10px;
+        }
+
+        @media print {
+            body { background: none; padding: 0; zoom: 100%; }
+            .form-container { border: 2px solid #000; box-shadow: none; width: 100%; }
+            .no-print { display: none; }
+            input { border-bottom: 1px solid #000 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header-box">
+            <h1>Annexure – D</h1>
+            <div class="sub-header">परिशिष्ट – डी</div>
+        </div>
+
+        <div class="header-info">
+            <p style="margin: 0; font-weight: bold;">Details of Prime Mover (Engine) for Diesel Generator of:<div class="value"><input type="text" placeholder="Enter Rattings"></div></p>
+            <p style="margin: 5px 0; color: var(--royal-blue);"><div class="value"><input type="text" placeholder="Enter Your Company name"></div></p>
+        </div>
+
+        <form>
+            <div class="row">
+                <div class="label">1. Engine Manufacturer: <span class="hi-text">इंजन निर्माता</span></div>
+                <div class="value"><input type="text" placeholder="Enter manufacturer name"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">2. Engine Serial Number: <span class="hi-text">इंजन सीरियल नंबर</span></div>
+                <div class="value"><input type="text" placeholder="Enter serial number"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">3. Fuel Type: <span class="hi-text">ईंधन का प्रकार</span></div>
+                <div class="value"><input type="text" value="Diesel"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">4. Number of Cylinders: <span class="hi-text">सिलेंडरों की संख्या</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">5. Engine RPM: <span class="hi-text">इंजन आरपीएम</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">6. Brake Horsepower (BHP): <span class="hi-text">ब्रेक हॉर्सपावर</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">7. Fuel Consumption (Per 100 Units): <span class="hi-text">ईंधन की खपत (प्रति 100 यूनिट)</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">8. Fuel Consumption (No Load): <span class="hi-text">ईंधन की खपत (बिना लोड के)</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">9. Fuel Consumption (Full Load): <span class="hi-text">ईंधन की खपत (पूर्ण लोड पर)</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">10. Starting Method: <span class="hi-text">शुरू करने की विधि</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">11. Fuel Meter Installed: <span class="hi-text">ईंधन मीटर स्थापित है?</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="row">
+                <div class="label">12. Hour Meter Installed: <span class="hi-text">घंटा मीटर स्थापित है?</span></div>
+                <div class="value"><input type="text"></div>
+            </div>
+
+            <div class="footer">
+                <div class="sign-box">
+                    Signature of Contractor<br>
+                    <span class="hi-text">(ठेकेदार के हस्ताक्षर)</span>
+                </div>
+                <div class="sign-box">
+                    Signature of Owner/Occupant<br>
+                    <span class="hi-text">(मालिक/अधिभोगी के हस्ताक्षर)</span>
+                </div>
+            </div>
+        </form>
+
+        <div style="margin-top: 30px; text-align: center;" class="no-print">
+            <button onclick="window.print()" style="padding: 10px 25px; background: var(--royal-blue); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Print Annexure-D
+            </button>
+        </div>
+    </div>
+</body>
+</html>

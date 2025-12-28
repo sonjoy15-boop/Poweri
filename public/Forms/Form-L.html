@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Form 'L' - Chhattisgarh Electrical Licensing Board</title>
+<!-- Fixed Google Fonts Link -->
+<link href="fonts.googleapis.com" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --accent: #b91c1c;
+    --bg: #f1f5f9;
+    --paper: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+  }
+  
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px; background: var(--bg);
+    font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+    color: var(--text); line-height: 1.5;
+  }
+
+  /* Fixed A4 Page Setup */
+  .page {
+    width: 210mm; 
+    min-height: 297mm; 
+    margin: 0 auto 50px auto; /* Centers the page on screen */
+    background: var(--paper);
+    padding: 15mm; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  header {
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px; margin-bottom: 20px;
+  }
+  .title-group h1 { font-size: 18px; margin: 0; color: var(--primary); }
+  .title-group p { font-size: 14px; margin: 5px 0 0; font-weight: 600; color: var(--accent); }
+
+  .info-bar { display: flex; justify-content: space-between; margin: 20px 0; }
+  .editable-line { border-bottom: 1px dashed #94a3b8; min-width: 150px; display: inline-block; padding: 0 5px; outline: none; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  th, td { border: 1px solid var(--border); padding: 10px; vertical-align: top; }
+  th { background: #f8fafc; color: var(--primary); text-align: left; }
+  .cell-input { min-height: 35px; outline: none; }
+
+  /* Fixed Signature Section */
+  .footer-sigs { 
+    display: flex; 
+    justify-content: space-between; 
+    gap: 50px; 
+    margin-top: 60px; 
+  }
+  .sig-box { 
+    flex: 1;
+    border-top: 1px solid #475569; 
+    padding-top: 10px; 
+    text-align: center; 
+    font-weight: 600; 
+    font-size: 14px; 
+  }
+
+  /* Bottom bar for screen view */
+  .bottom-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; background: #fff;
+    border-top: 1px solid var(--border); padding: 12px;
+    display: flex; justify-content: center; gap: 15px; z-index: 100;
+  }
+  .btn {
+    padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 700; border: none;
+  }
+  .btn.primary { background: var(--primary); color: #fff; }
+  .btn.outline { background: #fff; border: 1px solid var(--primary); color: var(--primary); }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { border: none; box-shadow: none; width: 100%; margin: 0; padding: 10mm; }
+    .bottom-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header>
+    <div class="title-group">
+      <h1>Form 'L' — Chhattisgarh Licensing Board (Electricity) Regulation 1960</h1>
+      <p>प्रारूप ‘एल’ — छत्तीसगढ़ अनुज्ञापन मण्डल (विद्युत) विनियम 1960</p>
+      <p id="sub-title">नियम 27 के अनुसार निरीक्षण पंजी / Inspection Register as per Rule 27</p>
+    </div>
+  </header>
+
+  <div class="info-bar">
+    <div><strong>क्रमांक / S.No:</strong> <span class="editable-line" contenteditable="true"></span></div>
+    <div><strong>दिनांक / Date:</strong> <span class="editable-line" contenteditable="true"></span></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 40px;">#</th>
+        <th>विवरण / Details</th>
+        <th>प्रविष्टि / Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>उपभोक्ता का नाम / Consumer Name</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>2</td><td>कार्य का पता / Work Address</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>3</td><td>कार्य का प्रकार / Type of Work</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>4</td><td>कार्य आरंभ तिथि / Work Start Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>4</td><td>कार्य पूर्ण का तिथि / Work Completion Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>4</td><td>अनुज्ञप्ति धारक का नाम / Name of the licence holder</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>5</td><td>अनुमति क्रमांक / Permission No.</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <td>6</td><td>परिक्षण की तिथि / Testing Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td>6</td><td>परिक्षण परिणाम / Testing Result</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+    </tbody>
+  </table>
+
+  <!-- This is now safely inside the .page div -->
+  <div class="footer-sigs">
+    <div class="sig-box">परीक्षक के हस्ताक्षर<br><small>(Signature of Supervisor/ 'A' Class HT Contractor)</small></div>
+    <div class="sig-box">अधिकृत हस्ताक्षर व मोहर<br><small>(Authorized Sign & Seal)</small></div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <button class="btn outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">ऊपर जाएँ / Top</button>
+  <button class="btn primary" onclick="window.print()">प्रिंट / Save PDF</button>
+</div>
+
+</body>
+</html>

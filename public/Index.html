@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerI.in - Simplify Electricity Compliances</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+             <div class="top-bar">
+            <div>Helpline: +91-6371688181 (Mon-Sat) | Email: Poweri_con@outlook.com</div>
+            <div class="lang-switch">
+                <select id="languageSelect" onchange="toggleLanguage()">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="brand-section">
+            [attachment_0](attachment)
+            <div class="logo-container">
+                <div class="brand-logo">Power<span>I</span>.in</div>
+            </div>
+            
+            <div style="font-style:italic; color:#666;">Empowering Electrical Compliance</div>
+        </div>
+
+        <nav class="nav-links-container">
+    <ul class="nav-links">
+        <li>
+            <a href="javascript:void(0)" onclick="goHome()" class="home-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+         </li>
+         <li><a href="about.html">About Us</a></li>
+         <li><a href="services1.html">services </a></li>
+         <li><a href="#rules">Regulation-hub</a></li>
+         <li><a href="community.html" class="community-link"><i class="fas fa-users"></i><span>Community</span></a>
+          </li>
+
+         <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+
+    <div class="auth-section">
+        <div class="auth-buttons" id="auth-btns">
+            <button class="btn btn-login-new" onclick="openAuthModal('login')">Login</button>
+            <button class="btn btn-signup-new" onclick="openAuthModal('signup')">Sign Up</button>
+        </div>
+
+        <div class="auth-buttons" id="user-profile" style="display:none;">
+            <span class="welcome-msg">Welcome, <b id="userName">User</b></span>
+            <button class="btn btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+</nav>
+    </header>
+
+    <main class="main-container">
+
+        <section class="mission-section">
+            <h2>Our Mission</h2>
+            <p id="mission-text">Our Mission is to simplify Electricity Compliances, Ground level clarity, complex specific data finding problem. We currently operate in Chhattisgarh, one of India's largest producing states for cement, steel, and power. Our goal is to leverage our extensive ground-level experience to provide transparent, realistic data on power connectivity and compliance.</p>
+        
+        <div id="dashboard-access" style="display:none; margin-top: 25px; text-align: center; background: #eef2ff; padding: 20px; border-radius: 10px; border: 1px dashed var(--royal-blue);">
+                <h4 style="margin-bottom: 10px; color: var(--royal-blue);">Your Workspace is Ready</h4>
+                <a href="Dashboard.html" class="btn-signup-new" style="text-decoration: none; display: inline-block;">
+                    <i class="fas fa-rocket"></i> ENTER DASHBOARD
+                </a>
+            </div>
+        </section>
+        
+        <div class="split-content">
+            
+            <section class="qa-container">
+                <h3 style="margin-bottom:15px; color:var(--royal-blue); border-bottom:2px solid var(--accent-red); display:inline-block;">Frequently Asked Questions</h3>
+                
+                <div class="qa-list" id="qa-wrapper">
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">What is Electrical Compliance and Why is it Important? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Electrical compliance ensures that electrical installations meet specific safety standards and regulations (like the CEA Regulations in India). It is crucial for preventing accidents, fires, and legal penalties, ensuring the safety of personnel and equipment.<a href="compliance.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Why National Electrical Code 2023 is Mandatory in India? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>The NEC 2023 provides the baseline for safety in electrical installation practices across India. It is made mandatory to standardize quality, minimize hazards, and ensure compatibility with modern electrical infrastructure upgrades.<a href="NEC.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">CEIG Inspection Checklist for Industry/Plant/Factory?<span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Generally inspection of electrical installations is carried out under
+                               Regulation-30 (Periodical inspection & testing) & Regulation-43 (Approval by
+                                 Electrical Inspector for the installation before commencement of supply or
+                                  recommencement after shutdown for six months) of Central Electricity
+                                    Authority (Measures relating to safety and electric supply) Regulation-2010.
+                                             So, electrical inspection is divided in to two parts, one periodical & other
+                                       initial.Ensure the safety of personnel and equipment before inspection<a href="qa/ceig-checklist.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">How Chhattishgarh State Power Distribution Company Works / How Your Application will Processes? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>CSPDCL (Chhattisgarh State Power Distribution Company Limited) processes applications through an online portal. Steps include registration, document submission (ownership proof, ID), technical feasibility study by field engineers, demand note generation, and finally meter installation upon payment.<a href="qa/cspdcl.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Guide: Industrial / Commercial Power Connectivity. <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Industrial connectivity involves HT (High Tension) or EHT supply. It requires a dedicated feeder or substation setup. The industry must apply for a specific load, obtain CEIG (Chief Electrical Inspector to Government) approval for equipment, and sign a power purchase agreement.<a href="qa/conectivity.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+                        <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Guide:Load Enhancement or Load Reduction <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Submit a complete, accurate, and properly formatted application through the designated channel to minimize errors and enable fast-track processing.<a href="qa/Load.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">POP Guide: Preliminary Site Study For Power Line Connectivity? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Before applying, a site study is conducted to check distance from the nearest substation, Right of Way (ROW) issues for poles/towers, and voltage levels available. This helps in estimating the cost and feasibility of the connection.<a href="qa/site-survey.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Guide: Get Approvals of Electrical Drawings From Electrical Inspectorate? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Submit Single Line Diagrams (SLD), earthing layouts, and substation drawings to the Electrical Inspectorate. Drawings must be signed by a licensed electrical contractor and the owner. Approval ensures the design meets safety codes before construction begins.<a href="qa/d-approval.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Guide: Obtaining DG Set Charging Clearance?<span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Proper documentation and effective liaisoning are key to ensuring your power backup system is legally energized without delays<a href="qa/DG-clearance.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Mandatory Compliance for Any Industry/Plant during Operation<span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Plants must maintain: 1. Earth resistance test reports. 2. Insulation resistance records. 3. Equipment maintenance logs. 4. Accident/incident registers. 5. Single Line Diagrams updated with modifications.<a href="qa/cea-records.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+                     <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Practical Guide- Overhead Line Shifting? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Line shifting requires an application to the utility provider (e.g., CSPDCL). You must bear the cost of 'Deposit Work'. A survey is done, an estimate is provided, and upon payment, the utility or an approved contractor shifts the line.<a href="qa/line-shifting.html" class="know-more-link">..हिंदी में जानें.Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+                     <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">POP: Guide – Solar Net Metering Procedure – Chhattisgarh? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Install a solar plant via a CREDA-approved vendor. Apply for Net Metering with CSPDCL. After technical feasibility, install a Bi-directional meter. The generated units are adjusted against your consumption in the bill.<a href="qa/solar.html" class="know-more-link">...हिंदी में जानें Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+                     
+                           <div class="qa-item">
+                        <button class="question-btn" onclick="toggleAnswer(this)">Who is Electrical Inspector/What are his duties? <span>+</span></button>
+                        <div class="answer-panel">
+                            <p>Electrical Inspector is the administrative head of the division. He looks after the administration and general technical..<a href="qa/EI-duty.html" class="know-more-link">...हिंदी में जानें Know in details</a></p>
+                            <div class="comment-section">
+                                <input type="text" class="comment-box" placeholder="Write a comment...">
+                                <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+                            </div>
+                    </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <aside class="welcome-container">
+                <h3>Welcome to PowerI.in</h3>
+                <p style="margin-bottom:20px;">
+                    We are dedicated to translating operational experience into clear, verifiable, and practical data regarding power connectivity.
+                </p>
+                <p>
+                    Our team continuously collects data from on-the-ground experience and government sources. We discuss this data with field staff, contractors, consumers, and industrial engineers working at the ground level.
+                </p>
+                <br>
+                <div style="background: rgba(255,255,255,0.1); padding:15px; border-radius:5px;">
+                    <strong>Service Spotlight:</strong><br>
+                    Free consultancy offering end-to-end government approvals and liaison services, with deep CEIG expertise and strict statutory compliance.
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="terms.html">Terms </a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li>Email: Poweri_con@outlook.com</li>
+                    <li>Location: Chhattisgarh, India</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contributors</h4>
+                <p style="font-size:0.9rem;">We collaborate with multiple ground-level contributors. If you'd like to become a contributor, please write to us.</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 PowerI.in. All Rights Reserved. | Designed for Electrical Compliance Clarity.
+        </div>
+    </footer>
+
+    <div id="authModal" class="modal-new">
+    <div class="modal-content-colorful">
+        <span class="close-btn-new" onclick="closeAuthModal()">&times;</span>
+        
+        <div class="auth-header-gradient">
+            <h2 id="modalTitle">Welcome to PowerI.in</h2>
+            <p id="modalDesc">Access your industrial energy dashboard</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button id="tab-login" class="tab-link active" onclick="toggleAuth('login')">Login</button>
+            <button id="tab-signup" class="tab-link" onclick="toggleAuth('signup')">Sign Up</button>
+        </div>
+
+        <form class="auth-form-body" onsubmit="processAuth(event)">
+            <div class="signup-only" style="display:none;">
+                <div class="input-field"><i class="fas fa-user"></i><input type="text" id="reg-name" placeholder="Full Name"></div>
+                <div class="input-field"><i class="fas fa-phone"></i><input type="tel" id="reg-mobile" placeholder="Mobile Number"></div>
+                <div class="input-field"><i class="fas fa-building"></i><input type="text" id="reg-company" placeholder="Company Name"></div>
+                <div class="input-field"><i class="fas fa-map-marker-alt"></i><input type="text" id="reg-location" placeholder="Location"></div>
+            </div>
+
+            <div class="input-field"><i class="fas fa-envelope"></i><input type="email" id="auth-email" placeholder="Email Address" required></div>
+            <div class="input-field"><i class="fas fa-lock"></i><input type="password" id="auth-pass" placeholder="Password" required></div>
+
+            <div class="signup-only" style="display:none;">
+                <div class="privacy-box-new">
+                    <strong>Privacy Summary:</strong> Data used for electrical compliance. No 3rd party sharing.<li><strong>Data Use:</strong> Information is used strictly for generating electrical compliance documents and load calculations.</li>
+        <li><strong>Confidentiality:</strong> Industrial technical data and SLDs are never shared with 3rd parties or government agencies without consent.</li>
+        <li><strong>Security:</strong> Encrypted storage for passwords and company profiles via MongoDB.</li>
+        <li><strong>Agreement:</strong> By clicking "Sign Up", you confirm all technical data provided is accurate and agree to our <a href="terms.html">Terms of Service</a>.</li>
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="privacy-check-new" onchange="validateSignup()">
+                    <label for="privacy-check-new">Agree to <a href="terms.html">Terms & Policy</a></label>
+                </div>
+            </div>
+
+            <button type="submit" id="auth-submit-btn" class="btn-primary-auth">CONTINUE</button>
+        </form>
+    </div>
+  <script src="script.js"></script>
+  
+   
+</body>
+</html>
+

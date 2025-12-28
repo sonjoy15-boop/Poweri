@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Provisional Services | Professional Assistance</title>
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --accent-gold: #c5a059;
+            --light-bg: #f4f7f9;
+            --text-dark: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header-section h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header-section p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 4px solid var(--accent-gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            flex-grow: 1;
+        }
+
+        .pricing {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .price-tag {
+            font-size: 1.2rem;
+            color: #d32f2f;
+        }
+
+        .provisional-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h1>Comprehensive Services for Your Convenience</h1>
+        <p>Expert Assistance for All Your Documentation and Compliance Needs</p>
+    </div>
+
+    <div class="provisional-note">
+        <strong>Notice:</strong> We are currently in the process of scaling our full-scale operations. In the interim, we are pleased to offer the following small-size provisional services to assist our valued users.
+    </div>
+
+    <div class="services-grid">
+        <div class="service-card">
+            <div>
+                <span class="icon">📄</span>
+                <h3>Document Verification</h3>
+                <p>Ensure your documents align with regulatory requirements. Our expert team provides a thorough review of your applications to guarantee everything is in order before submission.</p>
+            </div>
+            <div class="pricing">
+                Charges: <span class="price-tag">₹99 only</span>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div>
+                <span class="icon">✍️</span>
+                <h3>Form Filling & Returns</h3>
+                <p>Delegate the complexity of paperwork to us. Our professionals handle form filling and return filings with high accuracy and strict adherence to compliance standards.</p>
+            </div>
+            <div class="pricing">
+                Charges: <span class="price-tag">₹499 — ₹1999</span>
+                <div style="font-size: 0.7rem; font-weight: normal;">(Based on complexity)</div>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div>
+                <span class="icon">🚚</span>
+                <h3>Application Delivery</h3>
+                <p>Time-sensitive delivery of your returns and applications to concerned offices within 24 hours. A digital acknowledgment copy is emailed to you immediately upon receipt.</p>
+            </div>
+            <div class="pricing">
+                Charges: <span class="price-tag">₹299</span>
+                <div style="font-size: 0.7rem; font-weight: normal;">(Per equipment/location)</div>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div>
+                <span class="icon">⚡</span>
+                <h3>Compliance Training</h3>
+                <p>Specialized training sessions on electrical compliances tailored for industrial, plant, or commercial environments. Master the regulatory landscape with our expert guidance.</p>
+            </div>
+            <div class="pricing">
+                Charges: <span class="price-tag">₹499</span>
+                <div style="font-size: 0.7rem; font-weight: normal;">(Per person)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        *Terms and Conditions Apply. All provisional services are subject to availability and regional jurisdiction.
+    </div>
+</div>
+
+</body>
+</html>

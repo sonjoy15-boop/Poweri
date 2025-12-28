@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - PowerI.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Defining the core brand colors */
+            --royal-blue: #003399;
+            --accent-red: #e63946;
+            --deep-dark: #1d3557;
+            --light-blue: #f0f4f8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-blue);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* 1. Header Banner - Blue with Red Accent Line */
+        .terms-banner {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, var(--deep-dark) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 8px solid var(--accent-red); /* High-contrast Red border */
+        }
+
+        .terms-banner h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .terms-banner p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #a8dadc;
+        }
+
+        /* 2. Content Container */
+        .terms-container {
+            max-width: 900px;
+            margin: -40px auto 60px auto; /* Pulls content up over the banner */
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 3. Cards with Blue & Red logic */
+        .term-card {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid var(--royal-blue); /* Top border Blue */
+        }
+
+        .term-card:hover {
+            transform: translateY(-10px);
+            border-top-color: var(--accent-red); /* Changes to Red on hover */
+        }
+
+        /* Icon Circles - Alternating Colors */
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Blue Theme for Card 1 & 3 */
+        .blue-theme .icon-box { background: var(--royal-blue); }
+        .blue-theme h3 { color: var(--royal-blue); }
+
+        /* Red Theme for Card 2 & 4 */
+        .red-theme .icon-box { background: var(--accent-red); }
+        .red-theme h3 { color: var(--accent-red); }
+
+        .term-card h3 {
+            font-size: 1.6rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .term-card p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        /* 4. Navigation Button - Red & Blue Combination */
+        .btn-return {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 40px;
+            background: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            border: 2px solid var(--accent-red);
+        }
+
+        .btn-return:hover {
+            background: var(--royal-blue);
+            border-color: var(--royal-blue);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 51, 153, 0.3);
+        }
+
+        .center { text-align: center; }
+        body {
+    transform: scale(0.8);
+    transform-origin: top center; /* Ensures the page stays centered at the top */
+    width: 125%; /* Offsets the shrinkage to prevent large empty side margins */
+}
+
+    </style>
+</head>
+<body>
+
+    <header class="terms-banner">
+        <h1>Terms of Service</h1>
+        <p>Reliable Electrical Compliance Solutions | PowerI.in</p>
+    </header>
+
+    <div class="terms-container">
+        
+        <div class="term-card blue-theme">
+            <div class="icon-box"><i class="fas fa-file-contract"></i></div>
+            <h3>1. Agreement to Terms</h3>
+            <p>By using PowerI.in, you agree to follow the rules and regulations outlined here. Our platform is designed to streamline industrial electricity compliance and requires your full cooperation in providing valid data.</p>
+        </div>
+
+        <div class="term-card red-theme">
+            <div class="icon-box"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>2. Technical Data Responsibility</h3>
+            <p>The user is responsible for the accuracy of all technical parameters (connected load, transformer ratings, etc.). PowerI.in serves as a document generator and is not liable for data entry errors that lead to government filing rejections.</p>
+        </div>
+
+        <div class="term-card blue-theme">
+            <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
+            <h3>3. Intellectual Property</h3>
+            <p>All proprietary algorithms, form layouts, and user interface elements are owned by PowerI.in. Users are granted a limited license to generate documents for personal or corporate use only.</p>
+        </div>
+
+        <div class="term-card red-theme">
+            <div class="icon-box"><i class="fas fa-clock"></i></div>
+            <h3>4. Liability Limitation</h3>
+            <p>While we aim for efficiency, we are not liable for delays in government inspections or approvals. Ensure all submissions are made well in advance of your statutory deadlines.</p>
+        </div>
+
+        <div class="center">
+            <a href="index.html" class="btn-return">
+                <i class="fas fa-home"></i> BACK TO HOME
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

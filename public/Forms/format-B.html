@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Format B - Professional Reporter</title>
+    <style>
+        :root { 
+            --royal-blue: #003399; 
+            --accent-red: #e63946; 
+            --light-bg: #f8fafc;
+            --table-header: #f1f5f9;
+        }
+
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: #cbd5e0; 
+            margin: 0; padding: 0; 
+            display: flex; flex-direction: column; align-items: center; 
+            font-size: 11px; 
+        }
+        
+        /* Navigation & Controls */
+        .nav-header { 
+            background: var(--royal-blue); 
+            padding: 10px 20px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            color: white; width: 100%; position: sticky; top: 0; z-index: 100; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+        }
+        .controls { display: flex; gap: 10px; }
+        .btn { border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 10px; text-transform: uppercase; transition: 0.2s; }
+        .btn-print { background: var(--accent-red); color: white; }
+        .btn-save { background: #28a745; color: white; }
+        .btn-clear { background: #6c757d; color: white; }
+        .btn:hover { opacity: 0.8; }
+
+        #form-wrap { padding: 20px 0; }
+        .a4-container { 
+            background: white; 
+            width: 210mm; min-height: 297mm; 
+            padding: 10mm; margin: 0 auto; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.3); 
+        }
+
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 0px; }
+        th, td { border: 1px solid #000; padding: 6px; vertical-align: middle; }
+        th { background: var(--table-header); font-weight: bold; text-align: center; color: var(--royal-blue); }
+        
+        .label-cell { background-color: var(--light-bg); font-weight: 600; font-size: 10px; }
+        .center { text-align: center; }
+
+        input, textarea { 
+            width: 100%; border: none; background: transparent; 
+            font-family: inherit; font-size: 11px; padding: 2px;
+            text-align: center; outline: none;
+        }
+        input::placeholder { color: #aaa; font-style: italic; }
+        input:focus { background: #fffde7; }
+        
+        .section-header {
+            background: var(--royal-blue); 
+            color: white; 
+            padding: 6px 10px; 
+            font-weight: bold; 
+            margin-top: 5px; 
+            font-size: 11px;
+        }
+
+        @media print {
+            body { background: white; }
+            .nav-header { display: none !important; }
+            .a4-container { box-shadow: none; width: 100%; padding: 5mm; margin: 0; border: none; }
+            @page { size: A4; margin: 5mm; }
+            input::placeholder { visibility: hidden; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-header">
+        <div style="font-weight: bold; font-size: 14px;">FORMAT-B GENERATOR</div>
+        <div class="controls">
+            <button class="btn btn-clear" onclick="clearForm()">Clear All</button>
+            <button class="btn btn-save" onclick="saveData()">Save Draft</button>
+            <button class="btn btn-print" onclick="window.print()">Print to PDF</button>
+        </div>
+    </div>
+
+    <div id="form-wrap">
+        <div class="a4-container">
+            <div style="text-align: center; border-bottom: 2px solid var(--royal-blue); padding-bottom: 8px; margin-bottom: 10px;">
+                <h2 style="margin: 0; font-size: 18px; color: var(--royal-blue);">FORMAT- B</h2>
+                <p style="margin: 2px 0; font-weight: bold;">(To be filled up by generating power plant)</p>
+                <p style="margin: 4px 0;">Financial Year <input type="text" placeholder="Enter year (e.g., 2025-26)" style="width: 200px; border-bottom: 1px dotted #000;" class="saveable"></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 7%;">Sr.</th>
+                        <th style="width: 43%;">Particulars</th>
+                        <th style="width: 50%;">(Details)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="center">1</td>
+                        <td class="label-cell">Name & Location of Power Plant</td>
+                        <td><textarea rows="2" class="saveable" placeholder="Enter full address..."></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="center">a)</td>
+                        <td class="label-cell">Type of generation</td>
+                        <td><input type="text" class="saveable" placeholder="e.g., Thermal/WHRB"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">b)</td>
+                        <td class="label-cell">Fuel used</td>
+                        <td><input type="text" class="saveable" placeholder="e.g., Coal/Gas"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">2</td>
+                        <td class="label-cell">Installed Capacity (MW)</td>
+                        <td style="padding: 0;">
+                            <table style="border: none; width: 100%;">
+                                <tr>
+                                    <td style="border: none; width: 20%; border-right: 1px solid #000;" class="center">A</td>
+                                    <td style="border: none;"><input type="text" class="saveable" placeholder="Enter capacity (MW)"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center">3</td>
+                        <td class="label-cell">Gross generation in MU (FY)</td>
+                        <td style="padding: 0;">
+                            <table style="border: none; width: 100%;">
+                                <tr>
+                                    <td style="border: none; width: 20%; border-right: 1px solid #000;" class="center">B</td>
+                                    <td style="border: none;"><input type="number" id="gross" step="0.01" oninput="calculate()" class="saveable" placeholder="0.00"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center">4</td>
+                        <td class="label-cell">Auxiliary consumption (MU)</td>
+                        <td style="padding: 0;">
+                            <table style="border: none; width: 100%;">
+                                <tr>
+                                    <td style="border: none; width: 20%; border-right: 1px solid #000;" class="center">C</td>
+                                    <td style="border: none;"><input type="number" id="aux" step="0.01" oninput="calculate()" class="saveable" placeholder="0.00"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="background: #eef2ff;">
+                        <td class="center">5</td>
+                        <td class="label-cell">Net generation of electricity (D = B - C)</td>
+                        <td style="padding: 0;">
+                            <table style="border: none; width: 100%;">
+                                <tr>
+                                    <td style="border: none; width: 20%; border-right: 1px solid #000;" class="center">D</td>
+                                    <td style="border: none;"><input type="number" id="net_d" readonly style="font-weight: bold; color: var(--royal-blue);"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="section-header">6. Consumption Details</div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 7%;">(i)</th>
+                        <th style="width: 43%;">Consumption within the State</th>
+                        <th style="width: 20%;">Ref.</th>
+                        <th style="width: 30%;">Value (MU)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="center">a)</td>
+                        <td class="label-cell">Total Sale to Distribution Licensee (E)</td>
+                        <td class="center">E</td>
+                        <td><input type="number" id="val_e" step="0.01" oninput="calculate()" class="saveable" placeholder="0.00"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">b)</td>
+                        <td colspan="3" class="label-cell" style="background: var(--table-header)">Consumption other than sale to Licensee (F)</td>
+                    </tr>
+                    <tr>
+                        <td class="center">1</td>
+                        <td class="label-cell">Name of Entity consuming power</td>
+                        <td colspan="2"><input type="text" class="saveable" placeholder="Enter entity name"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">2</td>
+                        <td class="label-cell">Dedicated line / open access</td>
+                        <td colspan="2"><input type="text" class="saveable" placeholder="e.g., Dedicated Line"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">3</td>
+                        <td class="label-cell">Share holding %</td>
+                        <td colspan="2"><input type="text" class="saveable" placeholder="e.g., 100%"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">4</td>
+                        <td class="label-cell">Energy fed (MU) including losses</td>
+                        <td colspan="2"><input type="number" id="f_entity" step="0.01" oninput="calculate()" class="saveable" placeholder="0.00"></td>
+                    </tr>
+                    <tr style="background: #fff5f5;">
+                        <td colspan="2" style="text-align: right; font-weight: bold;">Total share holding entities (F)</td>
+                        <td class="center">F</td>
+                        <td><input type="number" id="total_f" readonly style="font-weight: bold;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: right; font-weight: bold;">Total non-share holding (G)</td>
+                        <td class="center">G</td>
+                        <td><input type="number" id="val_g" step="0.01" oninput="calculate()" class="saveable" placeholder="0.00"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">5</td>
+                        <td class="label-cell">% consumption (H = F/D)</td>
+                        <td class="center">H</td>
+                        <td><input type="text" id="perc_h" readonly style="font-weight: bold;"></td>
+                    </tr>
+                    <tr>
+                        <td class="center">(ii)</td>
+                        <td class="label-cell">Supply for Inter State sales (I)</td>
+                        <td class="center">I</td>
+                        <td><input type="number" id="val_i" step="0.01" oninput="calculate()" class="saveable" placeholder="0.00"></td>
+                    </tr>
+                    <tr style="background: #eef2ff; border: 2px solid var(--royal-blue);">
+                        <td class="center"><strong>7</strong></td>
+                        <td class="label-cell"><strong>Total consumption (X = E+F+G+I)</strong></td>
+                        <td class="center">X</td>
+                        <td><input type="number" id="total_x" readonly style="font-weight: bold; color: var(--accent-red);"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <p style="font-size: 10px; font-weight: bold; color: var(--royal-blue);">Note: X should be equal to D</p>
+                    <p>Dated: <input type="text" class="saveable" style="width: 120px; text-align: left; border-bottom: 1px solid #000;" placeholder="DD/MM/YYYY"></p>
+                </div>
+                <div style="text-align: center; width: 250px; border-top: 1.5px solid #000; padding-top: 5px;">
+                    <strong style="text-transform: uppercase;">Authorized Signatory</strong><br>
+                    <span style="font-size: 9px;">(With Seal of the Company)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const gross = parseFloat(document.getElementById('gross').value) || 0;
+            const aux = parseFloat(document.getElementById('aux').value) || 0;
+            const e = parseFloat(document.getElementById('val_e').value) || 0;
+            const f = parseFloat(document.getElementById('f_entity').value) || 0;
+            const g = parseFloat(document.getElementById('val_g').value) || 0;
+            const i = parseFloat(document.getElementById('val_i').value) || 0;
+
+            // D = B - C
+            const d = (gross - aux).toFixed(2);
+            document.getElementById('net_d').value = d;
+            
+            // F Total (simplified for single entity entry)
+            document.getElementById('total_f').value = f.toFixed(2);
+
+            // H = F / D
+            if (d > 0) {
+                document.getElementById('perc_h').value = ((f / d) * 100).toFixed(2) + "%";
+            } else {
+                document.getElementById('perc_h').value = "0.00%";
+            }
+            
+            // X = E + F + G + I
+            const x = (e + f + g + i).toFixed(2);
+            const xField = document.getElementById('total_x');
+            xField.value = x;
+            
+            // Validation Logic
+            if (Math.abs(x - d) < 0.01 && d > 0) {
+                xField.style.color = "green";
+            } else {
+                xField.style.color = "var(--accent-red)";
+            }
+        }
+
+        function saveData() {
+            const inputs = document.querySelectorAll('.saveable');
+            const data = Array.from(inputs).map(input => input.value);
+            localStorage.setItem('formatBData', JSON.stringify(data));
+            alert('Draft Saved Locally! (Data is stored in your browser)');
+        }
+
+        function loadData() {
+            const savedData = localStorage.getItem('formatBData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                const inputs = document.querySelectorAll('.saveable');
+                inputs.forEach((input, index) => {
+                    if (data[index] !== undefined) {
+                        input.value = data[index];
+                    }
+                });
+                calculate();
+            }
+        }
+
+        function clearForm() {
+            if(confirm("Are you sure you want to clear all data and the saved draft?")) {
+                document.querySelectorAll('.saveable').forEach(input => input.value = '');
+                calculate();
+                localStorage.removeItem('formatBData');
+            }
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>

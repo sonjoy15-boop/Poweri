@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>प्रमाण पत्र | पर्यवेक्षक @ वायरमैन का प्रमाण पत्र</title>
+
+  <style>
+    /* रंग और फॉन्ट थीम */
+    :root {
+      --primary: #003399;    /* Royal Blue */
+      --accent:  black;    /* Black */
+      --text:    #1f2937;    /* Neutral dark text */
+      --border:  #d1d5db;    /* Light gray */
+      --bg:      #ffffff;
+    }
+    
+    @media print {
+      .no-print { display: none !important; }
+      body { margin: 0; padding: 0; zoom: 100%; }
+      .sheet {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+      }
+    }
+
+    /* बेस लेआउट */
+    * { box-sizing: border-box; }
+    html, body { background: #f3f4f6; }
+    body {
+      zoom: 80%; /* 20% Page reduction as per your previous style */
+      font-family: "Noto Sans Devanagari", "Mangal", system-ui, sans-serif;
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding: 15mm 15mm;
+      position: relative;
+    }
+
+    /* हेडर */
+    .header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 5mm;
+      margin-bottom: 8mm;
+      display: grid;
+      grid-template-columns: 80px 1fr 120px;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .title { text-align: center; }
+    .title h1 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--primary);
+      font-weight: 800;
+    }
+    .title h2 {
+      margin: 4px 0 0 0;
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* प्रमाण वाक्य */
+    .section-title {
+      font-weight: 800;
+      color: var(--primary);
+      border-left: 4px solid var(--accent);
+      padding-left: 10px;
+      margin-bottom: 4mm;
+      font-size: 16px;
+    }
+
+    .declaration {
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 15px;
+      background: #fcfcff;
+      line-height: 2;
+      margin-bottom: 10mm;
+    }
+
+    .preview-text {
+      color: var(--primary);
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+      padding: 0 5px;
+    }
+
+    /* फॉर्म ग्रिड */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 20px;
+      margin-bottom: 10mm;
+    }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    label { font-size: 13px; color: #4b5563; font-weight: 600; }
+    input[type="text"], input[type="date"], textarea {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+      background: #fafafa;
+    }
+    .full { grid-column: 1 / -1; }
+
+    /* सिग्नेचर */
+    .sign-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      margin-top: 15mm;
+    }
+    .sign-box {
+      border-top: 2px solid var(--text);
+      padding-top: 5mm;
+      text-align: center;
+    }
+    .sign-title { font-weight: 700; color: var(--primary); font-size: 14px; }
+
+    /* फुटर मेटा */
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+      margin-top: 10mm;
+      border-top: 1px solid #eee;
+      padding-top: 5mm;
+    }
+
+    .actions {
+      margin: 20px auto;
+      display: flex; gap: 10px; justify-content: center;
+    }
+    .btn {
+      border: none;
+      background: var(--primary);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-secondary { background: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="sheet">
+    <div class="header">
+      <div class="logo">.</div>
+      <div class="title">
+        <h1>अधीक्षणकर्ता/पर्यवेक्षण द्वारा कार्य पूर्णता के लिए स्व-घोषणा प्रमाण पत्र</h1>
+        <h2>Self-declaration certificate for completion of work by the superintendent/supervisor</h2>
+      </div>
+      <div class="badge">प्रमाण पत्र</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">प्रमाणित विवरण (Certified Statement)</div>
+      <div class="declaration">
+        प्रमाणित किया जाता है कि उपर्युक्त कार्य श्री 
+        <span class="preview-text" id="insp_name_preview">__________</span> 
+        वायरमैन का नाम 
+        <span class="preview-text" id="asset_name_preview">__________</span> 
+        जिसके पास वायरमैन परमिट नंबर 
+        <span class="preview-text" id="asset_id_preview">__________</span> 
+        जो दिनांक 
+        <span class="preview-text" id="valid_till_preview">__________</span> 
+        तक के लिए वैध है, द्वारा किया गया तथा प्रमाणित किया जाता है कि परीक्षण कार्य 
+        <span class="preview-text" id="exam_body_preview">__________</span> 
+        के द्वारा जिसके पास सुपरवाइजर अनुज्ञा क्रमांक 
+        <span class="preview-text" id="license_no_preview">__________</span> 
+        जो दिनांक <b>आजीवन</b> तक के लिए वैध है, किया जाना है। यह भी कि मैं उपर्युक्त ठेकेदार के यहाँ पूर्णकालिक सेवा में हूँ।
+      </div>
+    </div>
+
+    <div class="section no-print">
+      <div class="section-title">विवरण प्रविष्टि (Details Data Entry)</div>
+      <div class="grid">
+        <div class="field">
+          <label>अधीक्षणकर्ता / अधिकारी का नाम (Mr. Name)</label>
+          <input type="text" id="insp_name" placeholder="नाम लिखें..." onkeyup="updatePreview()" />
+        </div>
+
+        <div class="field">
+          <label>वायरमैन का नाम (Wireman Name)</label>
+          <input type="text" id="asset_name" placeholder="वायरमैन का नाम..." onkeyup="updatePreview()" />
+        </div>
+
+        <div class="field">
+          <label>वायरमैन परमिट नंबर (Permit No.)</label>
+          <input type="text" id="asset_id" placeholder="परमिट नंबर..." onkeyup="updatePreview()" />
+        </div>
+
+        <div class="field">
+          <label>वैधता तिथि (Valid Till Date)</label>
+          <input type="date" id="valid_till" onchange="updatePreview()" />
+        </div>
+
+        <div class="field">
+          <label>परीक्षण संस्थान/व्यक्ति (Testing Body)</label>
+          <input type="text" id="exam_body" placeholder="संस्थान का नाम..." onkeyup="updatePreview()" />
+        </div>
+
+        <div class="field">
+          <label>सुपरवाइजर अनुज्ञा क्रमांक (Supervisor License No.)</label>
+          <input type="text" id="license_no" placeholder="लाइसेंस नंबर..." onkeyup="updatePreview()" />
+        </div>
+      </div>
+
+      <div class="meta">
+        <div class="field">
+          <label>प्रमाण पत्र क्रमांक</label>
+          <input type="text" placeholder="No. 1234" />
+        </div>
+        <div class="field">
+          <label>जारी दिनांक</label>
+          <input type="date" />
+        </div>
+        <div class="field">
+          <label>स्थान</label>
+          <input type="text" placeholder="शहर का नाम" />
+        </div>
+      </div>
+    </div>
+
+    <div class="sign-row">
+      <div class="sign-box">
+        <div class="sign-title">अधीक्षणकर्ता / वायरमैन के हस्ताक्षर</div>
+        <div style="font-size:12px; color:#6b7280;">(Signature of Inspector / Overseer)</div>
+      </div>
+      <div class="sign-box">
+        <div class="sign-title">ठेकेदार / अधिकृत अधिकारी के हस्ताक्षर</div>
+        <div style="font-size:12px; color:#6b7280;">(Authorized Signatory / Contractor)</div>
+      </div>
+    </div>
+    <div style="text-align: center; font-size: 9px; color: #999;">
+    Computer Generated Document via www.poweri.in
+  </div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="btn" onclick="window.print()">Print / Save PDF</button>
+    <button class="btn btn-secondary" onclick="location.reload()">Reset Form</button>
+  </div>
+
+  <script>
+    function updatePreview() {
+      const fields = [
+        'insp_name', 'asset_name', 'asset_id', 
+        'valid_till', 'exam_body', 'license_no'
+      ];
+      
+      fields.forEach(id => {
+        const val = document.getElementById(id).value;
+        const preview = document.getElementById(id + '_preview');
+        if (val) {
+          preview.innerText = val;
+        } else {
+          preview.innerText = "__________";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

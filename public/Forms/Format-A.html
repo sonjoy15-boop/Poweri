@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Format A - Official Energy Report</title>
+    <style>
+        :root { 
+            --royal-blue: #003399; 
+            --accent-red: #e63946; 
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact; 
+        }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: #cbd5e0; 
+            margin: 0; 
+            padding: 0; 
+            font-size: 9px; 
+        }
+
+        /* Diagonal Watermark for Print */
+        @media print {
+            body::after {
+                content: "www.poweri.in";
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 80px;
+                color: rgba(0, 0, 0, 0.04);
+                z-index: -1;
+                pointer-events: none;
+            }
+        }
+
+        .nav-header { 
+            background: var(--royal-blue); 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+            width: 100%;
+        }
+        
+        .config-panel { 
+            background: #fff; 
+            padding: 10px; 
+            margin: 10px auto; 
+            width: 98vw; 
+            border-radius: 4px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            border: 1px solid #999; 
+        }
+        
+        .config-panel b { font-size: 11px; }
+
+        .landscape-container { 
+            background: white; 
+            width: 98vw; 
+            min-height: 98vh; 
+            padding: 15px; 
+            margin: 0 auto 20px auto; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.3); 
+            overflow-x: auto; 
+            position: relative;
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            table-layout: auto; 
+        }
+
+        th, td { 
+            border: 1px solid #000; 
+            padding: 4px 2px; 
+            text-align: center; 
+            vertical-align: middle; 
+            word-wrap: break-word; 
+        }
+
+        th { 
+            background: #f2f2f2; 
+            font-size: 8px; 
+            line-height: 1.1; 
+        }
+        
+        input { 
+            width: 100%; 
+            border: none; 
+            background: transparent; 
+            text-align: center; 
+            font-size: 9px; 
+            outline: none; 
+            font-family: inherit; 
+            padding: 2px 0;
+        }
+
+        /* Fixed Appearance Bug */
+        input[type=number] { 
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+
+        input::-webkit-outer-spin-button, 
+        input::-webkit-inner-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+        input:focus { 
+            background: #fffde7; 
+        }
+        
+        .col-hidden { display: none !important; }
+        .readonly-cell { background: #f9f9f9; font-weight: bold; }
+        .total-row { background: #d1d5db; font-weight: bold; }
+        .error-row { background: #fee2e2 !important; }
+
+        /* Poweri Stamp Style */
+        .poweri-stamp {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        @media print {
+            .nav-header, .config-panel { display: none !important; }
+            body { background: white; padding: 0; }
+            .landscape-container { 
+                box-shadow: none; 
+                width: 100% !important; 
+                padding: 0; 
+                margin: 0; 
+                border: none; 
+            }
+            @page { 
+                size: A4 landscape; 
+                margin: 5mm; 
+            }
+            input { font-size: 8pt; }
+            .poweri-stamp { border-top: 1px solid #000; color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-header">
+        <div style="font-weight: bold; font-size: 14px;">FORMAT 'A' - GENERATION & CONSUMPTION (IPP/CPP)</div>
+        <div>
+            <button onclick="saveData()" style="background:#28a745; color:white; border:none; padding:6px 15px; cursor:pointer; border-radius:3px;">SAVE DRAFT</button>
+            <button onclick="window.print()" style="background:var(--accent-red); color:white; border:none; padding:6px 15px; cursor:pointer; border-radius:3px; margin-left:10px;">PRINT PDF</button>
+        </div>
+    </div>
+
+    <div class="config-panel">
+        <b>Manage Columns (Add/Delete):</b>
+        <label><input type="checkbox" checked onchange="toggleCol('c-cspdcl')"> CSPDCL</label>
+        <label><input type="checkbox" checked onchange="toggleCol('c-bsp')"> BSP</label>
+        <label><input type="checkbox" checked onchange="toggleCol('c-jspl')"> JSPL</label>
+        <label><input type="checkbox" checked onchange="toggleCol('c-inter')"> Inter-State OA</label>
+        <label><input type="checkbox" checked onchange="toggleCol('c-colony')"> Colony Consumption</label>
+    </div>
+
+    <div class="landscape-container">
+        <h2 style="text-align:center; margin:0; font-size: 16px;">FORMAT 'A'</h2>
+        <p style="text-align:center; font-weight:bold; margin:2px 0;">Details of Generation and Consumption for IPP / CPP for the year <input type="text" placeholder="FY 2025-26"></p>
+        
+        <div style="display: flex; justify-content: space-between; margin: 10px 0; font-weight: bold;">
+            <div>Name of CPP: <input type="text" placeholder="Enter Name" style="width: 250px; text-align: left; border-bottom: 1px solid #000;"></div>
+            <div>Capacity: <input type="text" placeholder="e.g. 20 MW TG no. T 08925" style="width: 180px; border-bottom: 1px solid #000;"></div>
+            <div>(All units in million KWH / MU)</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="4" style="width:22px;">S. No</th>
+                    <th rowspan="4" style="width:45px;">Month</th>
+                    <th rowspan="4" style="width:35px;">Capacity</th>
+                    <th rowspan="4" style="width:35px;">Generation (Gross) (B)</th>
+                    <th rowspan="4" style="width:35px;">Consumption of Electricity (Aux) (C)</th>
+                    <th rowspan="4" style="width:40px;">Net Generation (D=B-C)</th>
+                    <th colspan="3">Captive Consumption (MU)</th>
+                    <th colspan="4">Non-Captive Consumption (MU)</th>
+                    <th colspan="4">Sale to Distribution Licensee (MU)</th>
+                    <th rowspan="4" style="width:40px;">net Energy fed (X)</th>
+                    <th rowspan="4" style="width:35px;">Cons. w.r.t. Net Gen (%)</th>
+                    <th rowspan="4" style="width:40px;">Remarks (CPP/IPP/BIO/HYDEL)</th>
+                </tr>
+                <tr>
+                    <th rowspan="3">consumed through dedicated network</th>
+                    <th rowspan="3">Energy injected into Grid for Captive through OA</th>
+                    <th rowspan="3">Total Captive Consumption (F)</th>
+                    <th colspan="2">Supply to entities other than Licensee</th>
+                    <th rowspan="3" class="c-colony">Colony consumption (if any) (MU)</th>
+                    <th rowspan="3">Total non-captive consumption (G)</th>
+                    <th rowspan="3" class="c-cspdcl">CSPDCL</th>
+                    <th rowspan="3" class="c-bsp">BSP</th>
+                    <th rowspan="3" class="c-jspl">JSPL</th>
+                    <th rowspan="3">Total Sale</th>
+                </tr>
+                <tr>
+                    <th style="font-size:7px;">Intra-State OA</th>
+                    <th style="font-size:7px;" class="c-inter">Inter-State OA</th>
+                </tr>
+                <tr>
+                    <th>(MU)</th>
+                    <th class="c-inter">(MU)</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="3">ANNUAL TOTAL</td>
+                    <td id="tot-b">0</td><td id="tot-c">0</td><td id="tot-d">0</td>
+                    <td id="tot-dedi">0</td><td id="tot-grid">0</td><td id="tot-f">0</td>
+                    <td id="tot-intra">0</td><td class="c-inter" id="tot-inter">0</td><td class="c-colony" id="tot-col">0</td>
+                    <td id="tot-g">0</td><td class="c-cspdcl" id="tot-csp">0</td><td class="c-bsp" id="tot-bsp">0</td><td class="c-jspl" id="tot-jspl">0</td>
+                    <td id="tot-sale">0</td><td id="tot-x">0</td><td id="tot-perc">-</td><td>-</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+            <div style="font-size: 10px;">
+                <p>Note: net Energy fed (X) should equal Net Generation (D)</p>
+                <p>Date: _________</p>
+            </div>
+            <div style="text-align: center; width: 250px;">
+                <p>___________________________________</p>
+                <p><b>Authorized Signatory</b></p>
+                <p style="font-size: 8px;">(Name & Designation with Seal)</p>
+            </div>
+        </div>
+
+        <div class="poweri-stamp">
+            <div>Online Generated through: <strong>www.poweri.in</strong></div>
+            <div>Report ID: <span id="reportId"></span> | Date: <span id="genDate"></span></div>
+        </div>
+    </div>
+
+    <script>
+    // Initial default months
+    const months = ["Apr '25", "May '25", "Jun '25", "Jul '25", "Aug '25", "Sep '25", "Oct '25", "Nov '25", "Dec '25", "Jan '26", "Feb '26", "Mar '26"];
+    
+    function renderRows() {
+        const body = document.getElementById('tableBody');
+        body.innerHTML = ""; // Clear existing to prevent duplicates
+        months.forEach((m, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${i+1}</td>
+                <td><input type="text" class="in-month" value="${m}" style="text-align: center; font-weight: bold;"></td>
+                <td><input type="text" value="20 MW"></td>
+                <td><input type="number" step="0.01" class="in-b" oninput="runMath(this)"></td>
+                <td><input type="number" step="0.01" class="in-c" oninput="runMath(this)"></td>
+                <td class="readonly-cell"><input readonly class="out-d"></td>
+                <td><input type="number" step="0.01" class="in-dedi" oninput="runMath(this)"></td>
+                <td><input type="number" step="0.01" class="in-grid" oninput="runMath(this)"></td>
+                <td class="readonly-cell"><input readonly class="out-f"></td>
+                <td><input type="number" step="0.01" class="in-intra" oninput="runMath(this)"></td>
+                <td class="c-inter"><input type="number" step="0.01" class="in-inter" oninput="runMath(this)"></td>
+                <td class="c-colony"><input type="number" step="0.01" class="in-col" oninput="runMath(this)"></td>
+                <td class="readonly-cell"><input readonly class="out-g"></td>
+                <td class="c-cspdcl"><input type="number" step="0.01" class="in-csp" oninput="runMath(this)"></td>
+                <td class="c-bsp"><input type="number" step="0.01" class="in-bsp" oninput="runMath(this)"></td>
+                <td class="c-jspl"><input type="number" step="0.01" class="in-jspl" oninput="runMath(this)"></td>
+                <td class="readonly-cell"><input readonly class="out-sale"></td>
+                <td class="readonly-cell"><input readonly class="out-x"></td>
+                <td class="readonly-cell"><input readonly class="out-perc"></td>
+                <td><input type="text" value="CPP"></td>
+            `;
+            body.appendChild(tr);
+        });
+    }
+
+    function runMath(el) {
+        const row = el.closest('tr');
+        const get = (cls) => parseFloat(row.querySelector('.'+cls).value) || 0;
+        
+        const b = get('in-b'), c = get('in-c'), d = b - c;
+        row.querySelector('.out-d').value = d.toFixed(2);
+
+        const f = get('in-dedi') + get('in-grid');
+        row.querySelector('.out-f').value = f.toFixed(2);
+
+        const g = get('in-intra') + get('in-inter') + get('in-col');
+        row.querySelector('.out-g').value = g.toFixed(2);
+
+        const sale = get('in-csp') + get('in-bsp') + get('in-jspl');
+        row.querySelector('.out-sale').value = sale.toFixed(2);
+
+        const x = f + g + sale;
+        row.querySelector('.out-x').value = x.toFixed(2);
+        
+        if(d > 0) {
+            row.querySelector('.out-perc').value = ((f/d)*100).toFixed(2) + "%";
+        } else {
+            row.querySelector('.out-perc').value = "0.00%";
+        }
+
+        // Error check: X must equal D
+        row.classList.toggle('error-row', Math.abs(x - d) > 0.01 && d !== 0);
+        updateTotals();
+    }
+
+    function updateTotals() {
+        const sum = (cls) => Array.from(document.querySelectorAll('.'+cls)).reduce((a, b) => a + (parseFloat(b.value) || 0), 0).toFixed(2);
+        document.getElementById('tot-b').innerText = sum('in-b');
+        document.getElementById('tot-c').innerText = sum('in-c');
+        document.getElementById('tot-d').innerText = sum('out-d');
+        document.getElementById('tot-f').innerText = sum('out-f');
+        document.getElementById('tot-g').innerText = sum('out-g');
+        document.getElementById('tot-sale').innerText = sum('out-sale');
+        document.getElementById('tot-x').innerText = sum('out-x');
+        
+        // Overall Percentage calculation for the footer
+        const totalD = parseFloat(document.getElementById('tot-d').innerText) || 0;
+        const totalF = parseFloat(document.getElementById('tot-f').innerText) || 0;
+        if(totalD > 0) {
+            document.getElementById('tot-perc').innerText = ((totalF/totalD)*100).toFixed(2) + "%";
+        }
+    }
+
+    function toggleCol(cls) {
+        document.querySelectorAll('.'+cls).forEach(el => el.classList.toggle('col-hidden'));
+    }
+
+    function saveData() {
+        // Collects all inputs including the newly editable months
+        const vals = Array.from(document.querySelectorAll('input')).map(i => i.value);
+        localStorage.setItem('formatA_official', JSON.stringify(vals));
+        alert("Draft Saved Successfully!");
+    }
+
+    window.onload = () => {
+        renderRows();
+        
+        // Generate Stamp Details
+        document.getElementById('genDate').innerText = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+        
+        // Generate a unique Report ID if one isn't already saved
+        const savedId = localStorage.getItem('formatA_reportID');
+        if(savedId) {
+            document.getElementById('reportId').innerText = savedId;
+        } else {
+            const newId = 'PWR-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('reportId').innerText = newId;
+            localStorage.setItem('formatA_reportID', newId);
+        }
+
+        const saved = localStorage.getItem('formatA_official');
+        if(saved) {
+            const data = JSON.parse(saved);
+            const allInputs = document.querySelectorAll('input');
+            allInputs.forEach((inp, i) => {
+                if (data[i] !== undefined) inp.value = data[i];
+            });
+            // Trigger calculations for all rows after loading data
+            document.querySelectorAll('.in-b').forEach(el => runMath(el));
+        }
+    };
+</script>
+</body>
+</html>
