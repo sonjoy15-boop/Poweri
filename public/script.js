@@ -1,4 +1,4 @@
-// --- 1. LANGUAGE DICTIONARY --- (Keep as is)
+// --- 1. LANGUAGE DICTIONARY ---
 const translations = {
     en: {
         missionTitle: "Our Mission",
@@ -16,21 +16,33 @@ const translations = {
 
 function toggleLanguage() {
     const lang = document.getElementById('languageSelect').value;
+    localStorage.setItem('userLanguage', lang); 
     const data = translations[lang];
-    document.querySelector('.mission-section h2').innerText = data.missionTitle;
-    document.getElementById('mission-text').innerText = data.missionText;
-    document.querySelector('.welcome-container h3').innerText = data.welcomeTitle;
-    document.querySelector('.welcome-container p').innerText = data.welcomeText;
+    
+    // Update text content with safety checks
+    const mTitle = document.querySelector('.mission-section h2');
+    const mText = document.getElementById('mission-text');
+    const wTitle = document.querySelector('.welcome-container h3');
+    const wText = document.querySelector('.welcome-container p');
+
+    if (mTitle) mTitle.innerText = data.missionTitle;
+    if (mText) mText.innerText = data.missionText;
+    if (wTitle) wTitle.innerText = data.welcomeTitle;
+    if (wText) wText.innerText = data.welcomeText;
 }
 
-// --- 2. AUTH MODAL LOGIC --- (Keep as is)
+// --- 2. AUTH MODAL LOGIC ---
 function openAuthModal(mode) {
-    document.getElementById('authModal').style.display = 'block';
-    toggleAuth(mode);
+    const modal = document.getElementById('authModal');
+    if (modal) {
+        modal.style.display = 'block';
+        toggleAuth(mode);
+    }
 }
 
 function closeAuthModal() {
-    document.getElementById('authModal').style.display = 'none';
+    const modal = document.getElementById('authModal');
+    if (modal) modal.style.display = 'none';
 }
 
 function toggleAuth(mode) {
@@ -42,18 +54,18 @@ function toggleAuth(mode) {
 
     if (mode === 'signup') {
         signupFields.forEach(el => el.style.display = 'block');
-        title.innerText = "Create Account";
-        submitBtn.innerText = "SIGN UP";
-        tabSignup.classList.add('active');
-        tabLogin.classList.remove('active');
+        if (title) title.innerText = "Create Account";
+        if (submitBtn) submitBtn.innerText = "SIGN UP";
+        if (tabSignup) tabSignup.classList.add('active');
+        if (tabLogin) tabLogin.classList.remove('active');
         validateSignup(); 
     } else {
         signupFields.forEach(el => el.style.display = 'none');
-        title.innerText = "Welcome Back";
-        submitBtn.innerText = "LOGIN";
-        tabLogin.classList.add('active');
-        tabSignup.classList.remove('active');
-        submitBtn.disabled = false;
+        if (title) title.innerText = "Welcome Back";
+        if (submitBtn) submitBtn.innerText = "LOGIN";
+        if (tabLogin) tabLogin.classList.add('active');
+        if (tabSignup) tabSignup.classList.remove('active');
+        if (submitBtn) submitBtn.disabled = false;
     }
 }
 
@@ -61,16 +73,20 @@ function validateSignup() {
     const checkBox = document.getElementById('privacy-check-new');
     const submitBtn = document.getElementById('auth-submit-btn');
     const activeTab = document.querySelector('.tab-link.active');
-    if (activeTab && activeTab.id === 'tab-signup') {
-        submitBtn.disabled = !checkBox.checked;
+    if (activeTab && activeTab.id === 'tab-signup' && submitBtn) {
+        submitBtn.disabled = checkBox ? !checkBox.checked : false;
     }
 }
 
-// --- 3. MONGODB AUTH LOGIC --- 
+// --- 3. MONGODB AUTH LOGIC (Updated to Render URL) ---
+const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
+
 async function processAuth(e) {
     e.preventDefault();
-    const activeTab = document.querySelector('.tab-link.active').id;
-    if (activeTab === 'tab-signup') {
+    const activeTab = document.querySelector('.tab-link.active');
+    if (!activeTab) return;
+
+    if (activeTab.id === 'tab-signup') {
         await handleSignup();
     } else {
         await handleLogin();
@@ -88,7 +104,7 @@ async function handleSignup() {
     };
 
     try {
-        const response = await fetch('http://localhost:5000/api/signup', {
+        const response = await fetch(`${API_BASE_URL}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
@@ -101,7 +117,8 @@ async function handleSignup() {
             alert('❌ Signup Failed: ' + (data.msg || data.error));
         }
     } catch (error) {
-        alert('❌ Connection Error with MongoDB Server.');
+        console.error("Signup Error:", error);
+        alert('❌ Connection Error with Server.');
     }
 }
 
@@ -113,7 +130,7 @@ async function handleLogin() {
     const loginData = { email: emailField.value, password: passField.value };
 
     try {
-        const response = await fetch('http://localhost:5000/api/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)
@@ -124,45 +141,41 @@ async function handleLogin() {
         if (response.ok) {
             localStorage.setItem('token', data.token);
             localStorage.setItem('poweri_user', JSON.stringify(data.user));
+            // Standardizing storage keys
             localStorage.setItem('user', JSON.stringify({ name: data.user.name, email: data.user.email }));
 
             alert("✅ Login Successful!");
             closeAuthModal();
             showDashboard(data.user.name);
+            
+            // Auto-redirect if specifically desired
+            // window.location.href = "Dashboard.html"; 
         } else {
             alert("❌ Login Failed: " + (data.msg || "Invalid Credentials"));
         }
     } catch (error) {
         console.error("Login Error:", error);
-        alert("❌ Server Error.");
+        alert("❌ Server Error: Unable to reach the service.");
     }
 }
 
-// --- 4. DASHBOARD & UI STATE (Updated for Separate Dashboard Page) ---
+// --- 4. DASHBOARD & UI STATE ---
 function showDashboard(userName) {
-    // 1. Update Header UI (Show user profile, hide login/signup)
     const authBtns = document.getElementById('auth-btns');
     const profile = document.getElementById('user-profile');
     const nameDisplay = document.getElementById('userName');
+    const dashAccess = document.getElementById('dashboard-access');
 
     if (authBtns) authBtns.style.display = 'none';
     if (profile) {
         profile.style.display = 'flex';
         if (nameDisplay) nameDisplay.innerText = userName;
     }
-
-    // 2. Show the "Enter Dashboard" button in the Mission Section
-    const dashAccess = document.getElementById('dashboard-access');
     if (dashAccess) {
         dashAccess.style.display = 'block';
     }
-
-    // 3. Optional: Redirect immediately to separate page if just logged in
-    // Uncomment the line below if you want automatic redirect after login click
-    // window.location.href = "Dashboard.html"; 
 }
 
-// Keep this for when the user is actually ON the Dashboard.html page
 function toggleDashboardCat(button) {
     const content = button.nextElementSibling;
     const icon = button.querySelector('i');
@@ -173,10 +186,10 @@ function toggleDashboardCat(button) {
     
     if (content.style.display === "block") {
         content.style.display = "none";
-        icon.className = "fas fa-chevron-down";
+        if (icon) icon.className = "fas fa-chevron-down";
     } else {
         content.style.display = "block";
-        icon.className = "fas fa-chevron-up";
+        if (icon) icon.className = "fas fa-chevron-up";
     }
 }
 
@@ -186,49 +199,30 @@ function logout() {
     window.location.href = "index.html";
 }
 
-// --- 6. INITIALIZATION (Updated) ---
-window.onload = function() {
-    // Handle Language persistence
-    const savedLang = localStorage.getItem('userLanguage');
-    if (savedLang && document.getElementById('languageSelect')) {
-        document.getElementById('languageSelect').value = savedLang;
-        toggleLanguage();
-    }
+// --- 5. COMMUNITY DRAWER ---
+function initCommunityDrawer() {
+    const communityBtn = document.getElementById('communityBtn');
+    const drawer = document.getElementById('communityDrawer');
+    const overlay = document.getElementById('communityOverlay');
+    const drawerClose = document.getElementById('drawerClose');
 
-    // Handle Login State persistence
-    const savedUser = localStorage.getItem('poweri_user');
-    if (savedUser) {
-        const user = JSON.parse(savedUser);
-        showDashboard(user.name);
-    }
-};
+    if (!communityBtn || !drawer || !overlay) return;
 
-// --- 7. COMMUNITY DRAWER ---
-(function() {
-    const initCommunityDrawer = () => {
-        const communityBtn = document.getElementById('communityBtn');
-        const drawer = document.getElementById('communityDrawer');
-        const overlay = document.getElementById('communityOverlay');
-        const drawerClose = document.getElementById('drawerClose');
-
-        if (!communityBtn || !drawer || !overlay) return;
-
-        communityBtn.onclick = (e) => {
-            e.preventDefault();
-            drawer.classList.add('open');
-            overlay.classList.add('show');
-        };
-
-        const close = () => {
-            drawer.classList.remove('open');
-            overlay.classList.remove('show');
-        };
-
-        if (drawerClose) drawerClose.onclick = close;
-        overlay.onclick = close;
+    communityBtn.onclick = (e) => {
+        e.preventDefault();
+        drawer.classList.add('open');
+        overlay.classList.add('show');
     };
-    initCommunityDrawer();
-})();
+
+    const close = () => {
+        drawer.classList.remove('open');
+        overlay.classList.remove('show');
+    };
+
+    if (drawerClose) drawerClose.onclick = close;
+    overlay.onclick = close;
+}
+
 function checkAuthAndPost() {
     const user = localStorage.getItem('poweri_user');
     if (!user) {
@@ -239,29 +233,46 @@ function checkAuthAndPost() {
     }
 }
 
-// Add this to handle your FAQ accordion
+// --- 6. FAQ ACCORDION ---
 function toggleAnswer(btn) {
     const panel = btn.nextElementSibling;
     const span = btn.querySelector("span");
     
-    // Toggle active state for styling
     btn.classList.toggle("active");
 
     if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
-        span.innerText = "+";
+        if (span) span.innerText = "+";
     } else {
-        // Close other panels first (Optional: Accordion behavior)
         document.querySelectorAll('.answer-panel').forEach(p => p.style.maxHeight = null);
         document.querySelectorAll('.question-btn span').forEach(s => s.innerText = "+");
 
         panel.style.maxHeight = panel.scrollHeight + "px";
-        span.innerText = "-";
+        if (span) span.innerText = "-";
     }
 }
-function toggleLanguage() {
-    const lang = document.getElementById('languageSelect').value;
-    localStorage.setItem('userLanguage', lang); // ADD THIS LINE
-    const data = translations[lang];
-    // ... rest of your code
-}
+
+// --- 7. INITIALIZATION ---
+window.onload = function() {
+    // 1. Initialize Community Drawer
+    initCommunityDrawer();
+
+    // 2. Handle Language persistence
+    const savedLang = localStorage.getItem('userLanguage');
+    if (savedLang && document.getElementById('languageSelect')) {
+        document.getElementById('languageSelect').value = savedLang;
+        toggleLanguage();
+    }
+
+    // 3. Handle Login State persistence
+    const savedUser = localStorage.getItem('poweri_user');
+    if (savedUser) {
+        try {
+            const user = JSON.parse(savedUser);
+            showDashboard(user.name);
+        } catch (e) {
+            console.error("Error parsing saved user", e);
+            localStorage.removeItem('poweri_user');
+        }
+    }
+};
