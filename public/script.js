@@ -1,4 +1,12 @@
-// --- 1. LANGUAGE DICTIONARY ---
+// ==========================================
+// 1. CONFIGURATION & API BASE URL
+// ==========================================
+// We use the Render URL for the API to avoid DNS redirection loops
+const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
+
+// ==========================================
+// 2. LANGUAGE DICTIONARY & LOGIC
+// ==========================================
 const translations = {
     en: {
         missionTitle: "Our Mission",
@@ -15,11 +23,13 @@ const translations = {
 };
 
 function toggleLanguage() {
-    const lang = document.getElementById('languageSelect').value;
+    const langSelect = document.getElementById('languageSelect');
+    if (!langSelect) return;
+    
+    const lang = langSelect.value;
     localStorage.setItem('userLanguage', lang); 
     const data = translations[lang];
-    
-    // Update text content with safety checks
+
     const mTitle = document.querySelector('.mission-section h2');
     const mText = document.getElementById('mission-text');
     const wTitle = document.querySelector('.welcome-container h3');
@@ -31,7 +41,9 @@ function toggleLanguage() {
     if (wText) wText.innerText = data.welcomeText;
 }
 
-// --- 2. AUTH MODAL LOGIC ---
+// ==========================================
+// 3. AUTH MODAL & UI TOGGLES
+// ==========================================
 function openAuthModal(mode) {
     const modal = document.getElementById('authModal');
     if (modal) {
@@ -78,9 +90,9 @@ function validateSignup() {
     }
 }
 
-// --- 3. MONGODB AUTH LOGIC (Updated to Render URL) ---
-const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
-
+// ==========================================
+// 4. MONGODB AUTHENTICATION (SIGNUP / LOGIN)
+// ==========================================
 async function processAuth(e) {
     e.preventDefault();
     const activeTab = document.querySelector('.tab-link.active');
@@ -111,14 +123,14 @@ async function handleSignup() {
         });
         const data = await response.json();
         if (response.ok) {
-            alert('✅ Signup Successful!');
+            alert('✅ Signup Successful! You can now login.');
             toggleAuth('login');
         } else {
             alert('❌ Signup Failed: ' + (data.msg || data.error));
         }
     } catch (error) {
         console.error("Signup Error:", error);
-        alert('❌ Connection Error with Server.');
+        alert('❌ Connection Error: Ensure you are connected to the internet.');
     }
 }
 
@@ -139,27 +151,25 @@ async function handleLogin() {
         const data = await response.json();
 
         if (response.ok) {
+            // Save authentication data
             localStorage.setItem('token', data.token);
             localStorage.setItem('poweri_user', JSON.stringify(data.user));
-            // Standardizing storage keys
-            localStorage.setItem('user', JSON.stringify({ name: data.user.name, email: data.user.email }));
-
+            
             alert("✅ Login Successful!");
             closeAuthModal();
             showDashboard(data.user.name);
-            
-            // Auto-redirect if specifically desired
-            // window.location.href = "Dashboard.html"; 
         } else {
             alert("❌ Login Failed: " + (data.msg || "Invalid Credentials"));
         }
     } catch (error) {
         console.error("Login Error:", error);
-        alert("❌ Server Error: Unable to reach the service.");
+        alert("❌ Server Error: Connection refused. Check if the server is awake.");
     }
 }
 
-// --- 4. DASHBOARD & UI STATE ---
+// ==========================================
+// 5. DASHBOARD UI & LOGOUT
+// ==========================================
 function showDashboard(userName) {
     const authBtns = document.getElementById('auth-btns');
     const profile = document.getElementById('user-profile');
@@ -171,26 +181,7 @@ function showDashboard(userName) {
         profile.style.display = 'flex';
         if (nameDisplay) nameDisplay.innerText = userName;
     }
-    if (dashAccess) {
-        dashAccess.style.display = 'block';
-    }
-}
-
-function toggleDashboardCat(button) {
-    const content = button.nextElementSibling;
-    const icon = button.querySelector('i');
-    
-    document.querySelectorAll('.cat-content').forEach(c => {
-        if (c !== content) c.style.display = "none";
-    });
-    
-    if (content.style.display === "block") {
-        content.style.display = "none";
-        if (icon) icon.className = "fas fa-chevron-down";
-    } else {
-        content.style.display = "block";
-        if (icon) icon.className = "fas fa-chevron-up";
-    }
+    if (dashAccess) dashAccess.style.display = 'block';
 }
 
 function logout() {
@@ -199,7 +190,9 @@ function logout() {
     window.location.href = "index.html";
 }
 
-// --- 5. COMMUNITY DRAWER ---
+// ==========================================
+// 6. COMMUNITY DRAWER & INTERACTION
+// ==========================================
 function initCommunityDrawer() {
     const communityBtn = document.getElementById('communityBtn');
     const drawer = document.getElementById('communityDrawer');
@@ -233,7 +226,9 @@ function checkAuthAndPost() {
     }
 }
 
-// --- 6. FAQ ACCORDION ---
+// ==========================================
+// 7. FAQ & ACCORDION LOGIC
+// ==========================================
 function toggleAnswer(btn) {
     const panel = btn.nextElementSibling;
     const span = btn.querySelector("span");
@@ -244,6 +239,7 @@ function toggleAnswer(btn) {
         panel.style.maxHeight = null;
         if (span) span.innerText = "+";
     } else {
+        // Close other panels (Accordion effect)
         document.querySelectorAll('.answer-panel').forEach(p => p.style.maxHeight = null);
         document.querySelectorAll('.question-btn span').forEach(s => s.innerText = "+");
 
@@ -252,26 +248,46 @@ function toggleAnswer(btn) {
     }
 }
 
-// --- 7. INITIALIZATION ---
+// Function for Dashboard category toggles
+function toggleDashboardCat(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('i');
+    
+    document.querySelectorAll('.cat-content').forEach(c => {
+        if (c !== content) c.style.display = "none";
+    });
+    
+    if (content.style.display === "block") {
+        content.style.display = "none";
+        if (icon) icon.className = "fas fa-chevron-down";
+    } else {
+        content.style.display = "block";
+        if (icon) icon.className = "fas fa-chevron-up";
+    }
+}
+
+// ==========================================
+// 8. INITIALIZATION ON PAGE LOAD
+// ==========================================
 window.onload = function() {
-    // 1. Initialize Community Drawer
+    // Start Community Drawer
     initCommunityDrawer();
 
-    // 2. Handle Language persistence
+    // Load saved Language
     const savedLang = localStorage.getItem('userLanguage');
     if (savedLang && document.getElementById('languageSelect')) {
         document.getElementById('languageSelect').value = savedLang;
         toggleLanguage();
     }
 
-    // 3. Handle Login State persistence
+    // Load Session (Stay Logged In)
     const savedUser = localStorage.getItem('poweri_user');
     if (savedUser) {
         try {
             const user = JSON.parse(savedUser);
             showDashboard(user.name);
         } catch (e) {
-            console.error("Error parsing saved user", e);
+            console.error("Session restoration failed", e);
             localStorage.removeItem('poweri_user');
         }
     }
