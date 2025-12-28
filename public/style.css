@@ -39,7 +39,7 @@
         display: flex;
         align-items: center;
         justify-content: center; /* Centered as requested */
-        padding: 20px 5%;
+        padding: 10px 4%;
         border-bottom: 2px solid var(--accent-red);
         gap: 30px; /* Space between logo and text group */
     }
@@ -622,5 +622,6 @@
     align-items: center;
     gap: 15px;
 }
+
 
 
