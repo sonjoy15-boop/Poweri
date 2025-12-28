@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path'); // Added for serving frontend
+const path = require('path');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -11,14 +11,13 @@ const app = express();
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Updated CORS for live deployment
 app.use(cors({
     origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Serve static files (your HTML, CSS, JS)
+// Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public'))); 
 
 // 2. SCHEMAS
@@ -47,9 +46,7 @@ app.use('/api', authRoutes);
 app.delete('/api/documents/:id', async (req, res) => {
     try {
         const deletedDoc = await Compliance.findByIdAndDelete(req.params.id);
-        if (!deletedDoc) {
-            return res.status(404).json({ msg: "Document not found" });
-        }
+        if (!deletedDoc) return res.status(404).json({ msg: "Document not found" });
         res.status(200).json({ msg: "Deleted successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -77,45 +74,20 @@ app.get('/api/my-documents', async (req, res) => {
     }
 });
 
-// COMMENTS ROUTES
-app.get('/api/comments', async (req, res) => {
-    try {
-        const comments = await Comment.find().sort({ createdAt: -1 });
-        res.json(comments);
-    } catch (err) {
-        res.status(500).json({ error: "Could not fetch comments" });
-    }
-});
-
-app.post('/api/comments', async (req, res) => {
-    try {
-        const newComment = new Comment({
-            username: req.body.username,
-            text: req.body.text,
-            parentId: req.body.parentId || null
-        });
-        await newComment.save();
-        res.status(201).json(newComment);
-    } catch (err) {
-        res.status(500).json({ error: "Could not save comment" });
-    }
-});
-
 // 4. DATABASE CONNECTION
-// Use Environment Variable for security. Fallback to your string for local testing only.
 const dbURI = process.env.MONGO_URI || "mongodb+srv://sonjoy15:Sonj_123@poweri.da62ewq.mongodb.net/PowerI_DB?retryWrites=true&w=majority";
 
 mongoose.connect(dbURI)
     .then(() => console.log("✅ Database Connected Successfully!"))
     .catch(err => console.log("❌ DB Connection Error:", err.message));
 
-// 5. SERVER START
+// 5. UPDATED ROUTING FOR DEPLOYMENT (Fixes the PathError)
 app.get('/status', (req, res) => {
     res.send("PowerI Backend is active and running!");
 });
 
-// Handle SPA (Single Page Application) routing - sends index.html for any unknown routes
-app.get('*', (req, res) => {
+// This is the line that was causing the crash. Changed '*' to '/:any*' for Express 5 compatibility.
+app.get('/:any*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
