@@ -34,34 +34,81 @@
         }
 
         /* Row 2: Logo & Image (20% Logo area centered contextually) */
+    .brand-section {
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Centered as requested */
+        padding: 20px 5%;
+        border-bottom: 2px solid var(--accent-red);
+        gap: 30px; /* Space between logo and text group */
+    }
+
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    /* Container for the Image Logo */
+    .logo-image-container {
+        width: 20%; /* Your 20% requirement */
+        display: flex;
+        justify-content: flex-end; /* Pushes logo toward the text */
+    }
+
+    .header-logo {
+        height: 80px; /* Larger, professional height */
+        width: auto;
+        object-fit: contain;
+    }
+
+    /* Container for the Brand Text */
+    .logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+    }
+
+    .brand-logo {
+        font-size: 2.5rem; /* Increased for impact */
+        font-weight: bold;
+        color: var(--royal-blue);
+        text-transform: uppercase;
+        line-height: 1;
+        margin: 0;
+    }
+
+    .brand-logo span { 
+        color: var(--accent-red); 
+    }
+
+    .tagline {
+        font-size: 1rem;
+        font-style: italic;
+        color: #666;
+        margin-top: 5px;
+    }
+
+    /* Mobile Responsive Adjustment */
+    @media (max-width: 768px) {
         .brand-section {
-            background-color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centered as requested */
-            padding: 20px 5%;
-            border-bottom: 2px solid var(--accent-red);
-            gap: 20px;
+            flex-direction: column;
+            gap: 10px;
         }
-        .logo-container {
-            width: 20%; /* As requested */
-            display: flex;
-            align-items: center;
+        .logo-image-container {
+            width: 100%;
             justify-content: center;
         }
-        .brand-logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--royal-blue);
-            text-transform: uppercase;
+        .logo-container {
+            align-items: center;
+            text-align: center;
         }
-        .brand-logo span { color: var(--accent-red); }
-        .banner-img {
-            height: 60px;
-            width: auto;
-            border-radius: 5px;
-        }
-
+    }
         /* Row 3: Navigation */
         .nav-links-container {
             background-color: var(--royal-blue);
@@ -575,4 +622,5 @@
     align-items: center;
     gap: 15px;
 }
+
 
