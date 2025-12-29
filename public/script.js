@@ -10,7 +10,7 @@ const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
 const translations = {
     en: {
         missionTitle: "Our Mission",
-        missionText: "Our Mission is to simplify Electricity Compliances, Ground level clarity, complex specific data finding problem. We currently operate in Chhattisgarh, one of India's largest producing states for cement, steel, and power.",
+        missionText: "Our Mission is to simplify Electricity Compliances, Ground level clarity, complex specific data finding problem. We currently operate in Chhattisgarh, one of India's largest producing states for cement, steel, and power. Our goal is to leverage our extensive ground-level experience to provide transparent, realistic data on power connectivity and compliance.",
         welcomeTitle: "Welcome to PowerI.in",
         welcomeText: "We are dedicated to translating this operational experience into clear, verifiable, and practical data regarding power connectivity."
     },
@@ -306,5 +306,6 @@ window.onload = function() {
         }
     }
 };
+
 
 
