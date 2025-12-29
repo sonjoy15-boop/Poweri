@@ -416,17 +416,7 @@
     text-decoration: underline;
     color: var(--royal-blue);
 } 
-.privacy-box {
-    background: #f1f1f1;
-    border: 1px solid #ddd;
-    padding: 10px;
-    font-size: 0.75rem;
-    height: 60px;
-    overflow-y: scroll;
-    margin-bottom: 10px;
-    color: #666;
-    border-radius: 4px;
-}
+
 
 .checkbox-group {
     display: flex;
@@ -554,26 +544,32 @@
 
 .btn-primary-auth { padding: 10px; font-size: 0.9rem; }
 .privacy-box-new {
-        font-size: 11px;
-        background: #f8fbff;
-        padding: 12px;
-        border-radius: 8px;
-        margin: 10px 0;
-        border: 1px solid #d0daff;
-        color: #444;
-        text-align: left;
-    }
-    .privacy-box-new ul {
-        margin: 5px 0 0 15px;
-        padding: 0;
-    }
-    .privacy-box-new li {
-        margin-bottom: 3px;
-    }
-    .privacy-box-new i {
-        color: var(--royal-blue);
-        margin-right: 5px;
-    }
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 0.75rem;
+    height: 60px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    color: #666;
+    border-radius: 4px;
+}
+    .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.checkbox-row label, 
+.checkbox-row label a {
+    color: var(--accent-red) !important;
+    font-weight: 800 !important;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.checkbox-row input { width: 18px; height: 18px; cursor: pointer; }
     .form-link {
         display: block; width: 100%; padding: 8px 12px; 
         text-decoration: none; color: #555; font-size: 13.5px;
@@ -623,6 +619,7 @@
     align-items: center;
     gap: 15px;
 }
+
 
 
 
