@@ -158,6 +158,7 @@ async function handleLogin() {
             alert("✅ Login Successful!");
             closeAuthModal();
             showDashboard(data.user.name);
+            window.location.href="dashboard.html";
         } else {
             alert("❌ Login Failed: " + (data.msg || "Invalid Credentials"));
         }
@@ -292,3 +293,4 @@ window.onload = function() {
         }
     }
 };
+
