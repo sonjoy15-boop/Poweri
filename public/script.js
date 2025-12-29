@@ -157,8 +157,21 @@ async function handleLogin() {
             
             alert("✅ Login Successful!");
             closeAuthModal();
-            showDashboard(data.user.name);
-            window.location.href="dashboard.html";
+            
+// REMOVE or comment the undefined call:
+      // showDashboard(data.user.name);
+
+      // Use assign for clarity, and add a fallback timer
+      const target = "./dashboard.html";  // adjust path if needed
+      window.location.assign(target);
+
+      // Fallback redirect in case browsers block immediate navigation
+      setTimeout(() => {
+        if (!/dashboard\.html$/i.test(window.location.pathname)) {
+          window.location.href = target;
+        }
+      }, 200);
+
         } else {
             alert("❌ Login Failed: " + (data.msg || "Invalid Credentials"));
         }
@@ -293,4 +306,5 @@ window.onload = function() {
         }
     }
 };
+
 
