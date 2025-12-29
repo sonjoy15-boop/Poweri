@@ -383,7 +383,7 @@
             margin: 10% auto;
             padding: 25px;
             border-top: 5px solid var(--royal-blue);
-            width: 400px;
+            width: 600px;
             border-radius: 5px;
             position: relative;
         }
@@ -622,6 +622,7 @@
     align-items: center;
     gap: 15px;
 }
+
 
 
 
