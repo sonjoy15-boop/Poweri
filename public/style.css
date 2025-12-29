@@ -384,8 +384,9 @@
             padding: 25px;
             border-top: 5px solid var(--royal-blue);
             width: 600px;
-            border-radius: 5px;
+            border-radius: 2px;
             position: relative;
+            overflow-y: auto;
         }
         .close-btn {
             position: absolute; right: 15px; top: 10px;
@@ -622,6 +623,7 @@
     align-items: center;
     gap: 15px;
 }
+
 
 
 
