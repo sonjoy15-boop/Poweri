@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url><loc>https://www.poweri.in/</loc><lastmod>2025-12-30</lastmod><priority>1.00</priority></url>
+  <url><loc>https://www.poweri.in/about.html</loc><priority>0.70</priority></url>
+  <url><loc>https://www.poweri.in/services1.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/regulation-hub.html</loc><priority>0.85</priority></url>
+  <url><loc>https://www.poweri.in/community.html</loc><priority>0.60</priority></url>
+  <url><loc>https://www.poweri.in/contact.html</loc><priority>0.70</priority></url>
+  <url><loc>https://www.poweri.in/dashboard.html</loc><priority>0.95</priority></url>
+  <url><loc>https://www.poweri.in/terms.html</loc><priority>0.30</priority></url>
+
+  <url><loc>https://www.poweri.in/qa/compliance.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/nEC.html</loc><priority>0.85</priority></url>
+  <url><loc>https://www.poweri.in/qa/ceig-checklist.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/cspdcl.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/conectivity.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/load.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/site-survey.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/d-approval.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/dG-clearance.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/cea-records.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/line-shifting.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/solar.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/qa/eI-duty.html</loc><priority>0.70</priority></url>
+  <url><loc>https://www.poweri.in/qa/wiring.html</loc><priority>0.85</priority></url>
+  <url><loc>https://www.poweri.in/qa/bill.html</loc><priority>0.70</priority></url>
+
+  <url><loc>https://www.poweri.in/returns/form-i.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/returns/form-g.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/returns/form-a.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/returns/form-b.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/ceig/drawing-approval.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/ceig/inspection-app.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/ceig/form-l.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/ceig/form-k.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/cspdcl/new-connection.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/cspdcl/load-enhancement.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/mines/form-m.html</loc><priority>0.75</priority></url>
+  <url><loc>https://www.poweri.in/mines/form-h.html</loc><priority>0.75</priority></url>
+
+  <url><loc>https://www.poweri.in/docs/cea-safety-2023.html</loc><priority>0.90</priority></url>
+  <url><loc>https://www.poweri.in/docs/nec-2023.html</loc><priority>0.90</priority></url>
+  <url><loc>https://www.poweri.in/docs/cspdcl-nsc-process.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/docs/ceig-online-manual.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/docs/sop-load-enhancement.html</loc><priority>0.80</priority></url>
+  <url><loc>https://www.poweri.in/docs/sop-name-change.html</loc><priority>0.70</priority></url>
+
+</urlset>
