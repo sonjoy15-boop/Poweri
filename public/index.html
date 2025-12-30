@@ -365,6 +365,14 @@
         </form>
     </div>
   <script src="script.js"></script>
+        
+        <script>
+    setInterval(function() {
+        fetch(window.location.href)
+            .then(() => console.log("PowerI: Server pinged successfully to stay active."))
+            .catch(err => console.warn("PowerI: Ping failed", err));
+    }, 240000); // 240,000ms = 4 minutes
+  </script>
   
    
 </body>
