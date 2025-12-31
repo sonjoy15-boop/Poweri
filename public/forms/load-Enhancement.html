@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSPDCL — Annexure-5: Application form — Load Enhancement / Reduction</title>
+<style>
+  :root{
+    --primary:#0b3ba7;  /* Royal Blue */
+    --accent:#d62828;   /* Red */
+    --bg:#f5f8ff;
+    --border:#dfe6f7;
+    --text:#222;
+    --muted:#666;
+  }
+  *{box-sizing:border-box}
+  html,body{
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font:14px/1.4 "Segoe UI", system-ui, -apple-system, "Noto Sans Devanagari", Arial, sans-serif;
+  }
+
+  /* A4 Single Page Container */
+  .page{
+    width:210mm; min-height:297mm; margin:12px auto;
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    box-shadow:0 6px 18px rgba(11,59,167,0.10);
+    padding: 12mm; position: relative;
+  }
+
+  /* Tight print margins to keep within one page */
+  @page{ size: A4; margin: 10mm; }
+  @media print{
+    body{ background:#fff }
+    .page{ box-shadow:none; border:none; border-radius:0; margin:0; padding:0 }
+    .bottom-bar{ display:none }
+    .line, .line-long, .block-line, td .cell{ border-bottom:2px dotted #000 }
+  }
+
+  /* Header / Branding */
+  .brand{
+    text-align:center; color:#0b2f88; font-weight:800; margin-bottom:4px;
+    font-size: 13.5px;
+  }
+  header{
+    text-align:center; padding-bottom:6px; border-bottom:3px solid var(--accent);
+    color:var(--primary); margin-bottom:8mm;
+  }
+  header h1{ margin:0; font-size:18px; font-weight:800 }
+  header .sub{ margin:6px 0 0; font-size:12.5px; color:#0b2f88 }
+  .page-tag{ position:absolute; right:12mm; top:12mm; font-size:12px; color:#4b5563 }
+
+  /* Sections */
+  .section{ margin-bottom:6mm }
+  .label{ color:#334155; font-weight:700; margin:8px 0 4px }
+  .muted{ color:var(--muted); font-size:12px }
+  p{ margin:6px 0 }
+
+  /* Dotted writing lines */
+  .line, .line-long, .block-line{
+    display:inline-block; border-bottom:2px dotted #777; padding:2px 4px; color:#111;
+  }
+  .line{ min-width:130px; min-height:20px }
+  .line-long{ min-width:300px; min-height:20px }
+  .block-line{ display:block; width:100%; min-height:22px; margin-top:4px }
+
+  /* Table compact */
+  table{ width:100%; border-collapse:collapse; margin-top:6px; font-size:13px }
+  th, td{ border:1px solid var(--border); padding:6px; vertical-align:top }
+  th{ background:#eef3ff; color:#0b2f88; font-weight:800; width:30px }
+  td .cell{ display:block; min-height:20px; border-bottom:2px dotted #777; padding:2px 4px }
+
+  /* Select control */
+  .select{
+    padding:6px 8px; border:1px solid var(--border); border-radius:8px; background:#fff; color:#111; font-size:13px;
+    margin-left:6px;
+  }
+
+  /* Signature */
+  .sign-row{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:6mm }
+  .sign-box{
+    width:64mm; border-top:2px dotted #777; text-align:center; padding-top:6px; font-weight:700; font-size:13px;
+  }
+
+  /* Bottom fixed action bar */
+  .bottom-bar{
+    position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--border);
+    padding:10px 14px; display:flex; justify-content:flex-end; gap:10px; z-index:40;
+  }
+  .btn{ appearance:none; border:none; cursor:pointer; border-radius:8px; padding:10px 14px; font-weight:800 }
+  .btn.primary{ background:var(--primary); color:#fff }
+  .btn.outline{ background:#fff; color:var(--primary); border:1px solid var(--primary) }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="page-tag">Annexure‑5</div>
+  <div class="brand">Chhattisgarh State Power Distribution Company Limited — <p>Customer Care Service<p/></div>
+
+  <header>
+    <h1>Application form — Load Enhancement / Reduction</h1>
+    <div class="sub">HT / EHT Service — Please strike off the option not applicable</div>
+  </header>
+
+  <!-- Meta -->
+  <div class="section" style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap">
+    <div>
+      <span class="label">Date:</span> <input type="date" style="padding:6px 8px; border:1px solid var(--border); border-radius:8px">
+    </div>
+    <div>
+      <span class="label">Application Ref. No. (office use):</span> <span class="line-long" contenteditable="true"></span>
+    </div>
+  </div>
+
+  <!-- Form items -->
+  <div class="section">
+    <table>
+      <tbody>
+        <tr>
+          <th>1</th>
+          <td><strong>Name of the Applicant / Organization</strong>
+            <div class="block-line" contenteditable="true"></div>
+          </td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td><strong>Service Connection Number</strong>
+            <div class="block-line" contenteditable="true"></div>
+          </td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td><strong>Address of premises to which electricity is being supplied</strong>
+            <div class="block-line" contenteditable="true"></div>
+            <div class="block-line" contenteditable="true"></div>
+            <div class="block-line" contenteditable="true"></div>
+          </td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td><strong>In case of Load Enhancement — Existing sanctioned load (kW)</strong>
+            <div class="block-line" contenteditable="true"></div>
+          </td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td><strong>In case of Load Reduction — Existing sanctioned load (kW)</strong>
+            <div class="block-line" contenteditable="true"></div>
+          </td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td><strong>Reason(s) for Load Enhancement / Reduction</strong>
+            <div class="block-line" contenteditable="true"></div>
+            <div class="block-line" contenteditable="true"></div>
+          </td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>
+            <strong>Details of load added / disconnected (attach list of equipments — category-wise)</strong>
+            <div style="margin-top:4px">a) Lighting <span class="line-long" contenteditable="true"></span></div>
+            <div style="margin-top:4px">b) Motive Power <em>(LOAD DETAILS ATTACHED ON ANNEX.-I)</em> <span class="line-long" contenteditable="true"></span></div>
+            <div style="margin-top:4px">c) Agricultural <span class="line-long" contenteditable="true"></span></div>
+            <div style="margin-top:4px">d) Other (please specify) <span class="line-long" contenteditable="true"></span></div>
+          </td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>
+            <strong>If request for conversion of service / change in supply voltage</strong> <span class="muted">(strike whichever not applicable)</span>
+            <div style="margin-top:4px">
+              a) LT 1‑Phase → LT 3‑Phase &nbsp; | &nbsp; b) LT 3‑Phase → LT 1‑Phase &nbsp; | &nbsp; c) LT → HT &nbsp; | &nbsp; d) HT → LT &nbsp; | &nbsp; e) HT → EHT
+            </div>
+            <div style="margin-top:6px">
+              <label class="label">Select intended conversion:
+                <select class="select">
+                  <option>Select option</option>
+                  <option>LT 1φ → LT 3φ</option>
+                  <option>LT 3φ → LT 1φ</option>
+                  <option>LT → HT</option>
+                  <option>HT → LT</option>
+                  <option>HT → EHT</option>
+                </select>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Signature -->
+  <div class="section">
+    <div class="label">Date:<input type="date"></div> 
+    <div class="sign-row">
+      <div>
+        <div class="label">Place:</div> <span class="line" contenteditable="true">Baloda Bazar</span>
+      </div>
+      <div style="text-align:right">
+        <div class="label">Name:</div> <span class="line" contenteditable="true">........</span>
+        <div class="label" style="margin-top:4px">Designation:</div> <span class="line" contenteditable="true">....</span>
+      </div>
+    </div>
+    <div style="margin-top:8mm; display:flex; justify-content:flex-end;">
+      <div class="sign-box">Signature of the Consumer</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom fixed action bar -->
+<div class="bottom-bar">
+  <button class="btn outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">Go to Top</button>
+  <button class="btn primary" onclick="window.print()">Print / Save PDF</button>
+</div>
+</body>
+</html>

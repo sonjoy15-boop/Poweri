@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSPDCL – HT/EHT Service Connection Application (No checkboxes)</title>
+<style>
+  :root{
+    --primary:#0b3ba7;  /* Royal Blue */
+    --accent:#d62828;   /* Red */
+    --bg:#f5f8ff;
+    --border:#dfe6f7;
+    --text:#222;
+    --muted:#666;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font:15px/1.45 "Segoe UI",system-ui,-apple-system,"Noto Sans Devanagari",Arial,sans-serif;}
+
+  /* A4 pages */
+  .page{
+    width: 210mm; min-height: 297mm; margin: 16px auto;
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    box-shadow:0 6px 22px rgba(11,59,167,0.10);
+    padding: 14mm; position: relative;
+  }
+  .page-footer{
+    position:absolute; bottom:10mm; left:14mm; right:14mm;
+    display:flex; justify-content:space-between; align-items:center; color:#4b5563; font-size:12px;
+  }
+
+  header{
+    text-align:center; margin-bottom:10mm; padding-bottom:8px; border-bottom:4px solid var(--accent);
+    color:var(--primary);
+  }
+  header h1{margin:0;font-size:20px;font-weight:800}
+  header .sub{margin:8px 0 0; font-size:13.5px; color:#0b2f88}
+  .brand{color:#0b2f88; font-weight:800; margin-bottom:6px; text-align:center;}
+
+  .section{margin-bottom:8mm}
+  .section h2{
+    margin:0 0 8px; color:var(--primary); font-size:17px; font-weight:800;
+    border-left:4px solid var(--accent); padding-left:8px;
+  }
+
+  .label{color:#334155; font-weight:700; margin:10px 0 4px}
+  .muted{color:var(--muted); font-size:12px}
+  p{margin:8px 0}
+
+  /* Dotted writing lines */
+  .line, .line-long, .block-line{
+    display:inline-block; border-bottom:2px dotted #777; padding:2px 4px; min-height:20px; color:#111;
+  }
+  .line{min-width:160px}
+  .line-long{min-width:340px}
+  .block-line{display:block; width:100%; min-height:26px; margin-top:6px}
+
+  /* Tables */
+  table{width:100%; border-collapse:collapse; margin-top:8px; font-size:14px}
+  th, td{border:1px solid var(--border); padding:8px; vertical-align:top}
+  th{background:#eef3ff; color:#0b2f88; font-weight:800}
+  td .cell{display:block; min-height:22px; border-bottom:2px dotted #777; padding:2px 4px}
+
+  /* Select controls */
+  .select{
+    padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; color:#111; font-size:14px;
+    margin-left:8px;
+  }
+
+  /* Print */
+  @page{size:A4;margin:12mm}
+  @media print{
+    body{background:#fff}
+    .page{box-shadow:none; border:none; border-radius:0; margin:0; page-break-after:always}
+    .bottom-bar{display:none}
+    .line, .line-long, .block-line, td .cell{border-bottom:2px dotted #000}
+  }
+
+  /* Bottom fixed action bar */
+  .bottom-bar{
+    position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--border);
+    padding:10px 14px; display:flex; justify-content:flex-end; gap:10px; z-index:40;
+  }
+  .btn{appearance:none; border:none; cursor:pointer; border-radius:8px; padding:10px 14px; font-weight:800}
+  .btn.primary{background:var(--primary); color:#fff}
+  .btn.outline{background:#fff; color:#var(--primary); border:1px solid var(--primary)}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+  <div class="brand">
+    Chhattisgarh State Power Distribution Company Limited — Customer Care Service
+  </div>
+  <header>
+    <h1>Application Form for High Tension (HT) / EHT Service Connection</h1>
+    <div class="sub">New Connection / Shifting of Premises / Change in Contract Demand / Change of Tariff Category / Change of Name of Consumer</div>
+    <div class="muted">(Please strike-off the purpose that is not applicable)</div>
+  </header>
+
+  <div class="section">
+    <div class="label">Application Reference No. (office use): 
+       <select class="select">
+        <option>New</option><option>Update</option>
+      </select>
+      </div>
+    <span class="line-long" contenteditable="true"></span>
+    <div class="label" style="margin-top:8px">Date of Receipt:
+      <input type="date">
+    </div>
+    <span class="line" contenteditable="true"></span>
+  </div>
+
+  <div class="section">
+    <div class="label">To:</div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <div class="label">Request for supply
+      <select class="select">
+        <option>HT</option><option>EHT</option><option>Either</option>
+      </select>
+    </div>
+    <p>I / We request you to supply electricity to my / our premises. The requisite information is furnished below:</p>
+  </div>
+
+  <div class="section">
+    <h2>1. Consumer Information</h2>
+    <div class="label">(a) Name of the person / organization:</div>
+    <div class="block-line" contenteditable="true"></div>
+
+    <div class="label">(b) Name of Father / Husband / Director / Partner / Trustee:</div>
+    <div class="block-line" contenteditable="true"></div>
+
+    <div class="label">(c) Complete Address of the premises (new connection / shifting):</div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+
+    <div class="label">Pin Code:</div>
+    <span class="line" contenteditable="true"></span>
+  </div>
+
+  <div class="page-footer">
+    <span>CSPDCL — Online Generated Through www.poweri.in</span>
+    <span>Page 1 of 5</span>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+  <div class="brand">
+    Chhattisgarh State Power Distribution Company Limited — Customer Care Service
+  </div>
+
+  <div class="section">
+    <h2>Contact Information</h2>
+    <div>Factory / Premises: <span class="line" contenteditable="true"></span></div>
+    <div>Registered Office: <span class="line" contenteditable="true"></span></div>
+    <div>Residence: <span class="line" contenteditable="true"></span></div>
+    <div>E-mail: <span class="line-long" contenteditable="true"></span></div>
+    <div>Bank A/C No. (Optional): <span class="line-long" contenteditable="true"></span></div>
+  </div>
+
+  <div class="section">
+    <h2>2. Voltage at which supply is required (kV)</h2>
+    <p>11 kV &nbsp; 33 kV &nbsp; 132 kV &nbsp; 220 kV</p>
+    <div>
+      <label class="label">Select voltage:
+        <select class="select">
+          <option>Select one</option>
+          <option>11 kV</option>
+          <option>33 kV</option>
+          <option>132 kV</option>
+          <option>220 kV</option>
+        </select>
+      </label>
+    </div>
+    <div class="muted">(Please strike-off category not applicable and tick the category applicable)</div>
+  </div>
+
+  <div class="section">
+    <h2>3. Type of Supply</h2>
+    <div>
+      <label class="label">Select type:
+        <select class="select">
+          <option>Select type</option><option>Permanent</option><option>Temporary</option>
+        </select>
+      </label>
+    </div>
+    <div>If Temporary, specify period: From <span class="line" contenteditable="true"></span> To <span class="line" contenteditable="true"></span></div>
+  </div>
+
+  <div class="section">
+    <h2>4. Steps taken by the consumer so far to set-up the installation</h2>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <h2>5. Basis of Projection of Contract Demand required</h2>
+    <div>Diversity Factor assumed: <span class="line-long" contenteditable="true"></span></div>
+    <div>Total Connected Load: <span class="line-long" contenteditable="true"></span></div>
+  </div>
+
+  <div class="section">
+    <h2>6. Phasing of Contract Demand (CD)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Contract Demand Required (kVA)</th>
+          <th>Tentative Date from which required</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+          <td><span class="cell" contenteditable="true"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-footer">
+    <span>CSPDCL — Online Generated Through www.poweri.in</span>
+    <span>Page 2 of 5</span>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+  <div class="brand">
+    Chhattisgarh State Power Distribution Company Limited — Customer Care Service
+  </div>
+
+  <div class="section">
+    <h2>7. Purpose of Installation</h2>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <h2>8. Tariff Category Opted</h2>
+    <div class="block-line" contenteditable="true"></div>
+    <div>
+      <label class="label">Select tariff:
+        <select class="select">
+          <option>Select tariff</option>
+          <option>Industrial</option>
+          <option>Commercial</option>
+          <option>Public Utility</option>
+          <option>Other</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>9. Production Capacity</h2>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <h2>10. Category of Industry</h2>
+    <p>SSI (Small Scale Industry (includes Micro & Small)) / MSI(Medium Scale Industry) / LSI (Large Scale Industry) </p>
+    <div>
+      <label class="label">Select category:
+        <select class="select">
+          <option>Select category</option><option>SSI</option><option>MSI</option><option>LSI</option>
+        </select>
+      </label>
+    </div>
+    <div class="muted">(Please strike-off category not applicable and tick the category applicable)</div>
+  </div>
+
+  <div class="section">
+    <h2>11. Status of Land Acquisition</h2>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <h2>12. Expected date by which Finance would be available</h2>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <h2>13. Consent / NOC from C.G. Environment Conservation Board (where applicable)</h2>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="page-footer">
+    <span>CSPDCL — Online Generated Through www.poweri.in</span>
+    <span>Page 3 of 5</span>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+  <div class="brand">
+    Chhattisgarh State Power Distribution Company Limited — Customer Care Service
+  </div>
+
+  <div class="section">
+    <h2>14–16. Electricity Dues Outstanding</h2>
+    <p>14. Any electricity dues outstanding in CSPDCL area of operation in the Consumer’s name: Yes / No</p>
+    <p>15. Any electricity dues outstanding for the premises for which connection applied for: Yes / No</p>
+    <p>16. Any electricity dues outstanding with the licensee against any firm with which the consumer is associated (Owner / Partner / Director / MD): Yes / No</p>
+    <div class="muted">(If ‘Yes’ for 15, 16 & 17, please provide details below)</div>
+    <div class="block-line" contenteditable="true"></div>
+    <div class="block-line" contenteditable="true"></div>
+  </div>
+
+  <div class="section">
+    <h2>17. Declaration</h2>
+    <ul>
+      <li>(a) The information provided above is true to my knowledge.</li>
+      <li>(b) I / We have read the Chhattisgarh Electricity Supply Code and agree to abide by its conditions.</li>
+      <li>(c) I / We will deposit electricity dues every month as per applicable tariff and charges.</li>
+      <li>(d) I / We will own responsibility of security and safety of the meter, cut-out and installation thereafter.</li>
+    </ul>
+
+    <div class="label" style="margin-top:10px">Date:</div>
+    <span class="line" contenteditable="true"><input type="date"></span>
+    <div class="label" style="margin-top:10px">Place:</div>
+    <span class="line" contenteditable="true"></span>
+
+    <div style="margin-top:12mm; display:flex; justify-content:flex-end;">
+      <div style="width:70mm; border-top:2px dotted #777; text-align:center; padding-top:6px; font-weight:700">
+        Signature of the Consumer / Authorised Signatory
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>CSPDCL — Online Generated Through www.poweri.in</span>
+    <span>Page 4 of 5</span>
+  </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+  <div class="brand">
+    Chhattisgarh State Power Distribution Company Limited — Customer Care Service
+  </div>
+
+  <div class="section">
+    <h2>List of Attachments</h2>
+    <p>The following documents shall be attached with the application form:</p>
+    <ol style="margin-left:18px">
+      <li>Proof of ownership of the premises.</li>
+      <li>Map indicating proposed location & supply point (scale 1 cm = 1200 cm).</li>
+      <li>Licence / NOC, if required; or declaration that NOC not required.</li>
+      <li>Affidavit (proprietary firm) — sole proprietor.</li>
+      <li>Partnership deed (partnership firm).</li>
+      <li>M&AoA + Certificate of Incorporation (Ltd. Co.).</li>
+      <li>Proof of permanent residential address & PAN (if any). Notify CSPDCL of changes immediately.</li>
+      <li>Letter of intent for production / enhancement.</li>
+      <li>List of equipments with expected load.</li>
+      <li>Resolution for authorized signatory.</li>
+      <li>Registration from Industries Department.</li>
+      <li>Extract of project report (power/process).</li>
+      <li>Tariff order section (opted category) duly signed; to be appended with agreement after formalities.</li>
+    </ol>
+  </div>
+
+  <div class="page-footer">
+    <span>CSPDCL — Online Generated Through www.poweri.in</span>
+    <span>Page 5 of 5</span>
+  </div>
+</div>
+
+<!-- Bottom fixed action bar -->
+<div class="bottom-bar">
+  <button class="btn outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">Go to Top</button>
+  <button class="btn primary" onclick="window.print()">Print / Save PDF</button>
+</div>
+</body>
+</html>
