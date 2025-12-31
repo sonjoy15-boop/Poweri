@@ -1,187 +1,250 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PowerI | Community Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --primary: #003399; --accent: #e63946; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        
-        .community-header { background: var(--primary); color: white; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .main-container { max-width: 800px; margin: 20px auto; padding: 20px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PowerI | Community Hub</title>
+  https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css
 
-        /* Post Creation Box */
-        .post-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .post-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 12px; resize: none; font-size: 16px; box-sizing: border-box; min-height: 80px; }
-        .post-footer { display: flex; justify-content: flex-end; margin-top: 10px; }
-        .btn-post { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-post:hover { background: #002673; }
+  <style>
+    :root { --primary: #003399; --accent: #e63946; --bg: #f4f7f6; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 0; }
 
-        /* Login CTA */
-        .login-cta { background: #fff3f3; border: 1px dashed var(--accent); padding: 20px; border-radius: 12px; text-align: center; }
-        .btn-auth { background: var(--accent); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px; cursor: pointer; border: none;}
+    .community-header { background: var(--primary); color: white; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .community-header h1 { margin: 0 0 .5rem; }
+    .community-header p { margin: 0; opacity: .9; }
 
-        /* Comment/Feed Section */
-        .comment-thread { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .comment-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .avatar { width: 40px; height: 40px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; text-transform: uppercase;}
-        .username { font-weight: bold; color: var(--primary); }
-        .timestamp { font-size: 11px; color: #888; }
-        .comment-text { line-height: 1.5; color: #333; word-wrap: break-word;}
-        .comment-actions { margin-top: 12px; display: flex; gap: 20px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 10px;}
-        .action-item { cursor: pointer; transition: 0.2s; }
-        .action-item:hover { color: var(--accent); }
-        
-        /* Reply Indentation */
-        .replies-container { margin-left: 45px; border-left: 2px solid #eee; padding-left: 15px; margin-top: 10px; }
-    </style>
+    .main-container { max-width: 800px; margin: 20px auto; padding: 20px; }
+
+    /* Post Creation Box */
+    .post-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 30px; }
+    .post-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 12px; resize: none; font-size: 16px; box-sizing: border-box; min-height: 80px; }
+    .post-footer { display: flex; justify-content: flex-end; margin-top: 10px; gap: 10px; }
+    .btn-post { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+    .btn-post:hover { background: #002673; }
+
+    /* Login CTA */
+    .login-cta { background: #fff3f3; border: 1px dashed var(--accent); padding: 20px; border-radius: 12px; text-align: center; }
+    .btn-auth { background: var(--accent); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px; cursor: pointer; border: none; }
+
+    /* Comment/Feed Section */
+    .comment-thread { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+    .comment-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .avatar { width: 40px; height: 40px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #666; text-transform: uppercase; }
+    .username { font-weight: bold; color: var(--primary); }
+    .timestamp { font-size: 11px; color: #888; }
+    .comment-text { line-height: 1.5; color: #333; word-wrap: break-word; }
+    .comment-actions { margin-top: 12px; display: flex; gap: 20px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 10px; }
+    .action-item { cursor: pointer; transition: 0.2s; }
+    .action-item:hover { color: var(--accent); }
+
+    /* Reply Indentation */
+    .replies-container { margin-left: 45px; border-left: 2px solid #eee; padding-left: 15px; margin-top: 10px; }
+  </style>
 </head>
 <body>
 
-<header class="community-header">
+  <header class="community-header">
     <h1><i class="fas fa-comments"></i> PowerI Community</h1>
     <p>Share insights, ask questions, and connect.</p>
-</header>
+  </header>
 
-<div class="main-container">
+  <div class="main-container">
     <div id="authCheckArea"></div>
 
     <div id="feedContainer">
-        <p style="text-align: center; color: #888;">Loading discussions...</p>
+      <p style="text-align: center; color: #888;">Loading discussions...</p>
     </div>
-</div>
+  </div>
 
-<script>
-// 1. Get user data - using 'poweri_user' to match your login script
-const user = JSON.parse(localStorage.getItem('poweri_user')) || null;
+  <script>
+    // --- API base (Render) ---
+    const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
 
-// 2. Initialize the Post Input Area
-function initPage() {
-    const authArea = document.getElementById('authCheckArea');
-    if (user && user.name) {
+    // --- Safe HTML escape ---
+    const esc = s => String(s || '').replace(/[&<>"']/g, m => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[m]));
+
+    // --- Auth helpers ---
+    const getAuth = () => {
+      let u = null, t = null;
+      try { u = JSON.parse(localStorage.getItem('poweri_user')); } catch {}
+      t = localStorage.getItem('token') || null;
+      return { user: u, token: t };
+    };
+    const { user, token } = getAuth();
+
+    // 2. Initialize the Post Input Area
+    function initPage() {
+      const authArea = document.getElementById('authCheckArea');
+      if (user && user.name) {
         authArea.innerHTML = `
-            <div class="post-box">
-                <textarea id="mainPostInput" placeholder="What's on your mind, ${user.name}?"></textarea>
-                <div class="post-footer">
-                    <button class="btn-post" onclick="submitPost()">Post Discussion</button>
-                </div>
-            </div>`;
-    } else {
+          <div class="post-box">
+            <textarea id="mainPostInput" placeholder="What's on your mind, ${esc(user.name)}?"></textarea>
+            <div class="post-footer">
+              <button class="btn-post" onclick="submitPost()">Post Discussion</button>
+            </div>
+          </div>`;
+      } else {
         authArea.innerHTML = `
-            <div class="login-cta">
-                <h3>Join the Conversation</h3>
-                <p>You need to be logged in to post or reply to discussions.</p>
-                <button class="btn-auth" onclick="window.location.href='index.html'">Login / Sign Up</button>
-            </div>`;
+          <div class="login-cta">
+            <h3>Join the Conversation</h3>
+            <p>You need to be logged in to post or reply to discussions.</p>
+            <button class="btn-auth" onclick="window.location.href='index.html  fetchPosts();
     }
-    fetchPosts();
-}
 
-// 3. Fetch Posts and Nested Replies
-async function fetchPosts() {
-    const feed = document.getElementById('feedContainer');
-    try {
-        const response = await fetch('http://localhost:5000/api/comments');
-        if (!response.ok) throw new Error("Server error");
-        
-        const allComments = await response.json();
+    // 3. Fetch Posts and Nested Replies
+    async function fetchPosts() {
+      const feed = document.getElementById('feedContainer');
+      feed.innerHTML = `<p style="text-align:center; color:#888;">Loading discussions...</p>`;
+      try {
+        const response = await fetch(`${API_BASE}/comments`, {
+          headers: {
+            'Accept': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          }
+        });
+        if (!response.ok) {
+          const msg = await response.text().catch(()=> '');
+          throw new Error(`HTTP ${response.status}: ${msg}`);
+        }
+
+        const payload = await response.json();
+        const allComments = Array.isArray(payload) ? payload : (payload?.data || []);
         feed.innerHTML = ""; // Clear current feed
 
-        if (allComments.length === 0) {
-            feed.innerHTML = "<p style='text-align:center; color:#888;'>No discussions yet. Start one!</p>";
-            return;
+        if (!Array.isArray(allComments) || allComments.length === 0) {
+          feed.innerHTML = "<p style='text-align:center; color:#888;'>No discussions yet. Start one!</p>";
+          return;
         }
 
-        // Filter: Only main posts
-        const mainPosts = allComments.filter(c => !c.parentId);
-        
+        // Normalize comments for consistent rendering & comparisons
+        const normalize = c => ({
+          _id: c?._id != null ? String(c._id) : String(c.id || ''),
+          parentId: c?.parentId != null ? String(c.parentId) : null,
+          username: esc(c?.username || 'Anonymous'),
+          text: esc(c?.text || ''),
+          createdAt: c?.createdAt || c?.created_at || null
+        });
+
+        const items = allComments.map(normalize);
+        const mainPosts = items.filter(c => !c.parentId);
+
         mainPosts.forEach(post => {
-            const replies = allComments.filter(r => r.parentId === post._id);
-            
-            const postHTML = `
-                <div class="comment-thread" id="post-${post._id}">
-                    <div class="comment-header">
-                        <div class="avatar">${post.username.charAt(0)}</div>
-                        <div>
-                            <span class="username">${post.username}</span><br>
-                            <span class="timestamp">${new Date(post.createdAt).toLocaleString()}</span>
-                        </div>
-                    </div>
-                    <div class="comment-text">${post.text}</div>
-                    <div class="comment-actions">
-                        <span class="action-item"><i class="far fa-thumbs-up"></i> Like</span>
-                        <span class="action-item" onclick="toggleReplyBox('${post._id}')">
-                            <i class="far fa-comment"></i> Reply (${replies.length})
-                        </span>
-                    </div>
+          const replies = items.filter(r => String(r.parentId) === String(post._id));
+          const ts = post.createdAt ? new Date(post.createdAt) : new Date();
 
-                    <div id="replyBox-${post._id}" style="display:none; margin-top:15px;">
-                        <textarea id="input-${post._id}" placeholder="Write a reply..." style="width:100%; border-radius:8px; padding:10px; border:1px solid #ccc;"></textarea>
-                        <button class="btn-post" style="margin-top:5px; padding:5px 15px; font-size:12px;" onclick="submitPost('${post._id}')">Post Reply</button>
-                    </div>
-
-                    <div class="replies-container">
-                        ${replies.map(reply => `
-                            <div style="margin-top:15px; border-bottom: 1px solid #eee; padding-bottom:10px;">
-                                <div class="comment-header">
-                                    <div class="avatar" style="width:30px; height:30px; font-size:12px;">${reply.username.charAt(0)}</div>
-                                    <span class="username" style="font-size:14px;">${reply.username}</span>
-                                </div>
-                                <div class="comment-text" style="font-size:14px;">${reply.text}</div>
-                            </div>
-                        `).reverse().join('')}
-                    </div>
+          const postHTML = `
+            <div class="comment-thread" id="post-${post._id}">
+              <div class="comment-header">
+                <div class="avatar">${post.username.charAt(0)}</div>
+                <div>
+                  <span class="username">${post.username}</span><br>
+                  <span class="timestamp">${ts.toLocaleString()}</span>
                 </div>
-            `;
-            feed.innerHTML += postHTML;
+              </div>
+              <div class="comment-text">${post.text}</div>
+              <div class="comment-actions">
+                <span class="action-item"><i class="far fa-thumbs-up"></i> Like</span>
+                <span class="action-item" onclick="toggleReplyBox('${post._id}')">
+                  <i class="far fa-comment"></i> Reply (${replies.length})
+                </span>
+              </div>
+
+              <div id="replyBox-${post._id}" style="display:none; margin-top:15px;">
+                <textarea id="input-${post._id}" placeholder="Write a reply..." style="width:100%; border-radius:8px; padding:10px; border:1px solid #ccc;"></textarea>
+                <button class="btn-post" style="margin-top:5px; padding:5px 15px; font-size:12px;" onclick="submitPost('${post._id}')">Post Reply</button>
+              </div>
+
+              <div class="replies-container">
+                ${replies.map(reply => `
+                  <div style="margin-top:15px; border-bottom: 1px solid #eee; padding-bottom:10px;">
+                    <div class="comment-header">
+                      <div class="avatar" style="width:30px; height:30px; font-size:12px;">${reply.username.charAt(0)}</div>
+                      <span class="username" style="font-size:14px;">${reply.username}</span>
+                    </div>
+                    <div class="comment-text" style="font-size:14px;">${reply.text}</div>
+                  </div>
+                `).reverse().join('')}
+              </div>
+            </div>
+          `;
+          feed.insertAdjacentHTML('beforeend', postHTML);
         });
-    } catch (err) {
-        console.error(err);
-        feed.innerHTML = "<p style='color:red; text-align:center;'>Cannot connect to server. Check if server.js is running.</p>";
+      } catch (err) {
+        console.error('fetchPosts error:', err);
+        feed.innerHTML = "<p style='color:red; text-align:center;'>Cannot connect to server. Ensure the Render API is reachable and CORS is enabled.</p>";
+        // Optional: retry once if Render cold-starts
+        // setTimeout(fetchPosts, 1500);
+      }
     }
-}
 
-// 4. Toggle Reply Box
-function toggleReplyBox(postId) {
-    if (!user) return alert("Please login to reply!");
-    const box = document.getElementById(`replyBox-${postId}`);
-    box.style.display = box.style.display === 'none' ? 'block' : 'none';
-}
+    // 4. Toggle Reply Box (requires login)
+    function toggleReplyBox(postId) {
+      let logged = null;
+      try { logged = JSON.parse(localStorage.getItem('poweri_user')); } catch {}
+      if (!logged) {
+        alert("Please login to reply!");
+        // If you have an auth modal: openAuthModal && openAuthModal('login');
+        return;
+      }
+      const box = document.getElementById(`replyBox-${postId}`);
+      if (box) box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    }
 
-// 5. Submit Post or Reply
-async function submitPost(parentId = null) {
-    const inputId = parentId ? `input-${parentId}` : 'mainPostInput';
-    const inputEl = document.getElementById(inputId);
-    const text = inputEl.value;
+    // 5. Submit Post or Reply (uses token if present)
+    async function submitPost(parentId = null) {
+      let logged = null;
+      try { logged = JSON.parse(localStorage.getItem('poweri_user')); } catch {}
+      if (!logged) {
+        alert("Please login to post.");
+        // openAuthModal && openAuthModal('login');
+        return;
+      }
 
-    if (!text.trim()) return alert("Please write a message!");
+      const inputId = parentId ? `input-${parentId}` : 'mainPostInput';
+      const inputEl = document.getElementById(inputId);
+      if (!inputEl) return alert("Input not found.");
 
-    const bodyData = {
-        username: user ? user.name : "Anonymous",
-        text: text,
-        parentId: parentId 
-    };
+      const text = inputEl.value;
+      if (!text.trim()) return alert("Please write a message!");
 
-    try {
-        const response = await fetch('http://localhost:5000/api/comments', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bodyData)
+      const bodyData = {
+        username: logged.name || "Anonymous",
+        text,
+        parentId
+      };
+
+      const token = localStorage.getItem('token');
+
+      try {
+        const response = await fetch(`${API_BASE}/comments`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify(bodyData)
         });
 
-        if (response.ok) {
-            inputEl.value = "";
-            fetchPosts(); // Refresh list
+        if (!response.ok) {
+          const msg = await response.text().catch(()=> '');
+          throw new Error(`HTTP ${response.status}: ${msg}`);
         }
-    } catch (err) {
-        alert("Failed to post. Check connection.");
-    }
-}
 
-// Start the page
-window.onload = initPage;
-</script>
+        inputEl.value = "";
+        await fetchPosts(); // Refresh list
+      } catch (err) {
+        console.error('submitPost error:', err);
+        alert("Failed to post. Server may be waking up or token invalid.");
+      }
+    }
+
+    // Start the page
+    window.onload = initPage;
+  </script>
 </body>
 </html>
