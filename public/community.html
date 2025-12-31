@@ -41,6 +41,11 @@
 
     /* Reply Indentation */
     .replies-container { margin-left: 45px; border-left: 2px solid #eee; padding-left: 15px; margin-top: 10px; }
+
+    /* Error / Info banner */
+    .banner { padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; }
+    .banner.error { background: #ffe5e7; color: #831b23; border: 1px solid #f5c2c7; }
+    .banner.info { background: #eef6ff; color: #0b3c82; border: 1px solid #cfe2ff; }
   </style>
 </head>
 <body>
@@ -74,10 +79,14 @@
       t = localStorage.getItem('token') || null;
       return { user: u, token: t };
     };
-    const { user, token } = getAuth();
+
+    // Log environment for quick diagnosis
+    console.log("[Community] Page loaded at", new Date().toLocaleString());
+    console.log("[Community] Location:", window.location.href);
 
     // 2. Initialize the Post Input Area
     function initPage() {
+      const { user } = getAuth();
       const authArea = document.getElementById('authCheckArea');
       if (user && user.name) {
         authArea.innerHTML = `
@@ -92,28 +101,31 @@
           <div class="login-cta">
             <h3>Join the Conversation</h3>
             <p>You need to be logged in to post or reply to discussions.</p>
-            <button class="btn-auth" onclick="window.location.href='index.html  fetchPosts();
+            index.htmlLogin / Sign Up</button>
+          </div>`;
+      }
+      fetchPosts();
     }
 
     // 3. Fetch Posts and Nested Replies
     async function fetchPosts() {
       const feed = document.getElementById('feedContainer');
-      feed.innerHTML = `<p style="text-align:center; color:#888;">Loading discussions...</p>`;
+      feed.innerHTML = `<p class="banner info">Loading discussions…</p>`;
       try {
+        // GET should be public; DON'T send token unless required
         const response = await fetch(`${API_BASE}/comments`, {
-          headers: {
-            'Accept': 'application/json',
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-          }
+          headers: { 'Accept': 'application/json' }
         });
+        console.log("[Community] GET /comments status:", response.status);
         if (!response.ok) {
           const msg = await response.text().catch(()=> '');
           throw new Error(`HTTP ${response.status}: ${msg}`);
         }
 
         const payload = await response.json();
+        console.log("[Community] GET payload:", payload);
         const allComments = Array.isArray(payload) ? payload : (payload?.data || []);
-        feed.innerHTML = ""; // Clear current feed
+        feed.innerHTML = ""; // Clear
 
         if (!Array.isArray(allComments) || allComments.length === 0) {
           feed.innerHTML = "<p style='text-align:center; color:#888;'>No discussions yet. Start one!</p>";
@@ -131,6 +143,10 @@
 
         const items = allComments.map(normalize);
         const mainPosts = items.filter(c => !c.parentId);
+
+        if (mainPosts.length === 0) {
+          feed.innerHTML = "<p style='text-align:center; color:#888;'>No top-level discussions yet.</p>";
+        }
 
         mainPosts.forEach(post => {
           const replies = items.filter(r => String(r.parentId) === String(post._id));
@@ -175,9 +191,12 @@
         });
       } catch (err) {
         console.error('fetchPosts error:', err);
-        feed.innerHTML = "<p style='color:red; text-align:center;'>Cannot connect to server. Ensure the Render API is reachable and CORS is enabled.</p>";
+        feed.innerHTML = `<p class="banner error">Cannot load discussions. ${esc(err.message)}<br/>Tip: Ensure the page is served over HTTP/HTTPS (not file://), and the Render API is reachable.</p>`;
         // Optional: retry once if Render cold-starts
-        // setTimeout(fetchPosts, 1500);
+        setTimeout(() => {
+          console.log("[Community] Retrying GET /comments after cold-start delay…");
+          fetchPosts();
+        }, 1500);
       }
     }
 
@@ -230,6 +249,8 @@
           body: JSON.stringify(bodyData)
         });
 
+        console.log("[Community] POST /comments status:", response.status);
+
         if (!response.ok) {
           const msg = await response.text().catch(()=> '');
           throw new Error(`HTTP ${response.status}: ${msg}`);
@@ -239,7 +260,7 @@
         await fetchPosts(); // Refresh list
       } catch (err) {
         console.error('submitPost error:', err);
-        alert("Failed to post. Server may be waking up or token invalid.");
+        alert("Failed to post. " + err.message);
       }
     }
 
