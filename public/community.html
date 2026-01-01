@@ -71,7 +71,11 @@
 
     <script>
         // API Base configuration
-        const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
+        
+const API_BASE =
+  (window.location.protocol === 'http:' ? 'http' : 'https') +
+  '://poweri-compliance-portal.onrender.com/api';
+
 
         // Helper: Escape HTML to prevent XSS
         function esc(s) {
@@ -249,3 +253,4 @@
     </script>
 </body>
 </html>
+
