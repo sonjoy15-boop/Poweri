@@ -27,7 +27,8 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'public'))); 
 
 // 3. ROUTES
-app.use('/api', authRoutes);
+app.use('/api/auth', authRoutes); 
+
 
 // COMMUNITY HUB ROUTES
 app.get('/api/comments', async (req, res) => {
@@ -101,3 +102,4 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Server on Port ${PORT}`));
+
