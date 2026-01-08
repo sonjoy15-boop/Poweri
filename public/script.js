@@ -1,7 +1,6 @@
 // ==========================================
 // 1. CONFIGURATION & API BASE URL
 // ==========================================
-// Note: We use /api/auth for login/signup based on your routes/auth.js structure
 const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
 const AUTH_URL = `${API_BASE_URL}/auth`; 
 
@@ -87,13 +86,12 @@ async function processAuth(e) {
     e.preventDefault();
     const activeTab = document.querySelector('.tab-link.active');
     
-    // UI Feedback: Show loading state
     const submitBtn = document.getElementById('auth-submit-btn');
     const originalText = submitBtn.innerText;
     submitBtn.innerText = "Connecting...";
     submitBtn.disabled = true;
 
-    if (activeTab.id === 'tab-signup') {
+    if (activeTab && activeTab.id === 'tab-signup') {
         await handleSignup();
     } else {
         await handleLogin();
@@ -108,7 +106,7 @@ async function handleSignup() {
         name: document.getElementById('reg-name').value,
         mobile: document.getElementById('reg-mobile').value,
         company: document.getElementById('reg-company').value,
-        email: document.getElementById('auth-email').value.trim().toLowerCase(), // FIX: Trim spaces
+        email: document.getElementById('auth-email').value.trim().toLowerCase(),
         location: document.getElementById('reg-location').value,
         password: document.getElementById('auth-pass').value
     };
@@ -132,7 +130,7 @@ async function handleSignup() {
 }
 
 async function handleLogin() {
-    const email = document.getElementById('auth-email').value.trim().toLowerCase(); // FIX: Trim spaces
+    const email = document.getElementById('auth-email').value.trim().toLowerCase();
     const password = document.getElementById('auth-pass').value;
 
     try {
@@ -147,7 +145,14 @@ async function handleLogin() {
         if (response.ok) {
             localStorage.setItem('token', data.token);
             localStorage.setItem('poweri_user', JSON.stringify(data.user));
+            
             alert("✅ Login Successful!");
+            closeAuthModal();
+            
+            // Instantly update the home page UI
+            showDashboard(data.user.name);
+            
+            // Redirect to workspace
             window.location.assign("./dashboard.html");
         } else {
             alert("❌ Login Failed: " + (data.msg || "Invalid Credentials"));
@@ -158,18 +163,21 @@ async function handleLogin() {
 }
 
 // ==========================================
-// 5. UI UPDATES
+// 5. UI UPDATES & SESSION
 // ==========================================
 function showDashboard(userName) {
     const authBtns = document.getElementById('auth-btns');
     const profile = document.getElementById('user-profile');
     const nameDisplay = document.getElementById('userName');
+    const dashAccess = document.getElementById('dashboard-access');
 
     if (authBtns) authBtns.style.display = 'none';
     if (profile) {
         profile.style.display = 'flex';
         if (nameDisplay) nameDisplay.innerText = userName;
     }
+    // Make the workspace entry point visible
+    if (dashAccess) dashAccess.style.display = 'block';
 }
 
 function logout() {
@@ -179,17 +187,39 @@ function logout() {
 }
 
 // ==========================================
-// 6. INITIALIZATION
+// 6. FAQ & ACCORDION
+// ==========================================
+function toggleAnswer(btn) {
+    const panel = btn.nextElementSibling;
+    const span = btn.querySelector("span");
+    
+    if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+        if (span) span.innerText = "+";
+    } else {
+        document.querySelectorAll('.answer-panel').forEach(p => p.style.maxHeight = null);
+        document.querySelectorAll('.question-btn span').forEach(s => s.innerText = "+");
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        if (span) span.innerText = "-";
+    }
+}
+
+// ==========================================
+// 7. INITIALIZATION
 // ==========================================
 window.onload = function() {
-    // Check if user is logged in
+    // Check if user is already logged in
     const savedUser = localStorage.getItem('poweri_user');
     if (savedUser) {
-        const user = JSON.parse(savedUser);
-        showDashboard(user.name);
+        try {
+            const user = JSON.parse(savedUser);
+            showDashboard(user.name);
+        } catch (e) {
+            localStorage.removeItem('poweri_user');
+        }
     }
     
-    // Attach form submit listener
+    // Attach form listener
     const authForm = document.getElementById('authForm');
     if(authForm) authForm.onsubmit = processAuth;
 
