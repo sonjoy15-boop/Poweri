@@ -7,96 +7,77 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        :root { --primary: #003399; --accent: #e63946; --bg: #f4f7f6; --royal-blue: #003399; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        :root { --primary: #003399; --accent: #e63946; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; }
 
-        .community-header { background: var(--primary); color: white; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .community-header h1 { margin: 0 0 .5rem; }
-        .community-header p { margin: 0; opacity: .9; }
+        /* Universal PowerI Header Fix */
+        .community-header { background: var(--primary); color: white; padding: 2.5rem 1rem; text-align: center; position: relative; }
+        .community-header h1 { margin: 0; font-size: 2rem; }
+        .community-header p { margin: 10px 0 0; opacity: 0.9; font-size: 1.1rem; }
 
-        .main-container { max-width: 800px; margin: 20px auto; padding: 20px; }
+        .main-container { max-width: 850px; margin: 20px auto; padding: 0 15px; }
 
-        /* Post Creation Box */
-        .post-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 30px; border: 1px solid #e0e0e0; }
-        .post-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 12px; resize: none; font-size: 16px; box-sizing: border-box; min-height: 100px; font-family: inherit; }
+        /* Navigation Button */
+        .back-home { position: absolute; top: 20px; left: 20px; color: white; text-decoration: none; font-size: 14px; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 5px; }
+
+        /* Discussion Box */
+        .post-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .post-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 15px; resize: none; font-size: 16px; box-sizing: border-box; min-height: 120px; font-family: inherit; }
         .post-footer { display: flex; justify-content: flex-end; margin-top: 10px; }
         
-        .btn-post { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-        .btn-post:hover { background: #002673; transform: translateY(-1px); }
+        .btn-post { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-post:hover { background: #002673; transform: scale(1.02); }
 
-        /* Login CTA */
-        .login-cta { background: #fff3f3; border: 1px dashed var(--accent); padding: 25px; border-radius: 12px; text-align: center; }
-        .btn-auth { background: var(--accent); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px; cursor: pointer; border: none; font-weight: bold; }
+        /* Login Redirect Box */
+        .login-cta { background: #fff3f3; border: 2px dashed var(--accent); padding: 30px; border-radius: 12px; text-align: center; }
+        .btn-auth { background: var(--accent); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 15px; font-weight: bold; border: none; cursor: pointer; }
 
-        /* Discussion Thread */
-        .comment-thread { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        .comment-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .avatar { width: 45px; height: 45px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-transform: uppercase; font-size: 18px; }
-        .username { font-weight: bold; color: var(--primary); font-size: 16px; }
-        .timestamp { font-size: 12px; color: #888; }
-        .comment-text { line-height: 1.6; color: #333; word-wrap: break-word; font-size: 15px; padding: 5px 0; }
+        /* Feed Styles */
+        .comment-thread { background: white; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .avatar { width: 45px; height: 45px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
+        .comment-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .username { font-weight: 700; color: var(--primary); }
+        .timestamp { font-size: 12px; color: #777; }
+        .comment-text { font-size: 16px; line-height: 1.6; color: #222; }
         
-        .comment-actions { margin-top: 15px; display: flex; gap: 25px; font-size: 14px; color: #666; border-top: 1px solid #f0f0f0; padding-top: 12px; }
-        .action-item { cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 5px; }
-        .action-item:hover { color: var(--accent); }
-
-        /* Reply Section */
-        .replies-container { margin-left: 50px; border-left: 3px solid #f0f0f0; padding-left: 20px; margin-top: 15px; }
-        .reply-item { padding: 10px 0; border-bottom: 1px solid #fafafa; }
+        .replies-container { margin-left: 50px; border-left: 2px solid #eee; padding-left: 20px; margin-top: 20px; }
+        .reply-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; }
 
         /* Status Banners */
-        .banner { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; }
-        .banner.error { background: #ffe5e7; color: #831b23; border: 1px solid #f5c2c7; }
-        .banner.info { background: #eef6ff; color: #0b3c82; border: 1px solid #cfe2ff; }
-        
-        /* Navigation Link */
-        .back-home { position: absolute; top: 20px; left: 20px; color: white; text-decoration: none; font-size: 14px; }
+        .banner { padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; }
+        .banner.error { background: #fdeaea; color: #c0392b; border: 1px solid #f5c2c7; }
+        .banner.info { background: #eef6ff; color: #003399; }
     </style>
 </head>
 <body>
 
     <header class="community-header">
-        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
-        <h1><i class="fas fa-users"></i> PowerI Community Hub</h1>
-        <p>Chhattisgarh's Industrial Experts Exchange: Compliance, Engineering & Safety</p>
+        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Home</a>
+        <h1><i class="fas fa-users"></i> PowerI Community</h1>
+        <p>Expert Engineering & Compliance Discussions</p>
     </header>
 
     <div class="main-container">
         <div id="authCheckArea"></div>
 
         <div id="feedContainer">
-            <div class="banner info"><i class="fas fa-sync fa-spin"></i> Connecting to PowerI Server...</div>
+            <div class="banner info"><i class="fas fa-sync fa-spin"></i> Loading latest discussions...</div>
         </div>
     </div>
 
     <script>
-        // API Base configuration
-        
-const API_BASE =
-  (window.location.protocol === 'http:' ? 'http' : 'https') +
-  '://poweri-compliance-portal.onrender.com/api';
+        // BACKEND URL CONFIGURATION
+        const API_URL = "https://poweri-compliance-portal.onrender.com/api/comments";
 
-
-        // Helper: Escape HTML to prevent XSS
-        function esc(s) {
-            if (!s) return "";
-            return String(s).replace(/[&<>"']/g, function(m) {
-                return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[m];
-            });
-        }
-
-        // Check Login State and render Post Box
+        // Logic to render Post Box based on Login State
         function initPage() {
-            const userJson = localStorage.getItem('poweri_user');
-            let user = null;
-            try { user = userJson ? JSON.parse(userJson) : null; } catch(e) { user = null; }
-
+            const user = JSON.parse(localStorage.getItem('poweri_user'));
             const authArea = document.getElementById('authCheckArea');
 
             if (user && user.name) {
                 authArea.innerHTML = `
                     <div class="post-box">
-                        <textarea id="mainPostInput" placeholder="Ask a question about CEIG, CSPDCL or NEC 2023, ${esc(user.name)}..."></textarea>
+                        <textarea id="mainPostInput" placeholder="Sawal puchiye CEIG ya Safety ke baare mein, ${user.name}..."></textarea>
                         <div class="post-footer">
                             <button class="btn-post" onclick="submitPost()">
                                 <i class="fas fa-paper-plane"></i> Post Discussion
@@ -107,150 +88,122 @@ const API_BASE =
                 authArea.innerHTML = `
                     <div class="login-cta">
                         <h3><i class="fas fa-lock"></i> Join the Discussion</h3>
-                        <p>Login to share your ground-level experience or ask technical questions.</p>
-                        <button class="btn-auth" onclick="window.location.href='index.html'">Login / Sign Up</button>
+                        <p>Login to ask technical questions and help others with ground-level engineering.</p>
+                        <button class="btn-auth" onclick="window.location.href='index.html'">Login Now</button>
                     </div>`;
             }
             fetchPosts();
         }
 
-        // Fetch all posts from backend
+        // FETCH POSTS
         async function fetchPosts() {
             const feed = document.getElementById('feedContainer');
-            
             try {
-                const response = await fetch(API_BASE + '/comments', {
-                    headers: { 'Accept': 'application/json' }
-                });
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Render is waking up...');
 
-                if (!response.ok) {
-                    throw new Error('Server is waking up. Retrying in 5 seconds...');
-                }
+                const comments = await response.json();
+                feed.innerHTML = '';
 
-                const allComments = await response.json();
-                feed.innerHTML = ''; 
-
-                if (!allComments || allComments.length === 0) {
-                    feed.innerHTML = '<p style="text-align:center; color:#888; margin-top:40px;">No discussions yet. Be the first to start a conversation!</p>';
+                if (comments.length === 0) {
+                    feed.innerHTML = '<div class="banner info">Be the first to start a conversation!</div>';
                     return;
                 }
 
-                // Separate Main Posts and Replies
-                const mainPosts = allComments.filter(c => !c.parentId);
+                // Root discussions (No parentId)
+                const roots = comments.filter(c => !c.parentId).reverse();
 
-                mainPosts.reverse().forEach(post => {
-                    const replies = allComments.filter(r => String(r.parentId) === String(post._id || post.id));
-                    const ts = post.createdAt ? new Date(post.createdAt).toLocaleString() : 'Recently';
+                roots.forEach(post => {
+                    const replies = comments.filter(r => r.parentId === post._id);
+                    const ts = new Date(post.createdAt).toLocaleDateString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
                     let repliesHTML = '';
                     replies.forEach(reply => {
                         repliesHTML += `
                             <div class="reply-item">
                                 <div class="comment-header">
-                                    <div class="avatar" style="width:30px; height:30px; font-size:12px;">${esc(reply.username).charAt(0)}</div>
-                                    <span class="username" style="font-size:14px;">${esc(reply.username)}</span>
+                                    <div class="avatar" style="width:30px; height:30px; font-size:12px;">${reply.username[0]}</div>
+                                    <span class="username">${reply.username}</span>
                                 </div>
-                                <div class="comment-text" style="font-size:14px; margin-left:42px;">${esc(reply.text)}</div>
+                                <div class="comment-text">${reply.text}</div>
                             </div>`;
                     });
 
                     const postHTML = `
                         <div class="comment-thread">
                             <div class="comment-header">
-                                <div class="avatar">${esc(post.username).charAt(0)}</div>
+                                <div class="avatar">${post.username[0]}</div>
                                 <div>
-                                    <span class="username">${esc(post.username)}</span><br>
+                                    <span class="username">${post.username}</span><br>
                                     <span class="timestamp">${ts}</span>
                                 </div>
                             </div>
-                            <div class="comment-text">${esc(post.text)}</div>
+                            <div class="comment-text">${post.text}</div>
                             
-                            <div class="comment-actions">
-                                <span class="action-item"><i class="far fa-thumbs-up"></i> Helpful</span>
-                                <span class="action-item" onclick="toggleReplyBox('${post._id || post.id}')">
+                            <div style="margin-top:15px; font-size:14px;">
+                                <span style="cursor:pointer; color:var(--primary)" onclick="toggleReply('${post._id}')">
                                     <i class="far fa-comment"></i> Reply (${replies.length})
                                 </span>
                             </div>
 
-                            <div id="replyBox-${post._id || post.id}" style="display:none; margin-top:15px; padding-left:50px;">
-                                <textarea id="input-${post._id || post.id}" placeholder="Write your reply..." style="width:100%; border-radius:8px; padding:10px; border:1px solid #ccc;"></textarea>
-                                <button class="btn-post" style="margin-top:8px; padding:8px 15px; font-size:13px;" onclick="submitPost('${post._id || post.id}')">Submit Reply</button>
+                            <div id="replyBox-${post._id}" style="display:none; margin-top:15px;">
+                                <textarea id="input-${post._id}" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ddd;"></textarea>
+                                <button class="btn-post" style="margin-top:5px; padding:5px 15px;" onclick="submitPost('${post._id}')">Send Reply</button>
                             </div>
 
-                            <div class="replies-container">
-                                ${repliesHTML}
-                            </div>
+                            <div class="replies-container">${repliesHTML}</div>
                         </div>`;
-                    
                     feed.insertAdjacentHTML('beforeend', postHTML);
                 });
-
             } catch (err) {
-                feed.innerHTML = `<div class="banner error"><i class="fas fa-exclamation-triangle"></i> ${err.message}</div>`;
-                // Retry logic for Render Cold Start
-                setTimeout(fetchPosts, 5000);
+                feed.innerHTML = `<div class="banner error"><i class="fas fa-clock"></i> Server Connecting... Please wait 10 seconds.</div>`;
+                setTimeout(fetchPosts, 8000); // Retry loop
             }
         }
 
-        // Toggle visibility of reply input
-        function toggleReplyBox(postId) {
-            const userJson = localStorage.getItem('poweri_user');
-            if (!userJson) {
-                alert('Please login to reply to this discussion.');
-                return;
-            }
-            const box = document.getElementById('replyBox-' + postId);
-            box.style.display = (box.style.display === 'none') ? 'block' : 'none';
-        }
-
-        // Handle Posting (Main Discussion or Reply)
+        // SUBMIT POST OR REPLY
         async function submitPost(parentId = null) {
-            const userJson = localStorage.getItem('poweri_user');
+            const user = JSON.parse(localStorage.getItem('poweri_user'));
             const token = localStorage.getItem('token');
-            
-            if (!userJson) {
-                alert('Session expired. Please login again.');
-                return;
-            }
-
-            const user = JSON.parse(userJson);
             const inputId = parentId ? `input-${parentId}` : 'mainPostInput';
-            const inputEl = document.getElementById(inputId);
-            const text = inputEl.value.trim();
+            const text = document.getElementById(inputId).value.trim();
 
-            if (!text) {
-                alert('Message cannot be empty.');
-                return;
-            }
-
-            const bodyData = {
-                username: user.name || 'Industrial Expert',
-                text: text,
-                parentId: parentId
-            };
+            if (!text) return alert("Message cannot be empty!");
 
             try {
-                const response = await fetch(API_BASE + '/comments', {
+                const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: {
+                    headers: { 
                         'Content-Type': 'application/json',
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': `Bearer ${token}` 
                     },
-                    body: JSON.stringify(bodyData)
+                    body: JSON.stringify({
+                        username: user.name,
+                        text: text,
+                        parentId: parentId
+                    })
                 });
 
-                if (!response.ok) throw new Error('Failed to post. Please try again.');
-
-                inputEl.value = '';
-                if (parentId) document.getElementById('replyBox-' + parentId).style.display = 'none';
-                fetchPosts(); // Refresh feed
+                if (response.ok) {
+                    document.getElementById(inputId).value = '';
+                    fetchPosts();
+                } else {
+                    alert("Submission failed. Session may have expired.");
+                }
             } catch (err) {
-                alert(err.message);
+                alert("Connection error. Try again later.");
             }
+        }
+
+        function toggleReply(id) {
+            const box = document.getElementById('replyBox-' + id);
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
         }
 
         window.onload = initPage;
     </script>
 </body>
 </html>
+
+
 
