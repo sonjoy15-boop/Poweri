@@ -4,7 +4,7 @@ const DocumentSchema = new mongoose.Schema({
     userEmail: { 
         type: String, 
         required: true,
-        index: true // Makes searching for a user's vault much faster
+        index: true 
     },
     formName: { 
         type: String, 
@@ -12,18 +12,18 @@ const DocumentSchema = new mongoose.Schema({
     },
     section: { 
         type: String, 
-        required: true // Must be "RETURNS", "CEIG", "CSPDCL", etc.
+        required: true 
     },
     formData: { 
         type: Object, 
-        required: true // Stores all the inputs from your forms
+        required: true 
     },
     pdfFile: { 
-        type: String // Stores the Base64 string of the generated PDF
+        type: String 
     }
 }, { 
     timestamps: true 
 });
 
-// THE DEPLOYMENT FIX: Check if model exists before compiling
-module.exports = mongoose.models.Document || mongoose.model('Document', DocumentSchema);
+// SYNCED NAME: Changed 'Document' to 'Compliance' to match server.js
+module.exports = mongoose.models.Compliance || mongoose.model('Compliance', DocumentSchema);
