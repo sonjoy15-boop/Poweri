@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     mobile: { type: String, required: true },
@@ -6,5 +7,10 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     location: { type: String, required: true },
     password: { type: String, required: true }
+}, { 
+    timestamps: true // This adds createdAt and updatedAt automatically
 });
-module.exports = mongoose.model('User', UserSchema);
+
+// SAFE EXPORT: 
+// It checks if the model exists before creating a new one.
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema);
