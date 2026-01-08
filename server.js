@@ -2,65 +2,34 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const axios = require('axios'); // For the Keep-Alive Ping
+const axios = require('axios');
 require('dotenv').config();
 
+// 1. IMPORT ROUTES
 const authRoutes = require('./routes/auth');
+
+// 2. IMPORT MODELS (This prevents OverwriteModelError)
+const User = require('./models/User');
+const Compliance = require('./models/Document'); // Pointing to your Document.js
+const Comment = require('./models/Comment');   // Create models/Comment.js if missing
+
 const app = express();
 
-// 1. MIDDLEWARE (Supports Heavy PDF Uploads)
+// MIDDLEWARE
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
 app.use(cors({
     origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Serve static files from 'public'
 app.use(express.static(path.join(__dirname, 'public'))); 
 
-// 2. SCHEMAS & MODELS
-
-// User Schema (Auth)
-const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
-});
-const User = mongoose.model('User', userSchema);
-
-// Compliance Schema (Documents/Forms)
-const complianceSchema = new mongoose.Schema({
-    section: String,
-    formName: String,
-    date: String,
-    pdfFile: String, // Stores the Base64 PDF string
-    formData: Object, // Stores JSON data from forms
-    userEmail: String, // Tracks which user saved which document
-    createdAt: { type: Date, default: Date.now }
-});
-const Compliance = mongoose.model('Compliance', complianceSchema);
-
-// Community Schema (Discussions)
-const commentSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    text: { type: String, required: true },
-    parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment', default: null },
-    createdAt: { type: Date, default: Date.now }
-});
-const Comment = mongoose.model('Comment', commentSchema);
-
 // 3. ROUTES
-
-// Auth Integration
 app.use('/api', authRoutes);
 
-// --- COMMUNITY HUB ROUTES ---
+// COMMUNITY HUB ROUTES
 app.get('/api/comments', async (req, res) => {
     try {
         const comments = await Comment.find().sort({ createdAt: -1 });
@@ -81,7 +50,7 @@ app.post('/api/comments', async (req, res) => {
     }
 });
 
-// --- COMPLIANCE DOCUMENT ROUTES ---
+// COMPLIANCE DOCUMENT ROUTES
 app.post('/api/save-document', async (req, res) => {
     try {
         const newDoc = new Compliance(req.body);
@@ -94,7 +63,9 @@ app.post('/api/save-document', async (req, res) => {
 
 app.get('/api/my-documents', async (req, res) => {
     try {
-        const documents = await Compliance.find().sort({ createdAt: -1 });
+        // Updated to filter by userEmail if provided in query
+        const query = req.query.email ? { userEmail: req.query.email } : {};
+        const documents = await Compliance.find(query).sort({ createdAt: -1 });
         res.json(documents);
     } catch (err) {
         res.status(500).json({ error: "Could not fetch documents" });
@@ -117,22 +88,16 @@ mongoose.connect(dbURI)
     .then(() => console.log("✅ PowerI Database Connected!"))
     .catch(err => console.log("❌ DB Error:", err.message));
 
-// 5. STATUS & KEEP-ALIVE
-app.get('/status', (req, res) => {
-    res.send("PowerI Backend is active!");
-});
+// 5. KEEP-ALIVE & WILDCARD
+app.get('/status', (req, res) => res.send("PowerI Backend is active!"));
 
-// Self-Ping every 14 mins to stop Render from sleeping
 setInterval(() => {
-    axios.get('https://poweri-compliance-portal.onrender.com/status')
-        .then(() => console.log("Keep-Alive: Server Pinged"))
-        .catch(e => console.log("Keep-Alive Error"));
+    axios.get('https://poweri-compliance-portal.onrender.com/status').catch(() => {});
 }, 14 * 60 * 1000);
 
-// 6. WILDCARD (Must be last)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 PowerI Server on Port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Server on Port ${PORT}`));
