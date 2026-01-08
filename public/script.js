@@ -1,8 +1,9 @@
 // ==========================================
 // 1. CONFIGURATION & API BASE URL
 // ==========================================
-// We use the Render URL for the API to avoid DNS redirection loops
+// Note: We use /api/auth for login/signup based on your routes/auth.js structure
 const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
+const AUTH_URL = `${API_BASE_URL}/auth`; 
 
 // ==========================================
 // 2. LANGUAGE DICTIONARY & LOGIC
@@ -10,15 +11,15 @@ const API_BASE_URL = "https://poweri-compliance-portal.onrender.com/api";
 const translations = {
     en: {
         missionTitle: "Our Mission",
-        missionText: "Our Mission is to simplify Electricity Compliances, Ground level clarity, complex specific data finding problem. We currently operate in Chhattisgarh, one of India's largest producing states for cement, steel, and power. Our goal is to leverage our extensive ground-level experience to provide transparent, realistic data on power connectivity and compliance.",
+        missionText: "Our Mission is to simplify Electricity Compliances, Ground level clarity, and complex specific data finding. We currently operate in Chhattisgarh, providing transparent, realistic data on power connectivity.",
         welcomeTitle: "Welcome to PowerI.in",
-        welcomeText: "We are dedicated to translating this operational experience into clear, verifiable, and practical data regarding power connectivity."
+        welcomeText: "Verifiable and practical data regarding industrial power connectivity."
     },
     hi: {
         missionTitle: "हमारा लक्ष्य (Mission)",
-        missionText: "हमारा मिशन बिजली अनुपालन, जमीनी स्तर की स्पष्टता और जटिल विशिष्ट डेटा खोजने की समस्या को सरल बनाना है। हम वर्तमान में छत्तीसगढ़ में काम करते हैं, जो सीमेंट, स्टील और बिजली के लिए भारत के सबसे बड़े उत्पादक राज्यों में से एक है।",
+        missionText: "हमारा मिशन बिजली अनुपालन, जमीनी स्तर की स्पष्टता और डेटा खोजने की समस्या को सरल बनाना है। हम छत्तीसगढ़ के औद्योगिक विकास के लिए समर्पित हैं।",
         welcomeTitle: "PowerI.in में स्वागत है",
-        welcomeText: "हम इस परिचालन अनुभव को बिजली कनेक्टिविटी के संबंध में स्पष्ट, सत्यापन योग्य और व्यावहारिक डेटा में अनुवाद करने के लिए समर्पित हैं।"
+        welcomeText: "बिजली कनेक्टिविटी के संबंध में स्पष्ट और व्यावहारिक डेटा के लिए आपका विश्वसनीय स्रोत।"
     }
 };
 
@@ -66,43 +67,40 @@ function toggleAuth(mode) {
 
     if (mode === 'signup') {
         signupFields.forEach(el => el.style.display = 'block');
-        if (title) title.innerText = "Create Account";
+        if (title) title.innerText = "Create Industrial Account";
         if (submitBtn) submitBtn.innerText = "SIGN UP";
         if (tabSignup) tabSignup.classList.add('active');
         if (tabLogin) tabLogin.classList.remove('active');
-        validateSignup(); 
     } else {
         signupFields.forEach(el => el.style.display = 'none');
-        if (title) title.innerText = "Welcome Back";
+        if (title) title.innerText = "Industrial Login";
         if (submitBtn) submitBtn.innerText = "LOGIN";
         if (tabLogin) tabLogin.classList.add('active');
         if (tabSignup) tabSignup.classList.remove('active');
-        if (submitBtn) submitBtn.disabled = false;
-    }
-}
-
-function validateSignup() {
-    const checkBox = document.getElementById('privacy-check-new');
-    const submitBtn = document.getElementById('auth-submit-btn');
-    const activeTab = document.querySelector('.tab-link.active');
-    if (activeTab && activeTab.id === 'tab-signup' && submitBtn) {
-        submitBtn.disabled = checkBox ? !checkBox.checked : false;
     }
 }
 
 // ==========================================
-// 4. MONGODB AUTHENTICATION (SIGNUP / LOGIN)
+// 4. MONGODB AUTHENTICATION
 // ==========================================
 async function processAuth(e) {
     e.preventDefault();
     const activeTab = document.querySelector('.tab-link.active');
-    if (!activeTab) return;
+    
+    // UI Feedback: Show loading state
+    const submitBtn = document.getElementById('auth-submit-btn');
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = "Connecting...";
+    submitBtn.disabled = true;
 
     if (activeTab.id === 'tab-signup') {
         await handleSignup();
     } else {
         await handleLogin();
     }
+    
+    submitBtn.innerText = originalText;
+    submitBtn.disabled = false;
 }
 
 async function handleSignup() {
@@ -110,92 +108,68 @@ async function handleSignup() {
         name: document.getElementById('reg-name').value,
         mobile: document.getElementById('reg-mobile').value,
         company: document.getElementById('reg-company').value,
-        email: document.getElementById('auth-email').value,
+        email: document.getElementById('auth-email').value.trim().toLowerCase(), // FIX: Trim spaces
         location: document.getElementById('reg-location').value,
         password: document.getElementById('auth-pass').value
     };
 
     try {
-        const response = await fetch(`${API_BASE_URL}/signup`, {
+        const response = await fetch(`${AUTH_URL}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
         });
         const data = await response.json();
         if (response.ok) {
-            alert('✅ Signup Successful! You can now login.');
+            alert('✅ Success! Welcome to PowerI. Please login now.');
             toggleAuth('login');
         } else {
-            alert('❌ Signup Failed: ' + (data.msg || data.error));
+            alert('❌ Signup Error: ' + data.msg);
         }
     } catch (error) {
-        console.error("Signup Error:", error);
-        alert('❌ Connection Error: Ensure you are connected to the internet.');
+        alert('❌ Server is waking up (Render delay). Please try again in 30 seconds.');
     }
 }
 
 async function handleLogin() {
-    const emailField = document.getElementById('auth-email');
-    const passField = document.getElementById('auth-pass');
-    if (!emailField || !passField) return;
-
-    const loginData = { email: emailField.value, password: passField.value };
+    const email = document.getElementById('auth-email').value.trim().toLowerCase(); // FIX: Trim spaces
+    const password = document.getElementById('auth-pass').value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}/login`, {
+        const response = await fetch(`${AUTH_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginData)
+            body: JSON.stringify({ email, password })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            // Save authentication data
             localStorage.setItem('token', data.token);
             localStorage.setItem('poweri_user', JSON.stringify(data.user));
-            
             alert("✅ Login Successful!");
-            closeAuthModal();
-            
-// REMOVE or comment the undefined call:
-      // showDashboard(data.user.name);
-
-      // Use assign for clarity, and add a fallback timer
-      const target = "./dashboard.html";  // adjust path if needed
-      window.location.assign(target);
-
-      // Fallback redirect in case browsers block immediate navigation
-      setTimeout(() => {
-        if (!/dashboard\.html$/i.test(window.location.pathname)) {
-          window.location.href = target;
-        }
-      }, 200);
-
+            window.location.assign("./dashboard.html");
         } else {
             alert("❌ Login Failed: " + (data.msg || "Invalid Credentials"));
         }
     } catch (error) {
-        console.error("Login Error:", error);
-        alert("❌ Server Error: Connection refused. Check if the server is awake.");
+        alert("❌ Render server is starting up. Please click Login again in 1 minute.");
     }
 }
 
 // ==========================================
-// 5. DASHBOARD UI & LOGOUT
+// 5. UI UPDATES
 // ==========================================
 function showDashboard(userName) {
     const authBtns = document.getElementById('auth-btns');
     const profile = document.getElementById('user-profile');
     const nameDisplay = document.getElementById('userName');
-    const dashAccess = document.getElementById('dashboard-access');
 
     if (authBtns) authBtns.style.display = 'none';
     if (profile) {
         profile.style.display = 'flex';
         if (nameDisplay) nameDisplay.innerText = userName;
     }
-    if (dashAccess) dashAccess.style.display = 'block';
 }
 
 function logout() {
@@ -205,107 +179,24 @@ function logout() {
 }
 
 // ==========================================
-// 6. COMMUNITY DRAWER & INTERACTION
-// ==========================================
-function initCommunityDrawer() {
-    const communityBtn = document.getElementById('communityBtn');
-    const drawer = document.getElementById('communityDrawer');
-    const overlay = document.getElementById('communityOverlay');
-    const drawerClose = document.getElementById('drawerClose');
-
-    if (!communityBtn || !drawer || !overlay) return;
-
-    communityBtn.onclick = (e) => {
-        e.preventDefault();
-        drawer.classList.add('open');
-        overlay.classList.add('show');
-    };
-
-    const close = () => {
-        drawer.classList.remove('open');
-        overlay.classList.remove('show');
-    };
-
-    if (drawerClose) drawerClose.onclick = close;
-    overlay.onclick = close;
-}
-
-function checkAuthAndPost() {
-    const user = localStorage.getItem('poweri_user');
-    if (!user) {
-        alert("Please Login to post comments or questions.");
-        openAuthModal('login');
-    } else {
-        alert("Post feature coming soon for verified industrial users!");
-    }
-}
-
-// ==========================================
-// 7. FAQ & ACCORDION LOGIC
-// ==========================================
-function toggleAnswer(btn) {
-    const panel = btn.nextElementSibling;
-    const span = btn.querySelector("span");
-    
-    btn.classList.toggle("active");
-
-    if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-        if (span) span.innerText = "+";
-    } else {
-        // Close other panels (Accordion effect)
-        document.querySelectorAll('.answer-panel').forEach(p => p.style.maxHeight = null);
-        document.querySelectorAll('.question-btn span').forEach(s => s.innerText = "+");
-
-        panel.style.maxHeight = panel.scrollHeight + "px";
-        if (span) span.innerText = "-";
-    }
-}
-
-// Function for Dashboard category toggles
-function toggleDashboardCat(button) {
-    const content = button.nextElementSibling;
-    const icon = button.querySelector('i');
-    
-    document.querySelectorAll('.cat-content').forEach(c => {
-        if (c !== content) c.style.display = "none";
-    });
-    
-    if (content.style.display === "block") {
-        content.style.display = "none";
-        if (icon) icon.className = "fas fa-chevron-down";
-    } else {
-        content.style.display = "block";
-        if (icon) icon.className = "fas fa-chevron-up";
-    }
-}
-
-// ==========================================
-// 8. INITIALIZATION ON PAGE LOAD
+// 6. INITIALIZATION
 // ==========================================
 window.onload = function() {
-    // Start Community Drawer
-    initCommunityDrawer();
+    // Check if user is logged in
+    const savedUser = localStorage.getItem('poweri_user');
+    if (savedUser) {
+        const user = JSON.parse(savedUser);
+        showDashboard(user.name);
+    }
+    
+    // Attach form submit listener
+    const authForm = document.getElementById('authForm');
+    if(authForm) authForm.onsubmit = processAuth;
 
-    // Load saved Language
+    // Load language
     const savedLang = localStorage.getItem('userLanguage');
     if (savedLang && document.getElementById('languageSelect')) {
         document.getElementById('languageSelect').value = savedLang;
         toggleLanguage();
     }
-
-    // Load Session (Stay Logged In)
-    const savedUser = localStorage.getItem('poweri_user');
-    if (savedUser) {
-        try {
-            const user = JSON.parse(savedUser);
-            showDashboard(user.name);
-        } catch (e) {
-            console.error("Session restoration failed", e);
-            localStorage.removeItem('poweri_user');
-        }
-    }
 };
-
-
-
