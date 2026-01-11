@@ -31,6 +31,16 @@ const UserSchema = new mongoose.Schema({
     isAdmin: { 
         type: Boolean, 
         default: false 
+    },
+    // --- NEW: Added for Admin Control ---
+    isBlocked: { 
+        type: Boolean, 
+        default: false 
+    },
+    // --- NEW: Added for User Time Analysis ---
+    lastLogin: { 
+        type: Date, 
+        default: Date.now 
     }
 }, { 
     timestamps: true 
