@@ -12,11 +12,13 @@
                 url('hero-bg.png');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Optional: creates a parallax effect */
+    background-attachment: fixed;
     min-height: 100vh;
+    
+    /* FIX STARTS HERE */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* Stacks Header on top of Content */
+    align-items: center;    /* Keeps text centered horizontally */
     color: white;
 }
 
@@ -25,9 +27,12 @@
     z-index: 10;
     max-width: 800px;
     padding: 20px;
-    margin-top: 100px; /* Gives space for the absolute header */
+    
+    /* This "auto" margin is the trick: */
+    /* It pushes the content away from the header into the vertical center */
+    margin-top: auto; 
+    margin-bottom: auto; 
 }
-
 .hero-content h2 {
     font-size: 3.5rem;
     margin-bottom: 20px;
@@ -688,6 +693,7 @@
     font-weight: bold;
     color: #ff4757; /* Accent red to stand out */
 }
+
 
 
 
