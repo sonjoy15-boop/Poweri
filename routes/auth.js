@@ -3,13 +3,16 @@ const router = express.Router();
 const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken'); 
 const User = require('../models/User');
+// Missing Import Added Back:
+const Compliance = require('../models/Document'); 
 
 const JWT_SECRET = process.env.JWT_SECRET || "POWERI_PRO_SECURE_KEY_2026";
 
-// --- MIDDLEWARE: VERIFY TOKEN ---
-// This ensures only logged-in users can update their profile
+// ==========================================
+// 1. MIDDLEWARE: VERIFY TOKEN
+// ==========================================
 const authMiddleware = (req, res, next) => {
-    const token = req.header('Authorization')?.split(' ')[1]; // Expects "Bearer TOKEN"
+    const token = req.header('Authorization')?.split(' ')[1]; 
     if (!token) return res.status(401).json({ msg: "No token, authorization denied" });
 
     try {
@@ -21,14 +24,17 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-// --- SIGNUP ROUTE ---
+// ==========================================
+// 2. PUBLIC ROUTES (SIGNUP & LOGIN)
+// ==========================================
+
 router.post('/signup', async (req, res) => {
     try {
         let { name, mobile, company, email, location, password } = req.body;
         email = email.trim().toLowerCase();
 
         let userExists = await User.findOne({ email });
-        if (userExists) return res.status(400).json({ msg: "User already registered with this email." });
+        if (userExists) return res.status(400).json({ msg: "User already registered." });
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -39,18 +45,18 @@ router.post('/signup', async (req, res) => {
             company,
             email,
             location,
-            password: hashedPassword
+            password: hashedPassword,
+            isAdmin: false,
+            isBlocked: false
         });
 
         await newUser.save();
-        res.status(201).json({ msg: "Registration successful! You can now login." });
+        res.status(201).json({ msg: "Registration successful!" });
     } catch (err) {
-        console.error("Signup Error:", err);
-        res.status(500).json({ error: "Server error during registration." });
+        res.status(500).json({ error: "Signup failed." });
     }
 });
 
-// --- LOGIN ROUTE ---
 router.post('/login', async (req, res) => {
     try {
         let { email, password } = req.body;
@@ -59,68 +65,103 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: "Email not found." });
 
+        // BLOCK CHECK
+        if (user.isBlocked) {
+            return res.status(403).json({ msg: "Account suspended. Please contact PowerI support." });
+        }
+
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
 
-        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+        // TIME ANALYSIS: Update last login
+        user.lastLogin = Date.now();
+        await user.save();
+
+        const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: '7d' });
 
         res.json({
-            msg: "Login successful",
             token,
             user: {
+                id: user._id,
                 name: user.name,
                 email: user.email,
                 company: user.company,
                 location: user.location,
-                mobile: user.mobile // Added mobile here for dashboard display
+                mobile: user.mobile,
+                isAdmin: user.isAdmin
             }
         });
     } catch (err) {
-        res.status(500).json({ error: "Server error during login." });
+        res.status(500).json({ error: "Login failed." });
     }
 });
 
-// --- NEW: UPDATE PROFILE ROUTE (CRITICAL FOR DASHBOARD) ---
+// ==========================================
+// 3. USER ROUTES (PROTECTED)
+// ==========================================
+
 router.put('/update-profile', authMiddleware, async (req, res) => {
     try {
         const { name, company, location, mobile } = req.body;
-        
-        // Find user by ID from the token and update
         const updatedUser = await User.findByIdAndUpdate(
             req.user.id,
             { $set: { name, company, location, mobile } },
-            { new: true } // Returns the updated document
-        ).select('-password'); // Don't send password back
+            { new: true } 
+        ).select('-password'); 
 
         res.json({ msg: "Profile updated successfully", user: updatedUser });
     } catch (err) {
-        console.error("Update Error:", err);
-        res.status(500).json({ error: "Failed to update profile info." });
+        res.status(500).json({ error: "Update failed." });
+    }
+});
+
+// ==========================================
+// 4. ADMIN ROUTES (EXCLUSIVES)
+// ==========================================
+
+// GET ALL USERS (TIME ANALYSIS)
+router.get('/admin/users', async (req, res) => {
+    try {
+        // Sorts by most recently active
+        const users = await User.find().select('-password').sort({ lastLogin: -1 });
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ msg: "Error fetching users" });
+    }
+});
+
+// BLOCK / UNBLOCK USER
+router.patch('/admin/users/block/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({ msg: "User not found" });
+        
+        user.isBlocked = !user.isBlocked;
+        await user.save();
+        res.json({ msg: user.isBlocked ? "User Blocked" : "User Unblocked", isBlocked: user.isBlocked });
+    } catch (err) {
+        res.status(500).json({ error: "Block action failed" });
+    }
+});
+
+// DELETE USER PERMANENTLY
+router.delete('/admin/users/:id', async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ msg: "User permanently deleted from PowerI records." });
+    } catch (err) {
+        res.status(500).json({ error: "Delete failed" });
+    }
+});
+
+// VIEW ALL VAULT DOCUMENTS
+router.get('/admin/all-docs', async (req, res) => {
+    try {
+        const docs = await Compliance.find().sort({ createdAt: -1 });
+        res.json(docs);
+    } catch (err) {
+        res.status(500).json({ msg: "Error fetching documents" });
     }
 });
 
 module.exports = router;
-
-// Add these to routes/auth.js
-
-// 1. Get all users (Admin only)
-router.get('/admin/users', async (req, res) => {
-    try {
-        const users = await User.find().select('-password');
-        res.json(users);
-    } catch (err) {
-        res.status(500).json({ msg: "Server Error" });
-    }
-});
-
-// 2. Get all documents from all users (Admin only)
-// Note: You need to import the Compliance model in auth.js first
-router.get('/admin/all-docs', async (req, res) => {
-    try {
-        const Compliance = require('../models/Document');
-        const docs = await Compliance.find().sort({ createdAt: -1 });
-        res.json(docs);
-    } catch (err) {
-        res.status(500).json({ msg: "Server Error" });
-    }
-});
