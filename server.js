@@ -100,6 +100,21 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Get all registered industrial users
+app.get('/api/admin/users', async (req, res) => {
+    // In a real app, verify the token here first!
+    const users = await User.find().select('-password');
+    res.json(users);
+});
+
+// See all compliance documents across the platform
+app.get('/api/admin/all-docs', async (req, res) => {
+    const docs = await Compliance.find().sort({ createdAt: -1 });
+    res.json(docs);
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Server on Port ${PORT}`));
+
 
