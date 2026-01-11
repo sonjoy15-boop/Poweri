@@ -207,10 +207,7 @@
                     const statusText = u.isBlocked ? 'Suspended' : 'Active';
 
                     html += `<tr>
-                        <td>
-                            <strong>${u.name}</strong><br>
-                            <small>${u.email} | ${u.company}</small>
-                        </td>
+                        <td><strong>${u.name}</strong><br><small>${u.email} | ${u.company}</small></td>
                         <td>${lastSeen}</td>
                         <td><span class="badge ${statusClass}">${statusText}</span></td>
                         <td>
@@ -230,10 +227,36 @@
                         <td><button class="btn-action btn-verify">View Content</button></td>
                     </tr>`;
                 });
+            } 
+            // --- ADDED THIS MISSING SECTION ---
+            else if (type === 'comments') {
+                document.getElementById('section-title').innerText = "Community Hub Moderation";
+                html += `<th>Username</th><th>Message Content</th><th>Post Date</th><th>Action</th></tr></thead><tbody>`;
+                data.forEach(c => {
+                    html += `<tr>
+                        <td><strong>${c.username}</strong></td>
+                        <td>${c.text}</td>
+                        <td>${new Date(c.createdAt).toLocaleDateString()}</td>
+                        <td><button class="btn-action btn-delete" onclick="deleteComment('${c._id}')">Remove Post</button></td>
+                    </tr>`;
+                });
             }
             
             html += `</tbody></table>`;
             document.getElementById('table-content').innerHTML = html;
+        }
+
+        // Add this helper for the comments section
+        async function deleteComment(id) {
+            if(!confirm("Remove this post from the Community Hub?")) return;
+            try {
+                const res = await fetch(`${API_BASE}/comments/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
+                });
+                alert("Post removed.");
+                loadTableData('comments');
+            } catch (err) { alert("Failed to delete post."); }
         }
 
         // --- NEW ACTION LOGIC ---
