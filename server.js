@@ -8,14 +8,18 @@ require('dotenv').config();
 // 1. IMPORT ROUTES
 const authRoutes = require('./routes/auth');
 
-// 2. IMPORT MODELS (This prevents OverwriteModelError)
+// 2. IMPORT MODELS
+// Using the "Safe Export" logic inside these files is better, 
+// but we import them here to ensure they are registered in Mongoose.
 const User = require('./models/User');
-const Compliance = require('./models/Document'); // Pointing to your Document.js
-const Comment = require('./models/Comment');   // Create models/Comment.js if missing
+const Compliance = require('./models/Document'); 
+const Comment = require('./models/Comment');   
 
 const app = express();
 
+// ==========================================
 // MIDDLEWARE
+// ==========================================
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors({
@@ -24,11 +28,34 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+// Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public'))); 
 
-// 3. ROUTES
+// ==========================================
+// 3. API ROUTES (Must come BEFORE Wildcard)
+// ==========================================
+
+// AUTH ROUTES (Login/Signup)
 app.use('/api/auth', authRoutes); 
 
+// ADMIN SPECIFIC API DATA
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch users" });
+    }
+});
+
+app.get('/api/admin/all-docs', async (req, res) => {
+    try {
+        const docs = await Compliance.find().sort({ createdAt: -1 });
+        res.json(docs);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch all documents" });
+    }
+});
 
 // COMMUNITY HUB ROUTES
 app.get('/api/comments', async (req, res) => {
@@ -64,7 +91,6 @@ app.post('/api/save-document', async (req, res) => {
 
 app.get('/api/my-documents', async (req, res) => {
     try {
-        // Updated to filter by userEmail if provided in query
         const query = req.query.email ? { userEmail: req.query.email } : {};
         const documents = await Compliance.find(query).sort({ createdAt: -1 });
         res.json(documents);
@@ -82,45 +108,34 @@ app.delete('/api/documents/:id', async (req, res) => {
     }
 });
 
+// ==========================================
 // 4. DATABASE CONNECTION
+// ==========================================
 const dbURI = process.env.MONGO_URI || "mongodb+srv://sonjoy15:Sonj_123@poweri.da62ewq.mongodb.net/PowerI_DB?retryWrites=true&w=majority";
 
 mongoose.connect(dbURI)
     .then(() => console.log("✅ PowerI Database Connected!"))
     .catch(err => console.log("❌ DB Error:", err.message));
 
-// 5. KEEP-ALIVE & WILDCARD
+// ==========================================
+// 5. PAGE ROUTING & KEEP-ALIVE
+// ==========================================
 app.get('/status', (req, res) => res.send("PowerI Backend is active!"));
 
+// Render Keep-Alive script
 setInterval(() => {
     axios.get('https://poweri-compliance-portal.onrender.com/status').catch(() => {});
 }, 14 * 60 * 1000);
 
-// Add this above the wildcard (*) route
+// Specific route for Admin Page
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+// FINAL WILDCARD (Must be the very last route)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Get all registered industrial users
-app.get('/api/admin/users', async (req, res) => {
-    // In a real app, verify the token here first!
-    const users = await User.find().select('-password');
-    res.json(users);
-});
-
-// See all compliance documents across the platform
-app.get('/api/admin/all-docs', async (req, res) => {
-    const docs = await Compliance.find().sort({ createdAt: -1 });
-    res.json(docs);
-});
-
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Server on Port ${PORT}`));
-
-
-
