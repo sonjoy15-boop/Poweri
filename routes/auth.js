@@ -100,3 +100,27 @@ router.put('/update-profile', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+
+// Add these to routes/auth.js
+
+// 1. Get all users (Admin only)
+router.get('/admin/users', async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ msg: "Server Error" });
+    }
+});
+
+// 2. Get all documents from all users (Admin only)
+// Note: You need to import the Compliance model in auth.js first
+router.get('/admin/all-docs', async (req, res) => {
+    try {
+        const Compliance = require('../models/Document');
+        const docs = await Compliance.find().sort({ createdAt: -1 });
+        res.json(docs);
+    } catch (err) {
+        res.status(500).json({ msg: "Server Error" });
+    }
+});
