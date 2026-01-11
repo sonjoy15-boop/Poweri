@@ -96,6 +96,11 @@ setInterval(() => {
     axios.get('https://poweri-compliance-portal.onrender.com/status').catch(() => {});
 }, 14 * 60 * 1000);
 
+// Add this above the wildcard (*) route
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -116,5 +121,6 @@ app.get('/api/admin/all-docs', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Server on Port ${PORT}`));
+
 
 
