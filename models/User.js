@@ -30,8 +30,11 @@ const UserSchema = new mongoose.Schema({
     }
 }, { 
     timestamps: true // Correct: Automatically creates createdAt and updatedAt
-});
+    },
+     isAdmin: { type: Boolean, default: false }
+     });
 
 // SAFE EXPORT: 
 // Crucial for Render/Deployment to prevent OverwriteModelError
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema);
+
