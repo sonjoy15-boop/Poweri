@@ -10,8 +10,10 @@
         :root {
             --sidebar-width: 250px;
             --admin-bg: #f4f7f9;
+            --royal-blue: #003366;
+            --accent-red: #cc0000;
         }
-        body { display: flex; background: var(--admin-bg); min-height: 100vh; margin: 0; }
+        body { display: flex; background: var(--admin-bg); min-height: 100vh; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         /* Sidebar Styling */
         .sidebar {
@@ -21,6 +23,7 @@
             position: fixed;
             height: 100%;
             padding-top: 20px;
+            z-index: 100;
         }
         .sidebar-brand { padding: 20px; font-size: 1.5rem; font-weight: bold; border-bottom: 1px solid #334155; }
         .sidebar-brand span { color: var(--accent-red); }
@@ -53,7 +56,7 @@
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             text-align: center;
         }
-        .stat-card h3 { margin: 0; font-size: 2rem; color: var(--royal-blue); }
+        .stat-card h3 { margin: 10px 0 0; font-size: 2rem; color: var(--royal-blue); }
         
         /* Data Tables */
         .admin-table-container {
@@ -61,14 +64,24 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow-x: auto;
         }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { text-align: left; padding: 12px; border-bottom: 2px solid #edf2f7; color: #64748b; }
-        td { padding: 12px; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid #edf2f7; color: #64748b; background: #f8fafc; }
+        td { padding: 12px; border-bottom: 1px solid #edf2f7; font-size: 0.9rem; vertical-align: middle; }
         
-        .btn-action { padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.8rem; }
-        .btn-delete { background: #fee2e2; color: #ef4444; }
-        .btn-verify { background: #dcfce7; color: #22c55e; }
+        /* Badge Styles */
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .badge-active { background: #dcfce7; color: #166534; }
+        .badge-blocked { background: #fee2e2; color: #991b1b; }
+
+        /* Action Buttons */
+        .btn-action { padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.8rem; margin-right: 5px; transition: 0.2s; }
+        .btn-delete { background: #ef4444; color: white; }
+        .btn-delete:hover { background: #dc2626; }
+        .btn-block { background: #f59e0b; color: white; }
+        .btn-block:hover { background: #d97706; }
+        .btn-verify { background: #3b82f6; color: white; }
         
         #loader { display: none; text-align: center; padding: 50px; }
     </style>
@@ -89,24 +102,22 @@
     <main class="main-content">
         <header style="margin-bottom: 30px;">
             <h2 id="section-title">Admin Dashboard</h2>
-            <p>Welcome back, Administrator.</p>
+            <p id="welcome-msg">Welcome back, Administrator.</p>
         </header>
-
-        <div id="loader"><i class="fas fa-spinner fa-spin fa-3x"></i></div>
 
         <div id="stats-section">
             <div class="stat-grid">
                 <div class="stat-card">
-                    <p>Total Visitors</p>
-                    <h3 id="stat-visitors">0</h3>
-                </div>
-                <div class="stat-card">
-                    <p>Registered Users</p>
+                    <p><i class="fas fa-users"></i> Registered Users</p>
                     <h3 id="stat-users">0</h3>
                 </div>
                 <div class="stat-card">
-                    <p>Saved Documents</p>
+                    <p><i class="fas fa-file-alt"></i> Documents Stored</p>
                     <h3 id="stat-docs">0</h3>
+                </div>
+                <div class="stat-card">
+                    <p><i class="fas fa-user-slash"></i> Blocked Accounts</p>
+                    <h3 id="stat-blocked">0</h3>
                 </div>
             </div>
         </div>
@@ -119,8 +130,9 @@
 
     <script>
         const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
+        const TOKEN = localStorage.getItem('token');
 
-        // 1. SECURITY CHECK (Kicks out non-admins)
+        // 1. SECURITY CHECK
         window.onload = () => {
             const user = JSON.parse(localStorage.getItem('poweri_user'));
             if (!user || !user.isAdmin) {
@@ -132,15 +144,20 @@
         };
 
         async function fetchInitialStats() {
-            // In a real setup, we'd have a specific /api/admin/stats route
-            // For now, let's load users to show the count
             try {
-                const res = await fetch(`${API_BASE}/admin/users`, {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                const res = await fetch(`${API_BASE}/auth/admin/users`, {
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
                 });
                 const users = await res.json();
                 document.getElementById('stat-users').innerText = users.length;
-            } catch (err) { console.error(err); }
+                document.getElementById('stat-blocked').innerText = users.filter(u => u.isBlocked).length;
+                
+                const docRes = await fetch(`${API_BASE}/auth/admin/all-docs`, {
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
+                });
+                const docs = await docRes.json();
+                document.getElementById('stat-docs').innerText = docs.length;
+            } catch (err) { console.error("Stats Error:", err); }
         }
 
         function showSection(type) {
@@ -165,16 +182,16 @@
             const content = document.getElementById('table-content');
             content.innerHTML = `<p><i class="fas fa-spinner fa-spin"></i> Loading ${type}...</p>`;
             
-            let endpoint = type === 'users' ? '/admin/users' : (type === 'docs' ? '/admin/all-docs' : '/comments');
+            let endpoint = type === 'users' ? '/auth/admin/users' : (type === 'docs' ? '/auth/admin/all-docs' : '/comments');
             
             try {
                 const res = await fetch(`${API_BASE}${endpoint}`, {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
                 });
                 const data = await res.json();
                 renderTable(type, data);
             } catch (err) {
-                content.innerHTML = `<p style="color:red">Failed to load data. Ensure your server is running.</p>`;
+                content.innerHTML = `<p style="color:red">Failed to load data. Verify backend connection.</p>`;
             }
         }
 
@@ -182,34 +199,71 @@
             let html = `<table><thead><tr>`;
             
             if (type === 'users') {
-                document.getElementById('section-title').innerText = "Manage Industrial Users";
-                html += `<th>Name</th><th>Company</th><th>Mobile</th><th>Actions</th></tr></thead><tbody>`;
+                document.getElementById('section-title').innerText = "User Access & Time Analysis";
+                html += `<th>User Details</th><th>Last Activity</th><th>Status</th><th>Control</th></tr></thead><tbody>`;
                 data.forEach(u => {
+                    const lastSeen = u.lastLogin ? new Date(u.lastLogin).toLocaleString() : 'Never';
+                    const statusClass = u.isBlocked ? 'badge-blocked' : 'badge-active';
+                    const statusText = u.isBlocked ? 'Suspended' : 'Active';
+
                     html += `<tr>
-                        <td>${u.name}</td>
-                        <td>${u.company}</td>
-                        <td>${u.mobile}</td>
                         <td>
-                            <button class="btn-action btn-verify">Verify</button>
-                            <button class="btn-action btn-delete">Delete</button>
+                            <strong>${u.name}</strong><br>
+                            <small>${u.email} | ${u.company}</small>
+                        </td>
+                        <td>${lastSeen}</td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <button class="btn-action btn-block" onclick="toggleBlock('${u._id}')">${u.isBlocked ? 'Unblock' : 'Block'}</button>
+                            <button class="btn-action btn-delete" onclick="deleteUser('${u._id}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>`;
                 });
             } else if (type === 'docs') {
                 document.getElementById('section-title').innerText = "Compliance Vault Monitor";
-                html += `<th>User</th><th>Form Name</th><th>Date</th><th>Actions</th></tr></thead><tbody>`;
+                html += `<th>User Email</th><th>Document Name</th><th>Date Saved</th><th>Action</th></tr></thead><tbody>`;
                 data.forEach(d => {
                     html += `<tr>
                         <td>${d.userEmail}</td>
-                        <td>${d.formName}</td>
+                        <td>${d.formName || 'Compliance Doc'}</td>
                         <td>${new Date(d.createdAt).toLocaleDateString()}</td>
-                        <td><button class="btn-action btn-verify">View PDF</button></td>
+                        <td><button class="btn-action btn-verify">View Content</button></td>
                     </tr>`;
                 });
             }
             
             html += `</tbody></table>`;
             document.getElementById('table-content').innerHTML = html;
+        }
+
+        // --- NEW ACTION LOGIC ---
+
+        async function toggleBlock(id) {
+            if(!confirm("Change user access status?")) return;
+            try {
+                const res = await fetch(`${API_BASE}/auth/admin/users/block/${id}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
+                });
+                const result = await res.json();
+                alert(result.msg);
+                loadTableData('users');
+                fetchInitialStats();
+            } catch (err) { alert("Failed to update status"); }
+        }
+
+        async function deleteUser(id) {
+            if(!confirm("Are you sure? This will PERMANENTLY delete the user and their data.")) return;
+            try {
+                const res = await fetch(`${API_BASE}/auth/admin/users/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
+                });
+                const result = await res.json();
+                alert(result.msg);
+                loadTableData('users');
+                fetchInitialStats();
+            } catch (err) { alert("Delete failed"); }
         }
     </script>
 </body>
