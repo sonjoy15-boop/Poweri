@@ -3,8 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken'); 
 const User = require('../models/User');
-// Missing Import Added Back:
 const Compliance = require('../models/Document'); 
+
+// Missing Model for Community Section:
+// const Comment = require('../models/Comment'); 
 
 const JWT_SECRET = process.env.JWT_SECRET || "POWERI_PRO_SECURE_KEY_2026";
 
@@ -24,6 +26,15 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
+// NEW: ADMIN-ONLY MIDDLEWARE
+const adminMiddleware = (req, res, next) => {
+    if (req.user && req.user.isAdmin) {
+        next();
+    } else {
+        res.status(403).json({ msg: "Access denied. Admin privileges required." });
+    }
+};
+
 // ==========================================
 // 2. PUBLIC ROUTES (SIGNUP & LOGIN)
 // ==========================================
@@ -40,14 +51,11 @@ router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            name,
-            mobile,
-            company,
-            email,
-            location,
+            name, mobile, company, email, location,
             password: hashedPassword,
             isAdmin: false,
-            isBlocked: false
+            isBlocked: false,
+            lastLogin: Date.now() 
         });
 
         await newUser.save();
@@ -65,7 +73,6 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: "Email not found." });
 
-        // BLOCK CHECK
         if (user.isBlocked) {
             return res.status(403).json({ msg: "Account suspended. Please contact PowerI support." });
         }
@@ -73,7 +80,7 @@ router.post('/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
 
-        // TIME ANALYSIS: Update last login
+        // TIME ANALYSIS: Update activity
         user.lastLogin = Date.now();
         await user.save();
 
@@ -119,10 +126,9 @@ router.put('/update-profile', authMiddleware, async (req, res) => {
 // 4. ADMIN ROUTES (EXCLUSIVES)
 // ==========================================
 
-// GET ALL USERS (TIME ANALYSIS)
-router.get('/admin/users', async (req, res) => {
+// USERS WITH TIME ANALYSIS
+router.get('/admin/users', authMiddleware, adminMiddleware, async (req, res) => {
     try {
-        // Sorts by most recently active
         const users = await User.find().select('-password').sort({ lastLogin: -1 });
         res.json(users);
     } catch (err) {
@@ -131,7 +137,7 @@ router.get('/admin/users', async (req, res) => {
 });
 
 // BLOCK / UNBLOCK USER
-router.patch('/admin/users/block/:id', async (req, res) => {
+router.patch('/admin/users/block/:id', authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ msg: "User not found" });
@@ -145,22 +151,34 @@ router.patch('/admin/users/block/:id', async (req, res) => {
 });
 
 // DELETE USER PERMANENTLY
-router.delete('/admin/users/:id', async (req, res) => {
+router.delete('/admin/users/:id', authMiddleware, adminMiddleware, async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
-        res.json({ msg: "User permanently deleted from PowerI records." });
+        res.json({ msg: "User permanently deleted." });
     } catch (err) {
         res.status(500).json({ error: "Delete failed" });
     }
 });
 
 // VIEW ALL VAULT DOCUMENTS
-router.get('/admin/all-docs', async (req, res) => {
+router.get('/admin/all-docs', authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const docs = await Compliance.find().sort({ createdAt: -1 });
         res.json(docs);
     } catch (err) {
         res.status(500).json({ msg: "Error fetching documents" });
+    }
+});
+
+// COMMUNITY HUB MANAGEMENT
+router.get('/admin/comments', authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+        // Replace with your actual Comment model if different
+        // const comments = await Comment.find().sort({ createdAt: -1 });
+        // res.json(comments);
+        res.json({ msg: "Feature ready for Comment model integration" });
+    } catch (err) {
+        res.status(500).json({ msg: "Error fetching comments" });
     }
 });
 
