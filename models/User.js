@@ -17,8 +17,8 @@ const UserSchema = new mongoose.Schema({
         type: String, 
         required: true, 
         unique: true,
-        trim: true,           // Removes accidental spaces
-        lowercase: true       // Stores email as 'test@mail.com' even if user types 'Test@Mail.com'
+        trim: true,           
+        lowercase: true       
     },
     location: { 
         type: String, 
@@ -27,19 +27,15 @@ const UserSchema = new mongoose.Schema({
     password: { 
         type: String, 
         required: true 
-    }
-    }, 
-  isAdmin: { 
+    },
+    isAdmin: { 
         type: Boolean, 
         default: false 
     }
-    },                                     
-    { 
-    timestamps: true // Correct: Automatically creates createdAt and updatedAt
-    });
+}, { 
+    timestamps: true 
+});
 
 // SAFE EXPORT: 
-// Crucial for Render/Deployment to prevent OverwriteModelError
+// Prevents OverwriteModelError on Render redeploys
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema);
-
-
