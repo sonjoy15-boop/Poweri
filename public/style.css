@@ -7,7 +7,19 @@
             --text-dark: #333;
             --border-color: #ddd;
         }
-
+        
+.hero-section {
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                url('hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Optional: creates a parallax effect */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body { background-color: var(--light-bg); color: var(--text-dark); }
@@ -636,6 +648,7 @@
     font-weight: bold;
     color: #ff4757; /* Accent red to stand out */
 }
+
 
 
 
