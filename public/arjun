@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arjun’s Power Puzzle — A PowerI Story</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --royal-blue:#003399;
+      --accent-red:#e63946;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --paper:#f7fafc;
+      --card:#ffffff;
+    }
+
+    /* brand zoom as requested */
+    body{ zoom:80%; margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:var(--paper); color:var(--ink); line-height:1.7; }
+
+    .container{ max-width: 980px; margin:0 auto; padding: 32px 20px 60px; }
+
+    /* Story hero */
+    .hero{ position:relative; overflow:hidden; border-radius:16px; background: linear-gradient(135deg, rgba(0,51,153,.95), rgba(230,57,70,.95)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400"><g fill="none" stroke="%23fff" opacity="0.12"><path d="M0 320 C 200 260, 400 380, 600 300 S 1000 260, 1200 330"/><path d="M0 200 C 220 160, 420 220, 620 180 S 1020 120, 1200 200"/></g></svg>'); background-size:cover; color:#fff; box-shadow: 0 20px 40px rgba(0,0,0,.2); border-bottom:8px solid var(--accent-red); }
+    .hero-inner{ padding: 56px 42px; }
+    .eyebrow{ text-transform:uppercase; letter-spacing: .12em; font-weight:700; opacity:.9; }
+    .title{ font-size: clamp(32px, 5vw, 56px); margin:8px 0 10px; line-height:1.1; }
+    .subtitle{ max-width:760px; opacity:.95; font-size: clamp(16px, 2vw, 20px); }
+
+    /* Byline */
+    .byline{ display:flex; gap:14px; align-items:center; margin-top:14px; opacity:.9; font-size:14px; }
+    .byline i{ opacity:.9; }
+
+    /* Story body */
+    article.story{ margin-top: 34px; }
+    article.story p.lead{ font-size: 20px; color:#111827; }
+    article.story p{ margin: 14px 0; }
+
+    /* pull quote */
+    .quote{ margin: 22px 0; padding: 18px 22px; background:#fff; border-left:5px solid var(--accent-red); border-radius:8px; box-shadow: 0 8px 24px rgba(0,0,0,.05); color:#111827; }
+    .quote em{ color:#374151; }
+
+    /* scene marker */
+    .scene{ display:flex; gap:10px; align-items:center; color:var(--royal-blue); font-weight:700; margin-top:26px; }
+
+    /* inline list of questions */
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin: 14px 0 6px; }
+    .chip{ background:#fff; border:1px solid #e5e7eb; border-radius:999px; padding:8px 12px; font-size:14px; color:#111827; box-shadow:0 4px 10px rgba(0,0,0,.04); }
+
+    /* image placeholder */
+    .wide-card{ background: var(--card); border-radius:14px; padding: 22px; box-shadow: 0 10px 28px rgba(0,0,0,.06); border:1px solid #e5e7eb; }
+
+    /* reveal section */
+    .reveal{ margin-top: 34px; padding: 28px; background: #ffffff; border: 1px solid #e5e7eb; border-left: 8px solid var(--royal-blue); border-radius: 12px; box-shadow: 0 16px 36px rgba(0,0,0,.06); }
+    .reveal h3{ margin:0 0 10px; color: var(--royal-blue); }
+    .features{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top: 12px; }
+    @media (max-width: 800px){ .features{ grid-template-columns:1fr; } }
+    .feature{ display:flex; gap:12px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:14px; align-items:flex-start; }
+    .feature i{ color: var(--royal-blue); margin-top:2px; }
+
+    /* CTA */
+    .cta{ margin-top: 26px; display:flex; gap:12px; flex-wrap:wrap; }
+    .btn{ text-decoration:none; font-weight:700; padding:12px 18px; border-radius:10px; }
+    .btn.primary{ background: var(--accent-red); color:#fff; box-shadow: 0 10px 20px rgba(230,57,70,.25); }
+    .btn.secondary{ border:1px solid #c7d2fe; color: var(--royal-blue); background:#eef2ff; }
+
+    footer{ text-align:center; color:var(--muted); margin-top: 46px; font-size: 14px; }
+  
+article.story p {
+    text-align: justify;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 20px;
+    line-height: 1.9;
+    text-indent: 40px;
+    margin-bottom: 20px;
+}
+article.story p.lead {
+    font-size: 22px;
+    font-weight: 600;
+    text-indent: 0;
+}
+.quote {
+    font-style: italic;
+    font-size: 20px;
+    text-align: justify;
+    padding: 24px;
+    border-left: 6px solid #e63946;
+    background: #fff7f7;
+    margin: 28px 0;
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">PowerI Story</div>
+        <h1 class="title">Arjun’s Power Puzzle</h1>
+        <p class="subtitle">A true-to-life tale of an engineer in Raipur who traded chaos for clarity—by turning a maze of CEIG rules, forms and approvals into a clear path forward.</p>
+        <div class="byline"><i class="fa-solid fa-location-dot"></i> Raipur • <i class="fa-regular fa-clock"></i> A tight deadline • <i class="fa-solid fa-bolt"></i> 5 MVA DG</div>
+      </div>
+    </header>
+
+    <article class="story">
+      <p class="lead" style="font-size:20px;font-weight:500;margin-bottom:20px;">Arjun was the star electrical engineer at a busy steel manufacturing plant in Raipur. He knows exactly how to fix massive generators, transformers, panels, etc., but he has a headache. Why?.</p>
+
+      <div class="scene" style="font-size:20px;margin-top:30px;margin-bottom:10px;color:#003399;font-weight:bold;"><i class="fa-solid fa-road"></i> The Assignment</div>
+      <p style="margin-bottom:18px;font-size:18px;line-height:1.8;">His manager had just handed him a new project—twenty kilometers from the plant.He is now look overall electricity arrangement for the site, Construction hadn’t even begun, yet power was needed yesterday. The instruction was simple to say and hard to do: arrange a <strong>5 MVA DG set</strong> on an urgent basis and look after the entire electrical arrangement for the site.</p>
+
+      <div class="scene" style="font-size:20px;margin-top:30px;margin-bottom:10px;color:#003399;font-weight:bold;"><i class="fa-solid fa-file-circle-question"></i> The Slide into Red Tape</div>
+      <p style="margin-bottom:18px;font-size:18px;line-height:1.8;">“Okay, DG set—simple enough,” he thought. Then reality surged. Instead of engineering and procurement, Arjun found himself wading into rules, regulations, and approvals. His browser became a battlefield: CEIG sites, government portals, and endless PDFs.</p>
+
+      <div class="quote" style="font-size:18px;font-style:italic;margin:24px 0;padding:20px;border-left:6px solid #e63946;background:#fff7f7;"><em>Questions kept piling up:</em><br>
+        “What’s the exact process?” • “Is renting a DG set even allowed?” • “Which is the latest version of the application form?” • “Who do I call at the authority’s office?”
+      </div>
+
+      <div class="wide-card">
+        <p style="margin-bottom:18px;font-size:18px;line-height:1.8;"><strong>The deeper he searched, the more tangled the wires became.</strong> Central vs. state rules. CEIG vs. the transmission/distribution company. Roles of the energy department. Different processes for different authorities. And, in the noise, the bigger picture began to fade—future power line connectivity, the latest regulations, and the risk of costly mistakes.</p>
+        <div class="chips">
+          <span class="chip"><i class="fa-solid fa-scale-balanced"></i> Central vs State</span>
+          <span class="chip"><i class="fa-solid fa-plug-circle-bolt"></i> CEIG vs Discom/Transco</span>
+          <span class="chip"><i class="fa-solid fa-network-wired"></i> Future line connectivity</span>
+          <span class="chip"><i class="fa-solid fa-file-shield"></i> Latest rules & forms</span>
+        </div>
+        <p style="margin-bottom:18px;font-size:18px;line-height:1.8;">His desk turned into a paper storm. The pressure mounted. One tiny misstep could set off delays, penalties, and a heavy financial burden for his company.</p>
+      </div>
+
+      <div class="scene" style="font-size:20px;margin-top:30px;margin-bottom:10px;color:#003399;font-weight:bold;"><i class="fa-solid fa-lightbulb"></i> The Turn</div>
+      <p style="margin-bottom:18px;font-size:18px;line-height:1.8;">Then, something changed. Arjun opened <strong>PowerI</strong>. The chaos quieted. On his screen, a clear, interactive map unfolded—step by step, in the right order, with the right documents and the right people.</p>
+
+      <section class="reveal" id="poweri">
+        <h3><i class="fa-solid fa-compass"></i> What PowerI showed Arjun</h3>
+        <div class="features">
+          <div class="feature"><i class="fa-solid fa-list-check"></i>
+            <div><strong>Exact process for DG approvals</strong><br>Plain-language steps, in sequence.</div>
+          </div>
+          <div class="feature"><i class="fa-solid fa-file-arrow-down"></i>
+            <div><strong>Latest forms & where to submit</strong><br>Always‑current templates and submission points.</div>
+          </div>
+          <div class="feature"><i class="fa-solid fa-address-book"></i>
+            <div><strong>Right authority contacts</strong><br>CEIG and utility points of contact—no guesswork.</div>
+          </div>
+          <div class="feature"><i class="fa-solid fa-shield-halved"></i>
+            <div><strong>Compliance checklists</strong><br>For today’s setup and tomorrow’s expansion.</div>
+          </div>
+        </div>
+        <p style="margin-top:12px">No more frantic searches. No more second‑guessing. Just clarity. Arjun leaned back; for the first time in days, he felt in control. With PowerI, he wasn’t only solving today—he was planning for tomorrow.</p>
+        <div class="cta">
+          <a class="btn primary" href="#">Try PowerI</a>
+          <a class="btn secondary" href="#">See a sample process map</a>
+        </div>
+      </section>
+    </article>
+
+    <footer>
+      PowerI — From Chaos to Clarity • © 2026
+    </footer>
+  </div>
+</body>
+</html>
