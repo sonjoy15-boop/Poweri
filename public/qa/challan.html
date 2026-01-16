@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+Guide: Pay Inspection Challan (Zero Error) | PowerI</title>
+    <meta name="description" content="Official guide to paying Chhattisgarh Energy Department inspection challans. Step-by-step instructions for Head of Account 0043 and Office Hierarchy selection.">
+    <meta name="keywords" content="CSPDCL Challan, Energy Department Chhattisgarh, Inspection Fee Payment, HOA 0043, Electrical Inspector Challan">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="PowerI Technical Team">
+
+    <meta name="theme-color" content="#002366">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="canonical" href="https://www.poweri.in/challan-guide.html">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* GLOBAL TYPOGRAPHY FIXES */
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif; /* Modern Font */
+            background-color: #f4f7f6;
+            color: #333; /* Softer dark grey, not pitch black */
+            line-height: 1.6; /* crucial for readability */
+        }
+
+        /* HERO HEADER */
+        .guide-header-bg {
+            background: linear-gradient(135deg, #002366, #001a4d);
+            padding: 60px 20px 100px; /* More padding top/bottom */
+            text-align: center;
+            color: white;
+        }
+        .guide-header-bg h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 10px; 
+            font-weight: 600;
+        }
+        .guide-header-bg p { 
+            font-size: 1.1rem; 
+            opacity: 0.9; 
+            font-weight: 300;
+        }
+
+        /* CONTAINER LAYOUT */
+        .guide-container {
+            max-width: 850px; /* Slightly narrower for better reading experience */
+            margin: -60px auto 50px; /* Pulls container up over header */
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* TEXT PARAGRAPH STYLING */
+        p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #444;
+            line-height: 1.8; /* Makes text easier to scan */
+        }
+
+        /* STEP BOX STYLING */
+        .step-box {
+            background: #fff;
+            padding: 30px;
+            margin-bottom: 35px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            border-left: 6px solid var(--royal-blue);
+            transition: transform 0.2s ease;
+        }
+        .step-box:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        /* STEP TITLES */
+        .step-title {
+            font-size: 1.4rem;
+            color: #002366;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .step-number {
+            background: var(--royal-blue);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0, 35, 102, 0.3);
+        }
+
+        /* LIST STYLING (The biggest fix) */
+        ul.field-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul.field-list li {
+            margin-bottom: 20px; /* Space between form fields */
+            padding-left: 15px;
+            border-left: 3px solid #eee; /* Visual guide line */
+        }
+        
+        /* LABELS & CODES */
+        .field-label {
+            display: block;
+            font-weight: 700;
+            color: #002366;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .important-code {
+            background: #eef2ff;
+            color: #002366;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            border: 1px solid #c7d2fe;
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+
+        /* WARNING BOX */
+        .note-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            color: #664d03;
+            line-height: 1.6;
+        }
+
+        /* BUTTONS */
+        .portal-btn {
+            background: var(--accent-red);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+            letter-spacing: 0.5px;
+        }
+        .portal-btn:hover { 
+            background: #b71c1c; 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.5);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .guide-container { padding: 25px; margin-top: -40px; }
+            .guide-header-bg h1 { font-size: 1.8rem; }
+            .step-title { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body class="guide-body">
+
+    <header>
+        <div class="top-bar">
+            <span><i class="fas fa-shield-alt"></i> Zero Error Guide</span>
+            <span class="lang-switch">Support: support@poweri.in</span>
+        </div>
+    </header>
+
+    <div class="guide-header-bg">
+        <div>
+            <h1>How to Pay Inspection Challan</h1>
+            <p>Chhattisgarh Energy Department (Zero Error Method)</p>
+        </div>
+    </div>
+
+    <div class="guide-container">
+        
+        <a href="index.html" style="color: #666; font-weight: bold; margin-bottom: 20px; display: inline-block;">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <div style="text-align: center; margin-bottom: 40px;">
+            <p><strong>Official Portal:</strong> <a href="https://echallan.cg.gov.in/" target="_blank" style="color:blue;">echallan.cg.gov.in</a></p>
+            <p style="font-size: 0.9rem; color: #666;">If you don't have an account, click "Register Here" on the portal first.</p>
+            <a href="https://echallan.cg.gov.in/" target="_blank" class="portal-btn">Open Payment Portal <i class="fas fa-external-link-alt"></i></a>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title"><span class="step-number">1</span> Login & Department Selection</div>
+            <p>After logging in, you will see a "Select Department" screen.</p>
+            <ul class="field-list">
+               
+                <li><i class="fas fa-check-circle" style="color:green;"></i> Find and Check the box for <strong>Energy Department</strong>.</li>
+                <li><i class="fas fa-check-circle" style="color:green;"></i> Scroll to the <strong>Extreme Bottom</strong> of the page.</li>
+                <li><i class="fas fa-check-circle" style="color:green;"></i> Click the <strong>Submit</strong> button.</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title"><span class="step-number">2</span> Select Head of Account (HOA)</div>
+            <p>You will be asked to select the "Head of Account" for the department.</p>
+            <ul class="field-list">
+                <li>Click the <strong>HOA Button</strong>.</li>
+                <li>In the dropdown, select exactly this code:</li>
+                <li><span class="important-code">0043_Taxes and Duties on Electricity</span></li>
+                <li>Click <strong>Submit</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="step-box" style="border-left-color: var(--accent-red);">
+            <div class="step-title"><span class="step-number" style="background: var(--accent-red);">3</span> Fill Payer Details (Critical)</div>
+            <div class="note-box">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Mistakes here can lead to payment rejection. Fill carefully.
+            </div>
+            <br>
+            <ul class="field-list">
+                <li>
+                    <span class="field-label">DISTRICT:</span><br>
+                    Select the district where your factory/site is located.
+                </li>
+                <li>
+                    <span class="field-label">OFFICE ADDRESS (Hierarchy):</span><br>
+                    Select the office <strong>by which you have to inspect</strong> (e.g., Assistant Electrical Inspector / Electrical Inspector) based on your load capacity rules.
+                </li>
+                <li>
+                    <span class="field-label">NAME OF PAYER:</span><br>
+                    <span style="color: #d32f2f; font-weight: bold;">ENTER COMPANY NAME</span> (Do not enter your personal name).
+                </li>
+                <li>
+                    <span class="field-label">PHONE / EMAIL:</span><br>
+                    Enter valid contact details to receive the receipt.
+                </li>
+                <li>
+                    <span class="field-label">ADDRESS / CITY / PINCODE:</span><br>
+                    Enter the full registered address of the site.
+                </li>
+                <li>
+                    <span class="field-label">BANK GATEWAY:</span><br>
+                    Select the bank you will use for Net Banking/UPI.
+                </li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title"><span class="step-number">4</span> Payment Specifics & Amount</div>
+            <ul class="field-list">
+                <li>
+                    <span class="field-label">ASSESSMENT YEAR:</span><br>
+                    Select the <strong>Next Financial Year</strong> (if paying annual fees in advance).
+                </li>
+                <li>
+                    <span class="field-label">HEAD OF ACCOUNT (Specific):</span><br>
+                    Select: <span class="important-code">0043_00_102_0000_Fees under electricity rules</span>
+                </li>
+                <li>
+                    <span class="field-label">PERIOD (FROM - TO):</span><br>
+                    Enter the current month.
+                </li>
+                <li>
+                    <span class="field-label">PURPOSE:</span><br>
+                    Be specific. Write: <em>"Annual Installation Inspection"</em> or <em>"New Installation Inspection [Area Name]"</em>.
+                </li>
+                <li>
+                    <span class="field-label">AMOUNT:</span><br>
+                    Enter the calculated amount.
+                </li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Action:</strong> Click the <button style="background: #ddd; border:1px solid #999; padding: 2px 8px; border-radius: 3px;">Add</button> button.</p>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title"><span class="step-number">5</span> Submit & Pay</div>
+            <p>1. After clicking "Add", verify the details in the summary table.</p>
+            <p>2. Click the <strong>Submit</strong> button.</p>
+            <p>3. You will be redirected to the Bank Page.</p>
+            <p>4. Complete payment via Online Banking or UPI.</p>
+        </div>
+
+        <div class="step-box" style="border-left-color: #2e7d32;">
+            <div class="step-title"><span class="step-number" style="background: #2e7d32;">6</span> Download Receipt</div>
+            <p>Once payment is successful, two numbers will generate: <strong>Bank Reference</strong> and <strong>Challan Reference</strong>.</p>
+            <div class="note-box" style="background: #e8f5e9; border-color: #2e7d32;">
+                <strong><i class="fas fa-download"></i> How to Download:</strong><br>
+                Look at the <strong>Left Side Bar</strong> on the dashboard → Click <strong>Search Challan</strong> → Enter your Reference Number to download the PDF.
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>PowerI</h4>
+                <p>Industrial Electrical Compliance Simplified.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="https://echallan.cg.gov.in/" target="_blank">Govt Portal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 PowerI. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
