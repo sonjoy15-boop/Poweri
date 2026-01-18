@@ -265,6 +265,22 @@ Why? Because he’s been assigned to a new project—20 km away from his plant. 
                     </div>
                     </div>
 
+                        <div class="qa-item">
+    <button class="question-btn" onclick="toggleAnswer(this)">Why is Electrical Safety Officer appointment mandatory? <span>+</span></button>
+    <div class="answer-panel">
+        <p>
+            <strong>Legal Mandate:</strong> Under CEA Regulation 5(3), it is mandatory for factories (>250 kW load) and mines (>2000 kW load) to appoint a qualified Electrical Safety Officer (ESO).
+            <br><br>
+            <strong>Key Responsibilities:</strong> The ESO ensures statutory compliance, conducts annual safety inspections, and maintains legal records (Forms I-IV) to prevent hazards and liability.
+            <a href="qa/safety_officer.html" class="know-more-link">..Know in details</a>
+        </p>
+        <div class="comment-section">
+            <input type="text" class="comment-box" placeholder="Write a comment...">
+            <button class="btn btn-signup" onclick="checkAuthAndPost()" style="padding:4px 10px; font-size:0.8rem;">Post</button>
+        </div>
+    </div>
+</div>
+
                      <div class="qa-item">
                         <button class="question-btn" onclick="toggleAnswer(this)">Practical Guide- Overhead Line Shifting? <span>+</span></button>
                         <div class="answer-panel">
@@ -346,7 +362,7 @@ Why? Because he’s been assigned to a new project—20 km away from his plant. 
         </div>
     </main>
 
-    <footer>
+  <footer>
         <div class="footer-content">
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -354,83 +370,94 @@ Why? Because he’s been assigned to a new project—20 km away from his plant. 
                     <li><a href="#">Our Mission</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="terms.html">Terms </a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Contact Info</h4>
                 <ul>
-                    <li>Email: Poweri_con@outlook.com</li>
+                    <li>Email: <a href="mailto:Poweri_con@outlook.com" style="color:#bbb; text-decoration:none;">Poweri_con@outlook.com</a></li>
                     <li>Location: Chhattisgarh, India</li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Contributors</h4>
-                <p style="font-size:0.9rem;">We collaborate with multiple ground-level contributors. If you'd like to become a contributor, please write to us.</p>
+                <p style="font-size:0.9rem; line-height:1.5;">
+                    We collaborate with multiple ground-level contributors. If you'd like to become a contributor, please write to us.
+                </p>
             </div>
         </div>
+
         <div class="copyright">
-            &copy; 2023 PowerI.in. All Rights Reserved. | Designed for Electrical Compliance Clarity.
+            &copy; 2025 PowerI.in. All Rights Reserved. | Designed for Electrical Compliance Clarity.
         </div>
-        <div style="text-align:center; margin-top:20px; font-family:Arial; color:#666;">
-    <p>Site Visitors</p>
-    <img src="https://hitwebcounter.com/counter/counter.php?page=POWERI_IN&style=0006&nbdigits=5&type=page&initCount=0" title="Free Counter" Alt="web counter" border="0" />
-        </div>
-        
+
+        <div style="text-align:center; margin-top:20px; color:#666;">
+    <p style="margin-bottom:5px; font-size:0.9rem;">Site Visitors</p>
+    
+    <img src="https://hitwebcounter.com/counter/counter.php?page=21470292&style=0001&nbdigits=5&type=page&initCount=30" 
+         title="Total Views" 
+         alt="Visitor Counter" 
+         border="0" />
+</div>
     </footer>
 
     <div id="authModal" class="modal-new">
-    <div class="modal-content-colorful">
-        <span class="close-btn-new" onclick="closeAuthModal()">&times;</span>
-        
-        <div class="auth-header-gradient">
-            <h2 id="modalTitle">Welcome to PowerI.in</h2>
-            <p id="modalDesc">Access your industrial energy dashboard</p>
-        </div>
-
-        <div class="auth-tabs">
-            <button id="tab-login" class="tab-link active" onclick="toggleAuth('login')">Login</button>
-            <button id="tab-signup" class="tab-link" onclick="toggleAuth('signup')">Sign Up</button>
-        </div>
-
-        <form class="auth-form-body" onsubmit="processAuth(event)">
-            <div class="signup-only" style="display:none;">
-                <div class="input-field"><i class="fas fa-user"></i><input type="text" id="reg-name" placeholder="Full Name"></div>
-                <div class="input-field"><i class="fas fa-phone"></i><input type="tel" id="reg-mobile" placeholder="Mobile Number"></div>
-                <div class="input-field"><i class="fas fa-building"></i><input type="text" id="reg-company" placeholder="Company Name"></div>
-                <div class="input-field"><i class="fas fa-map-marker-alt"></i><input type="text" id="reg-location" placeholder="Location"></div>
+        <div class="modal-content-colorful">
+            <span class="close-btn-new" onclick="closeAuthModal()">&times;</span>
+            
+            <div class="auth-header-gradient">
+                <h2 id="modalTitle">Welcome to PowerI.in</h2>
+                <p id="modalDesc">Access your industrial energy dashboard</p>
             </div>
 
-            <div class="input-field"><i class="fas fa-envelope"></i><input type="email" id="auth-email" placeholder="Email Address" required></div>
-            <div class="input-field"><i class="fas fa-lock"></i><input type="password" id="auth-pass" placeholder="Password" required></div>
-
-            <div class="signup-only" style="display:none;">
-                <div class="privacy-box-new">
-                    <strong>Privacy Summary:</strong> Data used for electrical compliance. No 3rd party sharing.<li><strong>Data Use:</strong> Information is used strictly for generating electrical compliance documents and load calculations.</li>
-        <li><strong>Confidentiality:</strong> Industrial technical data and SLDs are never shared with 3rd parties or government agencies without consent.</li>
-        <li><strong>Security:</strong> Encrypted storage for passwords and company profiles via MongoDB.</li>
-        <li><strong>Agreement:</strong> By clicking "Sign Up", you confirm all technical data provided is accurate and agree to our <a href="terms.html">Terms of Service</a>.</li>
-                </div>
-                <div class="checkbox-row">
-                    <input type="checkbox" id="privacy-check-new" onchange="validateSignup()">
-                    <label for="privacy-check-new">Agree to <a href="terms.html">Terms & Policy</a></label>
-                </div>
+            <div class="auth-tabs">
+                <button id="tab-login" class="tab-link active" onclick="toggleAuth('login')">Login</button>
+                <button id="tab-signup" class="tab-link" onclick="toggleAuth('signup')">Sign Up</button>
             </div>
 
-            <button type="submit" id="auth-submit-btn" class="btn-primary-auth">CONTINUE</button>
-        </form>
+            <form class="auth-form-body" onsubmit="processAuth(event)">
+                
+                <div class="signup-only" style="display:none;">
+                    <div class="input-field"><i class="fas fa-user"></i><input type="text" id="reg-name" placeholder="Full Name"></div>
+                    <div class="input-field"><i class="fas fa-phone"></i><input type="tel" id="reg-mobile" placeholder="Mobile Number"></div>
+                    <div class="input-field"><i class="fas fa-building"></i><input type="text" id="reg-company" placeholder="Company Name"></div>
+                    <div class="input-field"><i class="fas fa-map-marker-alt"></i><input type="text" id="reg-location" placeholder="Location"></div>
+                </div>
+
+                <div class="input-field"><i class="fas fa-envelope"></i><input type="email" id="auth-email" placeholder="Email Address" required></div>
+                <div class="input-field"><i class="fas fa-lock"></i><input type="password" id="auth-pass" placeholder="Password" required></div>
+
+                <div class="signup-only" style="display:none;">
+                    <div class="privacy-box-new">
+                        <strong>Privacy Summary:</strong> Data used for electrical compliance. No 3rd party sharing.
+                        <ul style="margin-top:5px; padding-left:20px;">
+                            <li><strong>Data Use:</strong> Information is used strictly for generating electrical compliance documents and load calculations.</li>
+                            <li><strong>Confidentiality:</strong> Industrial technical data and SLDs are never shared with 3rd parties or government agencies without consent.</li>
+                            <li><strong>Security:</strong> Encrypted storage for passwords and company profiles via MongoDB.</li>
+                            <li><strong>Agreement:</strong> By clicking "Sign Up", you confirm all technical data provided is accurate and agree to our <a href="terms.html">Terms of Service</a>.</li>
+                        </ul>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="privacy-check-new" onchange="validateSignup()">
+                        <label for="privacy-check-new">Agree to <a href="terms.html">Terms & Policy</a></label>
+                    </div>
+                </div>
+
+                <button type="submit" id="auth-submit-btn" class="btn-primary-auth">CONTINUE</button>
+            </form>
+        </div>
     </div>
-  <script src="script.js"></script>
-        
-        <script>
-    setInterval(function() {
-        fetch(window.location.href)
-            .then(() => console.log("PowerI: Server pinged successfully to stay active."))
-            .catch(err => console.warn("PowerI: Ping failed", err));
-    }, 240000); // 240,000ms = 4 minutes
-  </script>
-  
-   
+
+    <script src="script.js"></script>
+
+    <script>
+        setInterval(function() {
+            fetch(window.location.href)
+                .then(() => console.log("PowerI: Server pinged successfully to stay active."))
+                .catch(err => console.warn("PowerI: Ping failed", err));
+        }, 240000); // 240,000ms = 4 minutes
+    </script>
+
 </body>
 </html>
-
