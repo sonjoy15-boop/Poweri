@@ -57,25 +57,60 @@ function closeAuthModal() {
     if (modal) modal.style.display = 'none';
 }
 
+// Function to handle switching between Login and Signup tabs
 function toggleAuth(mode) {
-    const signupFields = document.querySelectorAll('.signup-only');
-    const title = document.getElementById('modalTitle');
-    const submitBtn = document.getElementById('auth-submit-btn');
-    const tabLogin = document.getElementById('tab-login');
-    const tabSignup = document.getElementById('tab-signup');
+    // Get references to the button and the form sections
+    const submitBtn = document.getElementById("auth-submit-btn");
+    const loginTab = document.getElementById("tab-login");
+    const signupTab = document.getElementById("tab-signup");
+    const signupFields = document.querySelectorAll(".signup-only");
+    const privacyCheckbox = document.getElementById("privacy-check-new");
 
-    if (mode === 'signup') {
-        signupFields.forEach(el => el.style.display = 'block');
-        if (title) title.innerText = "Create Industrial Account";
-        if (submitBtn) submitBtn.innerText = "SIGN UP";
-        if (tabSignup) tabSignup.classList.add('active');
-        if (tabLogin) tabLogin.classList.remove('active');
+    if (mode === 'login') {
+        // 1. Activate Login Tab Styling
+        loginTab.classList.add("active");
+        signupTab.classList.remove("active");
+        
+        // 2. Hide Signup-specific fields
+        signupFields.forEach(el => el.style.display = "none");
+        
+        // 3. IMPORTANT: Login button is ALWAYS enabled
+        submitBtn.innerText = "LOGIN";
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+        
     } else {
-        signupFields.forEach(el => el.style.display = 'none');
-        if (title) title.innerText = "Industrial Login";
-        if (submitBtn) submitBtn.innerText = "LOGIN";
-        if (tabLogin) tabLogin.classList.add('active');
-        if (tabSignup) tabSignup.classList.remove('active');
+        // 1. Activate Signup Tab Styling
+        signupTab.classList.add("active");
+        loginTab.classList.remove("active");
+        
+        // 2. Show Signup-specific fields
+        signupFields.forEach(el => el.style.display = "block");
+        
+        // 3. IMPORTANT: Reset checkbox and DISABLE button initially
+        submitBtn.innerText = "CONTINUE";
+        privacyCheckbox.checked = false; // Uncheck box
+        validateSignup(); // Run validation to disable button
+    }
+}
+
+// Function to enable/disable button based on Checkbox
+function validateSignup() {
+    const privacyCheckbox = document.getElementById("privacy-check-new");
+    const submitBtn = document.getElementById("auth-submit-btn");
+    
+    // Only run this logic if we are actually in "Signup" mode (button says CONTINUE)
+    if (submitBtn.innerText === "CONTINUE") {
+        if (privacyCheckbox.checked) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = "1";
+            submitBtn.style.cursor = "pointer";
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = "0.5";
+            submitBtn.style.cursor = "not-allowed";
+        }
     }
 }
 
@@ -230,3 +265,4 @@ window.onload = function() {
         toggleLanguage();
     }
 };
+
