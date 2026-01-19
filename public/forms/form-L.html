@@ -3,93 +3,175 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Form 'L' - Chhattisgarh Electrical Licensing Board</title>
-<!-- Fixed Google Fonts Link -->
-<link href="fonts.googleapis.com" rel="stylesheet">
+<title>Form 'L' - Large Text</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --primary: #1e3a8a;
-    --accent: #b91c1c;
-    --bg: #f1f5f9;
+    --bg: #e2e8f0;
     --paper: #ffffff;
-    --border: #e2e8f0;
-    --text: #1e293b;
+    --border: #94a3b8;
+    --text: #0f172a;
+    --placeholder: #64748b;
   }
   
   * { box-sizing: border-box; }
+  
   body {
-    margin: 0; padding: 20px; background: var(--bg);
+    margin: 0; 
+    padding: 20px 0; 
+    background: var(--bg);
     font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
-    color: var(--text); line-height: 1.5;
+    color: var(--text); 
+    display: flex;
+    justify-content: center;
   }
 
-  /* Fixed A4 Page Setup */
+  /* --- A4 PAGE SETTINGS --- */
   .page {
     width: 210mm; 
-    min-height: 297mm; 
-    margin: 0 auto 50px auto; /* Centers the page on screen */
+    height: 296mm; /* Exact A4 Height */
     background: var(--paper);
+    position: relative; 
     padding: 15mm; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border: 1px solid var(--border);
-    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    overflow: hidden; 
   }
 
+  /* --- HEADER (Larger Text) --- */
   header {
-    border-bottom: 3px solid var(--primary);
-    padding-bottom: 10px; margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 10px; 
+    margin-bottom: 20px;
+    text-align: center;
   }
-  .title-group h1 { font-size: 18px; margin: 0; color: var(--primary); }
-  .title-group p { font-size: 14px; margin: 5px 0 0; font-weight: 600; color: var(--accent); }
+  .title-group h1 { font-size: 16px; margin: 0; color: var(--primary); text-transform: uppercase; font-weight: 700; }
+  .title-group p { font-size: 13px; margin: 4px 0 0; font-weight: 600; color: #b91c1c; }
+  #sub-title { color: #334155; margin-top: 5px; font-style: italic; font-size: 12px; }
 
-  .info-bar { display: flex; justify-content: space-between; margin: 20px 0; }
-  .editable-line { border-bottom: 1px dashed #94a3b8; min-width: 150px; display: inline-block; padding: 0 5px; outline: none; }
+  /* --- INFO BAR (Larger Text) --- */
+  .info-bar { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 20px; 
+    font-size: 14px; /* Increased */
+  }
+  .editable-line { 
+    border-bottom: 1px dashed #94a3b8; 
+    min-width: 130px; 
+    display: inline-block; 
+    padding: 0 5px; 
+    outline: none; 
+    font-weight: 600;
+    color: var(--primary);
+  }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
-  th, td { border: 1px solid var(--border); padding: 10px; vertical-align: top; }
-  th { background: #f8fafc; color: var(--primary); text-align: left; }
-  .cell-input { min-height: 35px; outline: none; }
+  /* --- TABLE (Readable Size) --- */
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 13.5px; /* Increased from 11px */
+    table-layout: fixed; 
+  }
+  
+  th, td { 
+    border: 1px solid var(--border); 
+    padding: 8px 10px; /* Comfortable padding */
+    vertical-align: middle; 
+  }
+  
+  th { background: #f1f5f9; color: var(--primary); text-align: left; font-weight: 700; }
 
-  /* Fixed Signature Section */
+  /* --- INPUT CONTROL & PLACEHOLDER --- */
+  .cell-input { 
+    width: 100%;
+    outline: none; 
+    font-size: 13.5px; /* Matches table text */
+    min-height: 24px;
+    color: #000;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  
+  /* The "Type here..." placeholder logic */
+  .cell-input:empty:before { 
+    content: "Type here..."; 
+    color: var(--placeholder); 
+    font-style: italic; 
+    font-size: 12px; 
+    opacity: 0.7;
+  }
+  
+  .cell-input:hover { background: #f8fafc; cursor: text; }
+  .cell-input:focus { background: #f0f9ff; }
+
+  /* --- PINNED FOOTER SECTION --- */
+  .pinned-footer-section {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15mm; /* Matches page padding */
+    pointer-events: none; /* Allows clicking through if needed, though inputs are above */
+  }
+
+  /* Re-enable pointer events for the signature box content */
   .footer-sigs { 
     display: flex; 
     justify-content: space-between; 
-    gap: 50px; 
-    margin-top: 60px; 
+    gap: 40px; 
+    height: 90px; 
+    margin-bottom: 10px;
+    pointer-events: auto; 
   }
+  
   .sig-box { 
     flex: 1;
-    border-top: 1px solid #475569; 
-    padding-top: 10px; 
+    border-top: 1px solid #334155; 
+    padding-top: 8px; 
     text-align: center; 
-    font-weight: 600; 
-    font-size: 14px; 
+    font-size: 13px; /* Increased */
+    font-weight: 600;
+    color: #334155;
   }
 
-  /* Bottom bar for screen view */
-  .bottom-bar {
-    position: fixed; left: 0; right: 0; bottom: 0; background: #fff;
-    border-top: 1px solid var(--border); padding: 12px;
-    display: flex; justify-content: center; gap: 15px; z-index: 100;
+  .bottom-copyright {
+    text-align: center;
+    font-size: 10px;
+    color: #94a3b8;
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 8px;
+    pointer-events: auto;
   }
-  .btn {
-    padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 700; border: none;
-  }
-  .btn.primary { background: var(--primary); color: #fff; }
-  .btn.outline { background: #fff; border: 1px solid var(--primary); color: var(--primary); }
 
+  /* --- PRINT RULES --- */
   @page { size: A4; margin: 0; }
   @media print {
-    body { background: #fff; padding: 0; }
-    .page { border: none; box-shadow: none; width: 100%; margin: 0; padding: 10mm; }
+    body { padding: 0; background: white; }
+    .page { margin: 0; width: 210mm; height: 296mm; box-shadow: none; }
     .bottom-bar { display: none; }
+    
+    /* Hides the "Type here..." text when printing */
+    .cell-input:empty:before { content: ""; }
+    .cell-input { background: transparent !important; }
   }
+
+  /* --- BUTTONS --- */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; 
+    background: #fff; border-top: 1px solid #ccc; padding: 12px;
+    display: flex; justify-content: center; gap: 15px; 
+    z-index: 1000;
+  }
+  .btn { padding: 10px 24px; border-radius: 6px; cursor: pointer; border: none; font-weight: bold; font-size: 14px;}
+  .btn.primary { background: var(--primary); color: white; }
+  .btn.outline { background: white; border: 1px solid var(--primary); color: var(--primary); }
 </style>
 </head>
 <body>
 
 <div class="page">
+  
   <header>
     <div class="title-group">
       <h1>Form 'L' — Chhattisgarh Licensing Board (Electricity) Regulation 1960</h1>
@@ -104,40 +186,54 @@
   </div>
 
   <table>
+    <colgroup>
+       <col style="width: 8%;">  
+       <col style="width: 42%;"> 
+       <col style="width: 50%;"> 
+    </colgroup>
     <thead>
       <tr>
-        <th style="width: 40px;">#</th>
+        <th style="text-align: center;">#</th>
         <th>विवरण / Details</th>
         <th>प्रविष्टि / Entry</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>उपभोक्ता का नाम / Consumer Name</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>2</td><td>कार्य का पता / Work Address</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>3</td><td>कार्य का प्रकार / Type of Work</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>4</td><td>कार्य आरंभ तिथि / Work Start Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>4</td><td>कार्य पूर्ण का तिथि / Work Completion Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>4</td><td>अनुज्ञप्ति धारक का नाम / Name of the licence holder</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>5</td><td>अनुमति क्रमांक / Permission No.</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <td>6</td><td>परिक्षण की तिथि / Testing Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
-      <tr><td>6</td><td>परिक्षण परिणाम / Testing Result</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">1</td><td>उपभोक्ता का नाम / Consumer Name</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">2</td><td>कार्य का पता / Work Address</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">3</td><td>कार्य का प्रकार / Type of Work</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">4</td><td>कार्य आरंभ तिथि / Work Start Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">5</td><td>कार्य पूर्ण का तिथि / Work Completion Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">6</td><td>अनुज्ञप्ति धारक का नाम / Licence Holder</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">7</td><td>अनुमति क्रमांक / Permission No.</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">8</td><td>परिक्षण की तिथि / Testing Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+      <tr><td style="text-align:center;">9</td><td>परिक्षण परिणाम / Testing Result</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
     </tbody>
   </table>
 
-  <!-- This is now safely inside the .page div -->
-  <div class="footer-sigs">
-    <div class="sig-box">परीक्षक के हस्ताक्षर<br><small>(Signature of Supervisor/ 'A' Class HT Contractor)</small></div>
-    <div class="sig-box">अधिकृत हस्ताक्षर व मोहर<br><small>(Authorized Sign & Seal)</small></div>
+  <div class="pinned-footer-section">
+      <div class="footer-sigs">
+        <div class="sig-box">
+            परीक्षक के हस्ताक्षर<br>
+            <small>(Signature of Supervisor)</small>
+        </div>
+        <div class="sig-box">
+            अधिकृत हस्ताक्षर व मोहर<br>
+            <small>(Authorized Sign & Seal)</small>
+        </div>
+      </div>
+
+      <div class="bottom-copyright">
+        Computer Generated Return via <strong>www.poweri.in</strong> Dashboard
+      </div>
   </div>
+
 </div>
-                <div style="text-align: center; font-size: 9px; color: #999; margin-top: 15px;">
-                Computer Generated Return via www.poweri.in Dashboard
-                </div>
+
 <div class="bottom-bar">
-  <button class="btn outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">ऊपर जाएँ / Top</button>
-  <button class="btn primary" onclick="window.print()">प्रिंट / Save PDF</button>
+  <button class="btn outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">Top</button>
+  <button class="btn primary" onclick="window.print()">Print PDF</button>
 </div>
 
 </body>
 </html>
-
