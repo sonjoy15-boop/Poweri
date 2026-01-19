@@ -3,8 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electrical Compliance Detail | PowerI.in</title>
+    
+    <title>What is Electrical Compliance? | Indian Regulations & Safety Guide</title>
+    <meta name="title" content="What is Electrical Compliance? | India Regulations & Safety Guide">
+    <meta name="description" content="Understand the meaning of Electrical Compliance in India. Learn about the Electricity Act 2003, CEA regulations, safety standards, and why industrial compliance is mandatory.">
+    
+    <meta name="keywords" content="Electrical Compliance Meaning, Electricity Act 2003, CEA Regulations India, Industrial Electrical Safety, Why Compliance is Important, PowerI Guide, BIS Standards Electrical">
+    
+    <meta name="author" content="PowerI Technical Team">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.poweri.in/qa/compliance.html">
+    <meta property="og:title" content="What is Electrical Compliance? (Simple Guide)">
+    <meta property="og:description" content="Why do we need electrical rules? A simple guide to Indian Safety Standards, Electricity Act 2003, and CEA regulations.">
+    <meta property="og:image" content="https://www.poweri.in/images/compliance-definition.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Electrical Compliance Explained | PowerI">
+    <meta property="twitter:description" content="Learn why electrical compliance reduces risks and avoids legal penalties in Indian industries.">
+    <meta property="twitter:image" content="https://www.poweri.in/qa/image/frame.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "What is Electrical Compliance in India?",
+      "description": "A comprehensive guide to electrical compliance, safety standards, and the regulatory framework in India including the Electricity Act 2003.",
+      "author": {
+        "@type": "Organization",
+        "name": "PowerI"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PowerI",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.poweri.in/images/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.poweri.in/compliance.html"
+      }
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --royal-blue: #003399;
@@ -12,9 +59,9 @@
             --light-bg: #f0f4f8;
         }
 
-        /* 20% PAGE SIZE REDUCTION */
+        /* 1. PAGE SIZE REDUCTION (Zoom Effect) */
         body {
-            zoom: 80%; 
+            zoom: 85%; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--light-bg);
             color: #333;
@@ -23,28 +70,33 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1250px;
             margin: 0 auto;
             padding: 40px 20px;
         }
 
-        /* Blue & Red Header */
+        /* 2. HEADER BANNER (Blue & Red) */
         .header-banner {
             background: var(--royal-blue);
             color: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 15px;
             text-align: center;
-            border-bottom: 8px solid var(--accent-red);
+            border-bottom: 8px solid var(--accent-red); /* The Red Accent */
             margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+        
+        .header-banner h1 { margin: 0; font-size: 2.5rem; }
+        .header-banner p { opacity: 0.9; margin-top: 10px; font-size: 1.2rem; }
 
-        /* Grid for Bilingual Side-by-Side */
+        /* 3. GRID LAYOUT (Side-by-Side) */
         .dual-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            align-items: start;
+            align-items: start; /* Aligns tops of cards */
+            margin-bottom: 30px;
         }
 
         .card {
@@ -53,13 +105,24 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             margin-bottom: 25px;
+            height: 100%; /* Ensures equal height in grid */
         }
 
-        /* Section Headings */
+        /* 4. IMAGES */
+        .article-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            object-fit: cover;
+        }
+
+        /* 5. TYPOGRAPHY & TITLES */
         .section-title {
             font-size: 1.4rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #eee;
             display: flex;
@@ -67,25 +130,42 @@
             gap: 10px;
         }
 
-        .english-col .section-title { color: var(--royal-blue); }
-        .hindi-col .section-title { color: var(--accent-red); }
+        /* Color-coded Sections */
+        .col-blue .section-title { color: var(--royal-blue); border-color: var(--royal-blue); }
+        .col-red .section-title { color: var(--accent-red); border-color: var(--accent-red); }
 
-        .english-col { border-left: 4px solid var(--royal-blue); padding-left: 20px; }
-        .hindi-col { border-left: 4px solid var(--accent-red); padding-left: 20px; }
+        .col-blue { border-left: 4px solid var(--royal-blue); padding-left: 20px; }
+        .col-red { border-left: 4px solid var(--accent-red); padding-left: 20px; }
 
-        h2.main-q { color: var(--accent-red); text-align: center; margin-bottom: 30px; }
-        
+        /* Lists */
         ul { padding-left: 20px; }
-        li { margin-bottom: 10px; }
+        li { margin-bottom: 12px; }
+        strong { color: var(--royal-blue); }
 
+        /* 6. BUTTONS */
         .back-home {
-            display: block;
+            display: inline-block;
             text-align: center;
-            margin-top: 50px;
-            color: var(--royal-blue);
-            font-weight: bold;
+            margin-top: 30px;
+            color: white;
+            background: var(--royal-blue);
+            padding: 12px 30px;
+            border-radius: 50px;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .back-home:hover { 
+            background: var(--accent-red); 
+            transform: translateY(-3px); 
+        }
+
+        /* Mobile Fix */
+        @media (max-width: 768px) {
+            .dual-column { grid-template-columns: 1fr; }
+            body { zoom: 100%; }
         }
     </style>
 </head>
@@ -93,7 +173,7 @@
 
 <div class="container">
     <div class="header-banner">
-        <h1>Detailed Compliance Guide</h1>
+        <h1>Detailed Electricity Compliance summary </h1>
         <p>Comprehensive knowledge on Electrical Safety and Regulations</p>
     </div>
 
@@ -104,6 +184,7 @@
             <div class="card">
                 <div class="section-title">1. Introduction</div>
                 <p>Electricity is a fundamental driver of social development, environmental sustainability, and economic growth in a country. It influences industrial productivity, agricultural efficiency, healthcare delivery, and overall quality of life. Because of its critical importance, governments worldwide establish strong regulatory frameworks to ensure reliable supply, fair pricing, and safe, sustainable practices.</p>
+                <img src="image/intro.png" alt="why compliance">
             </div>
 
             <div class="card">
@@ -114,6 +195,7 @@
                     <li><strong>Economic Impact:</strong> Reliable electricity boosts industrial output, trade competitiveness, and national GDP.</li>
                     <li><strong>Developmental Role:</strong> Access to electricity reduces poverty and promotes education, healthcare, and digital inclusion.</li>
                 </ul>
+                <img src="image/regula.png" alt="cea regulation">
             </div>
 
             <div class="card">
@@ -125,6 +207,7 @@
                     <li><strong>Legal Adherence:</strong> Meets statutory requirements under national and international regulations.</li>
                     <li><strong>Quality Assurance:</strong> Ensures equipment and installations conform to certified standards.</li>
                 </ul>
+                <img src="image/comp.png" alt="why compliance">
             </div>
 
             <div class="card">
@@ -135,6 +218,7 @@
                     <li><strong>Supports Sustainability:</strong> Promotes energy efficiency and environmental responsibility.</li>
                     <li><strong>Builds Trust:</strong> Demonstrates professionalism and accountability in industrial and commercial operations.</li>
                 </ul>
+                <img src="image/com.png" alt="why electrical compliance">
             </div>
 
             <div class="card">
@@ -147,6 +231,7 @@
                     <li><strong>Bureau of Indian Standards (BIS):</strong> Ensures safety, quality, and standardization of electrical equipment and components.</li>
                     <li><strong>Appellate Tribunal for Electricity (APTEL):</strong> Provides a judicial mechanism for appeals against regulatory decisions.</li>
                 </ul>
+                <img src="image/frame.png" alt="electricity compliance framework">
             </div>
 
             <div class="card">
@@ -158,6 +243,7 @@
                     <li>Enhanced consumer rights by ensuring fair tariffs and reliable supply.</li>
                     <li>Provided a framework for private sector participation in generation and distribution.</li>
                 </ul>
+                <img src="image/rule.png" alt="electricity rule framework">
             </div>
 
             <div class="card">
@@ -237,4 +323,5 @@
 </div>
 
 </body>
+
 </html>
