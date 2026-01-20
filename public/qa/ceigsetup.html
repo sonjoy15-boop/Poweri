@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Notification - PowerI.in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Roboto:wght@300;400;500;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            --poweri-blue: #003366;  /* Official Navy */
+            --poweri-orange: #ff9900; /* Safety Orange */
+            --bg-light: #f5f7fa;
+            --white: #ffffff;
+            --text-main: #2c3e50;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        header.site-header {
+            background-color: var(--poweri-blue);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .brand-logo span { color: var(--poweri-orange); }
+
+        /* --- MAIN LAYOUT --- */
+        .page-container {
+            display: grid;
+            grid-template-columns: 1fr 350px; /* Document vs Sidebar width */
+            gap: 30px;
+            max-width: 1400px;
+            margin: 110px auto 50px auto;
+            padding: 0 20px;
+        }
+
+        /* --- DOCUMENT STYLES (Left Column) --- */
+        .document-wrapper {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            border-radius: 8px;
+            border-top: 6px solid var(--poweri-blue);
+            padding: 50px;
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Row Layout (English | Hindi) */
+        .doc-row {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 1px solid var(--border-color);
+            padding: 25px 0;
+        }
+        .doc-row:last-child { border-bottom: none; }
+        
+        .col-en {
+            flex: 1;
+            padding-right: 25px;
+            border-right: 1px solid #eee;
+            text-align: justify;
+        }
+        
+        .col-hi {
+            flex: 1;
+            padding-left: 25px;
+            text-align: justify;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        /* Page Labels */
+        .page-label {
+            background: var(--poweri-blue);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 8px 15px;
+            margin: 40px -50px 20px -50px; /* Bleed to edge */
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .header-text { text-align: center; font-weight: bold; margin-bottom: 20px; }
+
+        /* Subject Box Highlight */
+        .subject-box {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f1f8ff;
+            border-left: 4px solid var(--poweri-orange);
+            font-weight: 500;
+        }
+
+        .signature { margin-top: 40px; text-align: right; font-weight: bold; }
+        
+        ul, ol { padding-left: 25px; margin-top: 5px; }
+        li { margin-bottom: 10px; }
+
+        /* Quick Reference Table (Bottom) */
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+        }
+        .ref-table th, .ref-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .ref-table th {
+            background-color: var(--poweri-blue);
+            color: white;
+        }
+        .ref-table tr:nth-child(even) { background-color: #f9f9f9; }
+
+        /* --- SIDEBAR STYLES (Right Column) --- */
+        .sidebar-wrapper {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            color: var(--poweri-blue);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--poweri-orange);
+            text-align: center;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 20px; /* Vertical line position */
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        /* Animated Cards */
+        .h-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--poweri-blue);
+            margin-left: 25px; /* Offset from line */
+            
+            /* Animations */
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        /* Staggered Animations */
+        .h-card:nth-child(1) { animation-delay: 0.1s; border-color: #d32f2f; }
+        .h-card:nth-child(2) { animation-delay: 0.2s; border-color: #f57c00; }
+        .h-card:nth-child(3) { animation-delay: 0.3s; border-color: #ff9800; }
+        .h-card:nth-child(4) { animation-delay: 0.4s; border-color: #ffb74d; }
+        .h-card:nth-child(5) { animation-delay: 0.5s; border-color: #ffe0b2; }
+
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+
+        .h-role { font-size: 16px; font-weight: 700; color: var(--poweri-blue); margin-bottom: 5px; }
+        .h-rank { font-size: 12px; text-transform: uppercase; color: #666; margin-bottom: 10px; letter-spacing: 0.5px; }
+        
+        .h-specs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns */
+        gap: 5px;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 8px;
+    }
+    
+    .h-spec-item {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        border-right: 1px solid #e0e0e0; /* Separator lines */
+    }
+
+    .h-spec-item:last-child {
+        border-right: none;
+    }
+
+    .h-label {
+        font-size: 9px;
+        color: #888;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .h-val {
+        font-weight: bold;
+        color: #003366; /* PowerI Blue */
+        font-size: 11px;
+    }
+    
+    /* Icon styling for better visibility */
+    .icon { font-style: normal; font-size: 10px; margin-right: 2px; }
+    
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .page-container { grid-template-columns: 1fr; }
+            .sidebar-wrapper { position: static; order: 2; margin-top: 40px; }
+            .document-wrapper { order: 1; padding: 25px; }
+            .col-en { border-right: none; border-bottom: 1px dashed #ccc; padding-right: 0; padding-bottom: 20px; margin-bottom: 20px; }
+            .col-hi { padding-left: 0; }
+            .doc-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand-logo">Power<span>I</span>.in</div>
+            <div style="font-weight: 300; font-size: 14px;">Official Gazette Notification</div>
+        </div>
+    </header>
+
+    <div class="page-container">
+
+        <main class="document-wrapper">
+
+            <div class="page-label">Page 1: Office Order</div>
+            
+            <div class="doc-row">
+                <div class="col-en">
+                    <div class="header-text">
+                        Office of the Chief Electrical Inspector, Government of Chhattisgarh<br>
+                        B-Block, Second Floor, Indravati Bhawan, Nava Raipur, Atal Nagar<br>
+                        District-Raipur (C.G.)<br>
+                        Phone No. 0771-2331482, E-mail-ceiraipur@gmail.com
+                    </div>
+                    <p><strong>Number / Estb. / Corresp. / Thirteen / 855 / CEI / Atal Nagar, Dated 02/01/2026</strong></p>
+                </div>
+                <div class="col-hi">
+                    <div class="header-text">
+                        कार्यालय मुख्य विद्युत निरीक्षक, छ०ग०शासन,<br>
+                        बी०ब्लाक, द्वितीय तल, इंद्रावती भवन, नवा रायपुर, अटल नगर<br>
+                        जिला-रायपुर (छ०ग०)<br>
+                        दूरभाष नं0 0771-2331482, E-mail-ceiraipur@gmail.com
+                    </div>
+                    <p><strong>क्रमांक / स्था /प.व्य. / तेरह / 855 / मु०वि०नि० अटल नगर, दिनांक 02/01/2026</strong></p>
+                </div>
+            </div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>To,</strong></p>
+                    <ol>
+                        <li>Superintending Engineer (Electrical Safety) & Deputy Chief Electrical Inspector, Govt. of C.G.</li>
+                        <li>Executive Engineer (Electrical Safety) & Divisional Electrical Inspector, Govt. of C.G.<br>
+                        Division: Raipur / Bilaspur / Raigarh / Rajnandgaon / Jagdalpur (C.G.)</li>
+                        <li>Assistant Engineer (Electrical Safety) & Assistant Electrical Inspector, Govt. of C.G.<br>
+                        Sub-Division: Raipur No.-1 and 02 / Korba / Raigarh / Ambikapur / Rajnandgaon / Bilaspur / Durg / Jagdalpur / Dhamtari (C.G.)</li>
+                    </ol>
+                    <div class="subject-box">
+                        <strong>Subject:</strong> Determination of rank-wise capacity for the inspection of various electrical installations in the state due to the creation of new posts and offices in the departmental setup of the Chief Electrical Inspectorate.
+                    </div>
+                    <p><strong>Reference:</strong> Letter No.-3359/R-212/2025/13/2 dated 31.12.2025 of the Chhattisgarh Government, Energy Department, Mahanadi Bhawan, Mantralaya, Nava Raipur.</p>
+                    <p>*****</p>
+                    <p>Regarding the subject, please peruse the referenced letter. In the referenced letter, due to the creation of new posts and offices in the departmental setup of the Chief Electrical Inspectorate, the rank-wise capacity for the inspection of various electrical installations in the state has been determined.</p>
+                    <p>A photocopy of the letter is attached. Accordingly, ensure necessary action is taken as per the received letter.</p>
+                    <p><strong>Attached: As above.</strong></p>
+                    <div class="signature">
+                        (S.K. Netam)<br>
+                        Chief Engineer (Electrical Safety) &<br>
+                        Chief Electrical Inspector, Govt. of C.G.<br>
+                        Nava Raipur, Atal Nagar
+                    </div>
+                </div>
+                <div class="col-hi">
+                    <p><strong>प्रति,</strong></p>
+                    <ol>
+                        <li>अधीक्षण अभियंता (वि.सु.) एवं उप मुख्य विद्युत निरीक्षक, छ०ग०शासन</li>
+                        <li>कार्यपालन अभियंता (वि.सु.) एवं संभागीय विद्युत निरीक्षक छ०ग०शासन<br>
+                        संभाग रायपुर/ बिलासपुर / रायगढ़ /राजनांदगावं/जगदलपुर (छ०ग०)</li>
+                        <li>सहायक अभियंता (वि.सु.) एवं सहायक विद्युत निरीक्षक छ०ग०षासन<br>
+                        उपसंभाग रायपुर क्र०-1 एवं 02 / कोरबा / रायगढ़/अंबिकापुर/ राजनांदगाव / बिलासपुर/दुर्ग/जगदलपुर/धमतरी (छ०ग०)</li>
+                    </ol>
+                    <div class="subject-box">
+                        <strong>विषय :-</strong> मुख्य विद्युत निरीक्षकालय के विभागीय सेट-अप में स्वीकृत नवीन पद एवं कार्यालय के सृजन के कारण राज्य के विभिन्न विद्युत संस्थापनाओं के निरीक्षण हेतु पदवार क्षमता का निर्धारण।
+                    </div>
+                    <p><strong>संदर्भ :-</strong> छत्तीसगढ़ शासन, ऊर्जा विभाग, महानदी भवन, मंत्रालय, नवा रायपुर का पत्र क्रमांक-3359/आर-212/2025/13/2 दिनांक 31.12.2025</p>
+                    <p>*****</p>
+                    <p>विषयान्तर्गत संदर्भित पत्र का अवलोकन करे संदर्भित पत्र में मुख्य विद्युत निरीक्षकालय के विभागीय सेट-अप में स्वीकृत नवीन पद एवं कार्यालय के सृजन के कारण राज्य के विभिन्न विद्युत संस्थापनाओं के निरीक्षण हेतु पदवार क्षमता का निर्धारण किया गया है।</p>
+                    <p>पत्र की छायाप्रति संलग्न है। तदानुसार प्राप्त पत्र के अनुसार आवश्यक कार्यवाही किया जाना सुनिश्चित करें।</p>
+                    <p><strong>संलग्न :- उपरोक्तानुसार।</strong></p>
+                    <div class="signature">
+                        (एस के० नेताम)<br>
+                        मुख्य अभियंता (विद्युत सुरक्षा) एवं<br>
+                        मुख्य विद्युत निरीक्षक, छ०ग०शासन,<br>
+                        नवा रायपुर, अटल नगर
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-label">Page 2: Government Order</div>
+            
+            <div class="doc-row">
+                <div class="col-en">
+                    <div class="header-text">
+                        Government of Chhattisgarh<br>
+                        Energy Department<br>
+                        Mantralaya, Mahanadi Bhawan, Atal Nagar, Nava Raipur
+                    </div>
+                    <p><strong>Number 3359/R-212/2025/13/2</strong><br>
+                    Nava Raipur, Dated 31-12-2025<br>
+                    (E Comp. No.:62295 File No.: ESTB/3939/2025)</p>
+                </div>
+                <div class="col-hi">
+                    <div class="header-text">
+                        छत्तीसगढ़ शासन<br>
+                        ऊर्जा विभाग<br>
+                        मंत्रालय, महानदी भवन, अटल नगर, नवा रायपुर
+                    </div>
+                    <p><strong>क्रमांक 3359/आर-212/2025/13/2</strong><br>
+                    नवा रायपुर, दिनांक 31-12-2025<br>
+                    (E Comp. No.:62295 File No.: ESTB/3939/2025)</p>
+                </div>
+            </div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>To,<br>
+                    The Chief Electrical Inspector<br>
+                    Office of the Chief Electrical Inspectorate<br>
+                    Indravati Bhawan, Nava Raipur</strong></p>
+                    <div class="subject-box">
+                        <strong>Subject:-</strong> Determination of rank-wise capacity for the inspection of various electrical installations in the state due to the creation of new posts and offices in the departmental setup of the Chief Electrical Inspectorate.
+                    </div>
+                    <p><strong>Reference:-</strong><br>
+                    1. Energy Department Letter No. 1604 dated 27.06.2025<br>
+                    2. Chief Electrical Inspectorate Letter No./Corresp./13/Technical/2025/269/CEI/Raipur/Dated 15.12.2025</p>
+                    <p>Regarding the subject, keeping in view the creation of field offices in compliance with the new setup approved for the Chief Electrical Inspectorate via the referenced letter dated 15.12.2025, a proposal was received for the consideration of the State Government to amend the order issued on 27.06.2025 regarding the determination of capacity for the inspection of electrical installations in the state.</p>
+                    <p>Upon approval of the proposal received on the said subject by the State Government, instructions are issued as per the attached appendix.</p>
+                    <p><strong>Attached:- Appendix</strong></p>
+                    <div class="signature">
+                        Digitally signed by<br>
+                        ASHUTOSH KUMAR JAISWAL<br>
+                        Date: 31-12-2025 17:18:37<br><br>
+                        (Ashutosh Kumar Jaiswal)<br>
+                        Deputy Secretary<br>
+                        Chhattisgarh Government<br>
+                        Energy Department
+                    </div>
+                </div>
+                <div class="col-hi">
+                    <p><strong>प्रति,<br>
+                    मुख्य विद्युत निरीक्षक<br>
+                    कौर्यालय मुख्य विद्युत निरीक्षकालय<br>
+                    इंद्रावती भवन, नवा रायपुर</strong></p>
+                    <div class="subject-box">
+                        <strong>विषयः-</strong> मुख्य विद्युत निरीक्षकालय के विभागीय सेट-अप में स्वीकृत नवीन पद एवं कार्यालय के सृजन के कारण राज्य के विभिन्न विद्युत संस्थापनाओं के निरीक्षण हेतु प‌द्वार क्षमता का निर्धारण।
+                    </div>
+                    <p><strong>संदर्भः-</strong><br>
+                    1. ऊर्जा विभाग का पत्र क्रमांक 1604 दिनांक 27.06.2025<br>
+                    2. मुख्य विद्युत निरीक्षकालय का पत्र क्रमांक/प.व्य./13/तकनीकी/2025/269/मु.वि.नि./रायपुर/दिनांक 15.12.2025</p>
+                    <p>विषयांतर्गत संदर्भित पत्र दिनांक 15.12.2025 दवारा मुख्य विद्युत निरीक्षकालय हेतु स्वीकृत नवीन सेट-अप के अनुपालन में मैदानी कार्यालय के सृजन को दृष्टिगत रखते हुए राज्य में राज्य में विद्युत संस्थापनाओं के निरीक्षण हेतु क्षमता निर्धारण हेतु जारी आदेश दिनांक 27.06.2025 संशोधन किए जाने हेतु प्रस्ताव राज्य शासन के विचारार्थ प्राप्त हुआ है।</p>
+                    <p>राज्य शासन द्वारा उक्त विषय पर प्राप्त प्रस्ताव पर अनुमोदन उपरांत संलग्न परिशिष्ट अनुसार निर्देश जारी किया जाता है।</p>
+                    <p><strong>संलग्नः- परिशिष्ट</strong></p>
+                    <div class="signature">
+                        Digitally signed by<br>
+                        ASHUTOSH KUMAR JAISWAL<br>
+                        Date: 31-12-2025 17:18:37<br><br>
+                        (आशुतोष कुमार जायसवाल)<br>
+                        उप सचिव<br>
+                        छत्तीसगढ़ शासन<br>
+                        ऊर्जा विभाग
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-label">Page 3: Appendix</div>
+            
+            <div class="doc-row">
+                <div class="col-en">
+                    <div class="header-text">APPENDIX</div>
+                    <div class="subject-box">
+                        <strong>Subject:</strong> Determination of rank-wise capacity for the inspection of various electrical installations in the state due to the creation of new posts and offices in the departmental setup of the Chief Electrical Inspectorate
+                    </div>
+                    <p>-000-</p>
+                    <p>Regarding the subject, in compliance with the new setup approved for the Chief Electrical Inspectorate by the State Government, Energy Department, and keeping in view the creation of field offices, the instruction issued on 27.06.2025 for the inspection of electrical installations in the state is amended, and the capacity determination is done as follows:-</p>
+                </div>
+                <div class="col-hi">
+                    <div class="header-text">परिशिष्ट</div>
+                    <div class="subject-box">
+                        मुख्य विद्युत निरीक्षकालय के विभागीय सेट-अप में स्वीकृति नवीन पद एवं कार्यालय के सूजन कारण राज्य के विभिन्न विद्युत संस्थापनाओं के निरीक्षण हेतु प‌द्वार क्षमता का निर्धारण
+                    </div>
+                    <p>-000-</p>
+                    <p>विषयांतर्गत राज्य शासन, ऊर्जा विभाग ‌द्वारा मुख्य विद्युत निरीक्षकालय हेतु स्वीकृत नवीन सेट-अप के अनुपालन में मैदानी कार्यालय के सृजन को दृष्टिगत रखते हुए राज्य में वि‌द्युत संस्थापनाओं निरीक्षण हेतु दिनांक 27.06.2025 को जारी निर्देश को संशोधित कर निम्नानुसार क्षमता निर्धारण किया जाता हैः-</p>
+                </div>
+            </div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>(A) Chief Engineer (Electrical Safety) & Chief Electrical Inspector -</strong></p>
+                    <ol>
+                        <li>Inspection of new and old Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> electrical installations and Producer (Generator) electrical installations with a capacity of more than 100 MVA, and verification of electrical duty of the installation shall be done mandatorily.</li>
+                        <li>Inspection of new / old electrical installations of C.G. State Power Companies above 220 KV.</li>
+                        <li>Work related to issuing drawings and permissions for Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> installations of more than 7.5 MVA and Producer electrical installations of more than 5000 KVA capacity.</li>
+                        <li>Detailed inspection of subordinate Circle / Divisional / Sub-Divisional offices and his own office at least once in a financial year.</li>
+                    </ol>
+                </div>
+                <div class="col-hi">
+                    <p><strong>(A) मुख्य अभियंता (वि.सु.) एवं मुख्य विद्युत निरीक्षक -</strong></p>
+                    <ol>
+                        <li>100 एम.व्ही.ए. से अधिक की क्षमता के नये व पुराने अति उच्च दाब /उच्च दाब विद्युत स्थापनाओं एवं उत्पाद‌को विद्युत स्थापनाओं का निरीक्षण तथा स्थापना के विद्युत शुल्क की जाँच अनिवार्य रूप से किया जावे।</li>
+                        <li>छ.ग. राज्य पावर कंपनीज. के 220 केव्ही से ऊपर के नवीन / पुराने विद्युत स्थापनाओं का निरीक्षण</li>
+                        <li>7.5 एम.व्ही.ए. से अधिक की अति उच्च दाब/उच्च दाब स्थापना एवं 5000 केव्हीए से अधिक क्षमता के उत्पादको की विद्युत स्थापनाओं का रेखाचित्र एवं अनुमति जारी किये जाने संबंधी कार्य।</li>
+                        <li>अधीनस्थ वृत्तीय संभागीय/उप संभागीय कार्यालयों का तथा अपने स्वयं के कार्यालय का वित्तीय वर्ष में कम से कम एक बार विस्तृत निरीक्षण</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>(B) Superintending Engineer (Electrical Safety) & Deputy Chief Electrical Inspector -</strong></p>
+                    <ol>
+                        <li>Inspection of new and old Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> electrical installations and Producer electrical installations with a capacity of more than 25 MVA up to 100 MVA, and verification of electrical duty of the installation shall be done mandatorily.</li>
+                        <li>Inspection of new / old electrical installations of C.G. State Power Companies of more than 132 KV up to 220 KV and inspection of electrical installations of new pole-mounted sub-stations / lines of capacity more than 5000 KVA.</li>
+                        <li>Investigation of electrical accidents occurred in Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> installations of capacity more than 100 MVA.</li>
+                        <li>Investigation of electrical accidents occurred in installations of C.G. State Power Companies of capacity more than 132 KV.</li>
+                        <li>Work related to issuing drawings and permissions for Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> installations of more than 600 KVA up to 7.5 MVA and Producer electrical installations of capacity more than 125 KVA up to 5000 KVA.</li>
+                        <li>Detailed inspection of subordinate Divisional / Sub-Divisional offices and his own office at least once in a financial year.</li>
+                    </ol>
+                    <p><strong>Note-</strong><br>
+                    (a) The work allocation for the Superintending Engineer (Elec. Safety) posted in the Chief Electrical Inspector's office and the Chief Electrical Inspector will be administered subject to orders issued by the Chief Electrical Inspector from time to time.<br>
+                    (b) The investigation of electrical accidents occurred in Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> installations and installations of C.G. State Power Companies of capacity more than 132 KV shall be done by the Superintending Engineer (Elec. Safety) & Deputy Chief Electrical Inspector posted in the Electrical Inspector's office, and he will submit the report to the Chief Electrical Inspector.</p>
+                </div>
+                <div class="col-hi">
+                    <p><strong>(B) अधीक्षण अभियंता (वि.सु.) एवं उप मुख्य विद्युत निरीक्षक -</strong></p>
+                    <ol>
+                        <li>25 एम.व्ही.ए. से अधिक 100 एम.व्ही.ए. तक की क्षमता के नये व पुराने अति उच्च दाब । उच्च दाब विद्युत स्थापनाओं एवं उत्पादको विद्युत स्थापनाओं का निरीक्षण तथा स्थापना के विद्युत शुल्क की जाँच अनिवार्य रूप से किया जावे।</li>
+                        <li>छ.ग. राज्य पावर कंपनीज के 132 केव्ही से अधिक 220 केव्ही तक के नवीन /पुराने विद्युत स्थापनाओं का निरीक्षण एवं 5000 केव्हीए से अधिक की क्षमता के नवीन पॉल माउंटेड उपकेन्द्रों / लाईनों की विद्युत स्थापनाओं का निरीक्षण ।</li>
+                        <li>100 एम.व्ही.ए. से अधिक की क्षमता की अति उच्च दाब/उच्च दाब स्थापनाओं मे घटित विद्युत दुर्घटना की जाँच</li>
+                        <li>132 केव्ही से अधिक की क्षमता की छ.ग.राज्य पावर कंपनीज. के स्थापनाओं मे घटित विद्युत दुर्घटना की जाँच</li>
+                        <li>600 कै.व्ही.ए. से अधिक 7.5 एम.व्ही.ए. तक की अति उच्च दाब । उच्च दाब स्थापना एवं 125 के.व्ही.ए. से अधिक 5000 केव्हीए तक की क्षमता के उत्पादको की विद्युत स्थापनाओं का रेखाचित्र एवं अनुमति जारी किये जाने संबंधी कार्य</li>
+                        <li>अधीनस्थ संभागीय/उप संभागीय कार्यालयों का तथा अपने स्वयं के कार्यालय का वित्तीय वर्ष में कम से कम एक बार विस्तृत निरीक्षण</li>
+                    </ol>
+                    <p><strong>नोट-</strong><br>
+                    (a) मुख्य विद्युत निरीक्षक कार्यालय में पदस्थ अधीक्षण अभियंता (वि.सु) एवं मुख्य विदयुत निरीक्षक के लिये कार्य आबंटन मुख्य विद्युत निरीक्षक द्वारा समय समय पर जारी आदेश के अधीन प्रशासित होगा।<br>
+                    (b) विद्युत निरीक्षक कार्यालय पदस्थ अधीक्षण अभियंता (वि.स) एवं उप मुख्य विद्युत छ.ग. राज्य पावर कंपनीज. के स्थापनाओं मे घटित विदयुत दुर्घटना की जाँच मुख्य निरीक्षक द्वारा किया जाकर प्रतिवेदन मुख्य विद्युत निरीक्षक को प्रस्तुत करेगा।</p>
+                </div>
+            </div>
+
+            <div class="page-label">Page 4</div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>(C) Executive Engineer (Electrical Safety) & Divisional Electrical Inspector -</strong></p>
+                    <ol>
+                        <li>Inspection of new and old Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> electrical installations and Producer electrical installations with a capacity of more than 2500 KVA up to 25 MVA, and verification of electrical duty of the installation shall be done mandatorily.</li>
+                        <li>Inspection of electrical installations of new pole-mounted sub-stations / lines being transferred to C.G. Power Companies with a capacity of more than 2500 KVA up to 5 MVA.</li>
+                        <li>Inspection of new and old electrical installations of C.G. State Power Companies of more than 33 KV up to 132 KV.</li>
+                        <li>Investigation of electrical accidents occurred in Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> installations of capacity more than 2500 KVA up to 25 MVA.</li>
+                        <li>Investigation of electrical accidents occurred in electrical installations of C.G. State Power Companies from more than 33 KV up to 132 KV.</li>
+                        <li>At least 2 percent check inspection to increase the quality of administrative works of his subordinate officers.</li>
+                        <li>Detailed inspection of subordinate Sub-Divisional offices and his own office at least once in a financial year.</li>
+                        <li>Work related to issuing drawings and permissions for High <strong>Voltage</strong> installations up to 600 KVA and Producer electrical installations of capacity up to 125 KVA.</li>
+                    </ol>
+                </div>
+                <div class="col-hi">
+                    <p><strong>(C) कार्यपालन अभियंता (वि.सु.) एवं संभागीय विद्युत निरीक्षक -</strong></p>
+                    <ol>
+                        <li>2500 के.व्ही.ए. से अधिक 25 एम.व्ही.ए. तक की क्षमता के नये व पुराने अति उच्च दाब / उच्च दाब विद्युत स्थापनाओं एवं उत्पादको विद्युत स्थापनाओं का निरीक्षण तथा स्थापना के विद्युत शुल्क की जाँच अनिवार्य रूप से किया जावे।</li>
+                        <li>2500 केव्हीए से अधिक 5 एम.व्ही.ए. की क्षमता के छ.ग. पावर कंपनीज को हस्तांतरित होने वाले नवीन पोल माउंटेड उपकेन्द्रों / लाईनों की विद्युत स्थापनाओं का निरीक्षण ।</li>
+                        <li>छ.ग. राज्य पावर कंपनीज. के 33 केव्ही से अधिक 132 केव्ही तक के नवीन एवं पुराने विद्युत स्थापनाओं का निरीक्षण</li>
+                        <li>2500 केव्हीए से अधिक 25 एम.व्ही.ए. तक की क्षमता की अति उच्च दाब/उच्च दाब स्थापनाओं में घटित विद्युत दुर्घटना की जाँच</li>
+                        <li>33 केव्ही से अधिक 132 केव्ही तक छ.ग.राज्य पावर कंपनीज. के विद्युत स्थापनाओं में घटित विद्युत दुर्घटनाओं की जांच।</li>
+                        <li>अपने अधिनस्थ अधिकारियों के प्रशासनिक कार्यों की गुणवत्ता बढ़ाने के हेतु कम से कम 2 प्रातिशत जॉच निरीक्षण</li>
+                        <li>अधीनस्थ उप संभागीय कार्यालयों का तथा अपने स्वयं के कार्यालय का वित्तीय वर्ष मे कम से कम एक बार विस्तृत निरीक्षण</li>
+                        <li>600 के.व्ही.ए. तक की उच्त्त दाब स्थापना एवं 125 के.व्ही.ए. तक की क्षमता के उत्पादको की विद्युत स्थापनाओं का रेखाचित्र एवं अनुमति जारी किये जाने संबंधी कार्य</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>(D) Assistant Engineer (Electrical Safety) & Assistant Electrical Inspector -</strong></p>
+                    <ol>
+                        <li>Inspection of new and old High <strong>Voltage</strong> electrical installations and Producer electrical installations with a capacity of more than 250 KVA up to 2500 KVA, and verification of electrical duty of the installation shall be done mandatorily.</li>
+                        <li>Inspection of electrical installations of new pole-mounted sub-stations / lines being transferred to C.G. Power Companies with a capacity of more than 250 KVA up to 2500 KVA.</li>
+                        <li>Inspection of new and old 33/11 KV sub-stations of C.G. State Power Companies.</li>
+                        <li>Inspection of new Cinemas and periodic inspection of old permanent Cinemas.</li>
+                        <li>Initial inspection of new Lift installations.</li>
+                        <li>At least 2 percent check inspection to increase the quality of administrative works of his subordinate officers.</li>
+                        <li>Detailed inspection of his own office at least once in a financial year.</li>
+                        <li>Verification of records of 'A' Class Electrical Contractors.</li>
+                        <li>Investigation of electrical accidents occurred in Extra High <strong>Voltage</strong> / High <strong>Voltage</strong> installations of capacity more than 250 KVA up to 2.5 MVA.</li>
+                        <li>Investigation of electrical accidents occurred on electrical installations of C.G. State Power Companies at 33 KV.</li>
+                    </ol>
+                </div>
+                <div class="col-hi">
+                    <p><strong>(D) सहायक अभियंता (वि.सु.) एवं सहायक विद्युत निरीक्षक -</strong></p>
+                    <ol>
+                        <li>250 के.व्ही.ए. से अधिक 2500 के.व्ही.ए. तक की क्षमता के नये व पुराने उच्च दाब विद्युत स्थापनाओं एवं उत्पादको विदयुत स्थापनाओं का निरीक्षण तथा स्थापना के विद्युत शुल्क की जाँच अनिवार्य रूप से किया जावे।</li>
+                        <li>250 केव्हीए से अधिक 2500 के.व्ही.ए. तक की क्षमता के छ.ग. पावर कंपनीज को हस्तांतरित होने वाले नवीन पोल माउंटेड उपकेन्द्रों/लाईनों की विद्युत स्थापनाओं का निरीक्षण।</li>
+                        <li>छ.ग.राज्य पावर कंपनीज. के 33/11 केव्ही नवीन एवं पुराने उपकेनों का निरीक्षण</li>
+                        <li>नवीन छबिगृहों का निरीक्षण तथा पुराने स्थायी छबिगृहों का आवर्ती निरीक्षण।</li>
+                        <li>नवीन लिफ्ट स्थापना का प्रारंभिक निरीक्षण</li>
+                        <li>अपने अधिनस्थ अधिकारियों के प्रशासनिक कार्यों की गुणवत्ता बढ़ाने के हेतु कम से कम 2 प्रतिशत जाँच निरीक्षण</li>
+                        <li>अपने स्वयं के कार्यालय का वित्तीय वर्ष कम से कम एक बार विस्तृत निरीक्षण</li>
+                        <li>अ वर्ग विद्युत ठेकेदारों के रिकार्ड की जाँच ।</li>
+                        <li>250 केव्हीए से अधिक 2.5 एम.व्ही.ए. तक की क्षमता की अति उच्च दाब/उच्च दाब स्थापनाओं में घटित विद्युत दुर्घटना की जाँच</li>
+                        <li>33 केव्ही पर छ.ग. राज्य पावर कंपनीज. के विद्युत स्थापनाओं पर घटित विद्युत दुर्घटना की जाँच</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="page-label">Page 5</div>
+
+            <div class="doc-row">
+                <div class="col-en">
+                    <p><strong>(E) Sub Engineer -</strong></p>
+                    <ol>
+                        <li>All installations of Medium <strong>Voltage</strong> installations.</li>
+                        <li>Inspection of new and old High <strong>Voltage</strong> electrical installations of capacity up to 250 KVA, and verification of electrical duty of the installation shall be done mandatorily.</li>
+                        <li>Inspection of electrical installations of new pole-mounted sub-stations / lines being transferred to C.G. Power Companies with a capacity of less than 100 KVA.</li>
+                        <li>Inspection of old 11 KV sub-stations of C.G. State Power Companies.</li>
+                        <li>Inspection of new and old installations of Producers (Generators) up to 100 KVA capacity, and verification of electrical duty of the installation shall be done mandatorily.</li>
+                        <li>Inspection of new and old X-Ray and Neon Signs.</li>
+                        <li>Periodic inspection of old Lift installations and inspection of temporary Cinemas.</li>
+                        <li>Investigation of electrical accidents occurred in High <strong>Voltage</strong> installations up to 250 KVA.</li>
+                        <li>Investigation of electrical accidents occurred on electrical installations of C.G. State Power Companies at Low <strong>Voltage</strong> and 11 KV.</li>
+                        <li>Verification of records of 'B' Class Electrical Contractors.</li>
+                    </ol>
+                    <div class="signature">
+                        Digitally signed by<br>
+                        ASHUTOSH KUMAR JAISWAL<br>
+                        Date: 31-12-2025 17:19:27<br><br>
+                        (Ashutosh Kumar Jaiswal)<br>
+                        Deputy Secretary<br>
+                        Chhattisgarh Government<br>
+                        Energy Department
+                    </div>
+                </div>
+                <div class="col-hi">
+                    <p><strong>(E) उप अभियंता</strong></p>
+                    <ol>
+                        <li>मध्यमदान स्थापनाओं के समस्त स्थापनाएं ।</li>
+                        <li>250 के.व्ही.ए. तक की क्षमता के नये व पुराने उच्च दाब विद्युत स्थापनाओं का निरीक्षण तथा स्थापना के विद्युत शुल्क की जाँच अनिवार्य रूप से किया जावे।</li>
+                        <li>100 केव्हीए से कम क्षमता के छ.ग. पावर कंपनीज को हस्तांतरित होने वाले नवीन पोल माउंटेड उपकेन्द्रों / लाईनों की विद्युत स्थापनाओं का निरीक्षण ।</li>
+                        <li>छ.ग.राज्य पावर कंपनीज. के 11 केव्ही के पुराने उपकेन्द्रो का निरीक्षण</li>
+                        <li>100 के.व्ही.ए. क्षमता तक के उत्पादकों के नवीन एवं पुराने स्थापनाओं का निरीक्षण तथा स्थापना के विद्युत शुल्क की जॉच अनिवार्य रूप से किया जावे।</li>
+                        <li>नवीन व पुराने एक्स-रे एवं नियान साईन का निरीक्षण</li>
+                        <li>पुराने लिफ्ट स्थापना का आवर्ती निरीक्षण एवं अस्थाई छबिगृह का निरीक्षण</li>
+                        <li>250 केव्हीए तक उच्च दाब स्थापनाओं में घटित विद्युत दुर्घटना की जाँच</li>
+                        <li>निम्न दाब एवं 11 केव्ही पर छ.ग. राज्य पावर कंपनौज, के विद्युत स्थापनाओं का पर घटित विद्युत दुर्घटना की जॉच</li>
+                        <li>ब वर्ग विद्युत ठेकेदारों के रिकार्ड की जाँच ।</li>
+                    </ol>
+                    <div class="signature">
+                        Digitally signed by<br>
+                        ASHUTOSH KUMAR JAISWAL<br>
+                        Date: 31-12-2025 17:19:27<br><br>
+                        (आशुतोष कुमार जायसवाल)<br>
+                        उप सचिव<br>
+                        छत्तीसगढ़ शासन<br>
+                        ऊर्जा विभाग
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-label" style="background:var(--poweri-orange);">Quick Reference: Technical Powers</div>
+            <table class="ref-table">
+                <thead>
+                    <tr>
+                        <th>Authority</th>
+                        <th>Installation Inspection Criteria</th>
+                        <th>Drawing Approval Criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Chief Engineer</strong></td>
+                        <td>> 100 MVA (HV/EHV)<br>> 220 KV (Grid)</td>
+                        <td>> 7.5 MVA (HV/EHV)<br>> 5000 KVA (Gen)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dy. Chief Engineer</strong></td>
+                        <td>25 MVA - 100 MVA (HV/EHV)<br>132 KV - 220 KV (Grid)</td>
+                        <td>600 KVA - 7.5 MVA (HV/EHV)<br>125 - 5000 KVA (Gen)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Executive Engineer</strong></td>
+                        <td>2500 KVA - 25 MVA (HV/EHV)<br>33 KV - 132 KV (Grid)</td>
+                        <td>Up to 600 KVA (HV)<br>Up to 125 KVA (Gen)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assistant Engineer</strong></td>
+                        <td>250 KVA - 2500 KVA (HV)<br>33/11 KV Sub-stations</td>
+                        <td><em>Inspection Only</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sub Engineer</strong></td>
+                        <td>Up to 250 KVA (HV)<br>All Medium Voltage</td>
+                        <td><em>Inspection Only</em></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </main>
+
+        <aside class="sidebar-wrapper">
+    <div class="sidebar-title">Hierarchy & Powers</div>
+    <div class="timeline-container">
+        
+        <div class="h-card">
+            <div class="h-role">HO-Chief Electrical Inspector</div>
+            <div class="h-rank">Chief Engineer</div>
+            <div class="h-specs">
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">⚡</span>Capacity</span>
+                    <span class="h-val">> 100 MVA</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🔌</span>Voltage</span>
+                    <span class="h-val">> 220 KV</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">✏️</span>Drawing</span>
+                    <span class="h-val">> 7.5 MVA</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-card">
+            <div class="h-role">Circle-Dy. Chief Elec. Inspector</div>
+            <div class="h-rank">Superintending Engineer</div>
+            <div class="h-specs">
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">⚡</span>Capacity</span>
+                    <span class="h-val">25-100 MVA</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🔌</span>Voltage</span>
+                    <span class="h-val">132-220 KV</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">✏️</span>Drawing</span>
+                    <span class="h-val">0.6-7.5 MVA</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-card">
+            <div class="h-role">Divisional Inspector</div>
+            <div class="h-rank">Executive Engineer</div>
+            <div class="h-specs">
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">⚡</span>Capacity</span>
+                    <span class="h-val">2.5-25 MVA</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🔌</span>Voltage</span>
+                    <span class="h-val">33-132 KV</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">✏️</span>Drawing</span>
+                    <span class="h-val">< 600 KVA</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-card">
+            <div class="h-role">Sud division - Assistant Inspector</div>
+            <div class="h-rank">Assistant Engineer</div>
+            <div class="h-specs">
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">⚡</span>Capacity</span>
+                    <span class="h-val">250-2500 KVA</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🔌</span>Voltage</span>
+                    <span class="h-val">33/11 KV</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🏗️</span>Misc</span>
+                    <span class="h-val">Lifts/Cinema</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-card">
+            <div class="h-role">Sub Engineer</div>
+            <div class="h-rank">Field Officer</div>
+            <div class="h-specs">
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">⚡</span>Capacity</span>
+                    <span class="h-val">< 250 KVA</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🔌</span>Voltage</span>
+                    <span class="h-val">11 KV / MV</span>
+                </div>
+                <div class="h-spec-item">
+                    <span class="h-label"><span class="icon">🏥</span>Misc</span>
+                    <span class="h-val">X-Ray</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+
+    </div>
+
+</body>
+</html>
