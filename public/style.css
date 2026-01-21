@@ -205,13 +205,30 @@
         }
 
         /* Section 1: Mission */
-        .mission-section {
-            background: linear-gradient(to right, #e3f2fd, #fff);
-            padding: 20px;
-            border-left: 5px solid var(--royal-blue);
-            margin-bottom: 30px;
-        }
-        .mission-section h2 { color: var(--royal-blue); margin-bottom: 10px; }
+        /* --- MISSION SECTION (Updated) --- */
+.mission-section {
+    width: 90%;             /* Occupy most of the width but leave breathing room */
+    max-width: 1200px;      /* Prevent it from getting too wide on large screens */
+    margin: 30px auto;      /* Center horizontally (auto) and add vertical spacing (30px) */
+    background: linear-gradient(to right, #e3f2fd, #fff);
+    padding: 30px;          /* Increased padding for better visual weight */
+    border-left: 5px solid var(--royal-blue);
+    border-radius: 8px;     /* slight rounding to match other containers */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Subtle shadow for depth */
+    text-align: center;     /* Optional: centers the text inside the box */
+}
+
+.mission-section h2 { 
+    color: var(--royal-blue); 
+    margin-bottom: 15px; 
+    font-size: 1.8rem;      /* Make the title slightly larger */
+}
+
+.mission-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+}
 
         /* Section 2: Split Area (60% Q&A, 40% Welcome) */
         .split-content {
@@ -773,6 +790,7 @@
     .left-sidebar { width: 100%; order: 2; border-right: none; border-top: 1px solid #ddd; }
     .page-content { width: 100%; order: 1; }
 }
+
 
 
 
