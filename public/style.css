@@ -6,19 +6,24 @@
             --text-dark: #333;
             --border-color: #ddd;
         }
-        
+ body { 
+            background-color: var(--light-bg); 
+            color: var(--text-dark);
+            margin: 0;        /* Extra safety to ensure no gaps */
+            padding: 0;
+            overflow-x: hidden; /* Prevents accidental horizontal scrolling */
+}
+/* INSERT HERO STYLES HERE */
 .hero-section {
-    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)),
                 url('hero-bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     min-height: 100vh;
-    
-    /* FIX STARTS HERE */
     display: flex;
-    flex-direction: column; /* Stacks Header on top of Content */
-    align-items: center;    /* Keeps text centered horizontally */
+    flex-direction: column;
+    align-items: center;
     color: white;
 }
 
@@ -27,12 +32,10 @@
     z-index: 10;
     max-width: 800px;
     padding: 20px;
-    
-    /* This "auto" margin is the trick: */
-    /* It pushes the content away from the header into the vertical center */
-    margin-top: auto; 
-    margin-bottom: auto; 
+    margin-top: auto;
+    margin-bottom: auto;
 }
+
 .hero-content h2 {
     font-size: 3.5rem;
     margin-bottom: 20px;
@@ -43,6 +46,58 @@
     font-size: 1.2rem;
     margin-bottom: 30px;
     opacity: 0.9;
+}
+
+.hero-body {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+/* --- GLASS SIDEBAR --- */
+.glass-sidebar {
+    width: 20%; 
+    min-width: 240px;
+    background: rgba(255, 255, 255, 0.1); /* Transparent */
+    backdrop-filter: blur(10px); /* Blur Effect */
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.glass-tool-box {
+    background: rgba(255, 255, 255, 0.95); /* White background for tools */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.glass-header {
+    color: #003366;
+    font-weight: bold;
+    border-bottom: 2px solid #ff9900;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+/* --- MISSION AREA --- */
+.mission-area {
+    flex: 1; /* Takes remaining space next to sidebar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.mission-box {
+    max-width: 800px;
+    text-align: center;
+    color: white;
 }
 
 .btn-primary {
@@ -61,13 +116,7 @@
 }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-      body { 
-    background-color: var(--light-bg); 
-    color: var(--text-dark);
-    margin: 0;        /* Extra safety to ensure no gaps */
-    padding: 0;
-    overflow-x: hidden; /* Prevents accidental horizontal scrolling */
-}
+      
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         
@@ -790,6 +839,7 @@
     .left-sidebar { width: 100%; order: 2; border-right: none; border-top: 1px solid #ddd; }
     .page-content { width: 100%; order: 1; }
 }
+
 
 
 
