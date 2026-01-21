@@ -693,6 +693,86 @@
     font-weight: bold;
     color: #ff4757; /* Accent red to stand out */
 }
+/* --- NEW SIDEBAR LAYOUT --- */
+.main-wrapper {
+    display: flex; /* Makes items sit side-by-side */
+    width: 100%;
+    min-height: 80vh; /* Fills height */
+    margin-top: 0; 
+}
+
+/* 1. The Left Sidebar (10-15%) */
+.left-sidebar {
+    width: 15%; /* 10% is very narrow, 15% is standard. Change to 10% if preferred */
+    background-color: #f8f9fa;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-shrink: 0; /* Prevents sidebar from shrinking */
+}
+
+/* 2. The Main Page Content (Rest of the space) */
+.page-content {
+    flex-grow: 1; /* Takes up remaining space */
+    width: 85%;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* --- TOOL BOX STYLING --- */
+.tool-box {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.tool-header {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #003366; /* PowerI Blue */
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #ff9900; /* PowerI Orange */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tool-link {
+    display: block;
+    padding: 8px;
+    color: #444;
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    transition: 0.2s;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid transparent;
+}
+
+.tool-link:hover {
+    background: #e3f2fd;
+    color: #003366;
+    border-color: #bbdefb;
+    transform: translateX(3px);
+}
+
+.tool-link i { color: #ff9900; width: 15px; text-align: center; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .main-wrapper { flex-direction: column; }
+    .left-sidebar { width: 100%; order: 2; border-right: none; border-top: 1px solid #ddd; }
+    .page-content { width: 100%; order: 1; }
+}
 
 
 
