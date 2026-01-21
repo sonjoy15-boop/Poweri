@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Inspection Fee Estimator | PowerI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root { --primary: #003366; --accent: #d32f2f; --green: #2e7d32; --bg: #eccbcb; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); padding: 20px; display: flex; justify-content: center; }
+        
+        .calc-container {
+            background: white; width: 100%; max-width: 800px;
+            border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+        .header h2 { margin: 0; font-size: 1.5rem; }
+        .header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
+        
+        .body-content { padding: 30px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+        
+        select, input { 
+            width: 100%; padding: 10px; border: 2px solid #ddd; 
+            border-radius: 6px; font-size: 1rem; box-sizing: border-box; 
+        }
+
+        /* CHECKBOX FOR RE-INSPECTION */
+        .checkbox-group {
+            display: flex; align-items: center; gap: 10px; 
+            background: #fff3e0; padding: 10px; border-radius: 6px; border: 1px solid #ffe0b2;
+        }
+        .checkbox-group input { width: auto; }
+
+        /* --- BUTTON GROUP --- */
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        
+        .btn-calc {
+            flex: 1; background: var(--primary); color: white; border: none;
+            padding: 12px; font-size: 1rem; font-weight: bold; border-radius: 6px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-calc:hover { background: #002244; }
+
+        .btn-add {
+            flex: 1; background: var(--green); color: white; border: none;
+            padding: 12px; font-size: 1rem; font-weight: bold; border-radius: 6px;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-add:hover { background: #1b5e20; }
+        .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- PREVIEW BOX --- */
+        .preview-box {
+            background: #e8f5e9; border: 1px solid #c8e6c9; color: #1b5e20;
+            padding: 15px; margin-top: 20px; border-radius: 6px; text-align: center;
+            font-weight: bold; display: none;
+        }
+
+        /* --- THE TABLE --- */
+        .table-container { margin-top: 30px; border: 1px solid #77e7d8; border-radius: 8px; overflow: hidden; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        
+        thead { background: #f8f9fa; border-bottom: 2px solid #ddd; }
+        th { padding: 12px; text-align: left; color: #454d4e; font-weight: bold; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        
+        /* Column Widths */
+        th:nth-child(1) { width: 50px; text-align: center; } /* S.No */
+        td:nth-child(1) { text-align: center; }
+        th:nth-child(4) { text-align: right; } /* Amount */
+        td:nth-child(4) { text-align: right; font-weight: bold; color: var(--primary); }
+        th:nth-child(5) { width: 40px; } /* Delete */
+
+        .delete-btn { color: #ccc; cursor: pointer; transition: 0.2s; }
+        .delete-btn:hover { color: var(--accent); }
+
+        /* GRAND TOTAL ROW */
+        .total-row td { background: #e3f2fd; font-weight: bold; font-size: 1.2rem; color: var(--primary); border-top: 2px solid #90caf9; }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <div class="header">
+        <h2><i class="fas fa-file-invoice-dollar"></i> Inspection Fee Estimator</h2>
+        <p>Complete Gazette Coverage (Includes Re-inspection Rates)</p>
+    </div>
+
+    <div class="body-content">
+
+        <div class="form-group">
+            <label>1. Select Equipment Category:</label>
+            <select id="equipType" onchange="updateForm()">
+                <option value="" disabled selected>-- Select Equipment --</option>
+                
+                <optgroup label="Capacity Based (KVA/KW)">
+                    <option value="installation_hv">HT/EHT Transformer / Installation</option>
+                    <option value="generator">Generator (HT/EHV)</option>
+                    <option value="capacitor">Capacitor Bank / Booster</option>
+                </optgroup>
+
+                <optgroup label="Fixed Rate Items (Per Unit)">
+                    <option value="breaker_ht">HT Breaker (11 KV / 33 KV)</option>
+                    <option value="breaker_eht">EHT Breaker (132 KV+)</option>
+                    <option value="cinema_lv">Cinema / Lift / High Rise (LV - up to 250V)</option>
+                    <option value="cinema_mall">Cinema (Mall / Multiplex - HT)</option>
+                    <option value="xray">X-Ray / Neon Sign</option>
+                </optgroup>
+                
+                <optgroup label="Motor / Factory (HP)">
+                    <option value="motor">Motor (Medium Voltage)</option>
+                </optgroup>
+                
+                <optgroup label="Lines & Cables (Per KM)">
+                    <option value="line_132">Overhead Line (Up to 132 KV)</option>
+                    <option value="line_220">Overhead Line (132 - 220 KV)</option>
+                    <option value="line_400">Overhead Line (> 220 KV)</option>
+                    <option value="cable">HT/EHT Cable (Any Voltage)</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div id="box-kva" class="form-group hidden">
+            <label>Capacity (KVA / KW):</label>
+            <input type="number" id="val_kva" placeholder="Enter Capacity">
+        </div>
+        <div id="box-hp" class="form-group hidden">
+            <label>Motor Load (HP):</label>
+            <input type="number" id="val_hp" placeholder="Enter HP">
+        </div>
+        <div id="box-qty" class="form-group hidden">
+            <label>Quantity:</label>
+            <input type="number" id="val_qty" value="1" min="1">
+        </div>
+        <div id="box-km" class="form-group hidden">
+            <label>Length (KM):</label>
+            <input type="number" id="val_km" placeholder="e.g. 5.5">
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="reinspection" onchange="calculatePreview()">
+            <label for="reinspection" style="margin:0; font-weight:normal;">Is this a <strong>Re-inspection</strong>? (50% Fee)</label>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-calc" onclick="calculatePreview()">
+                <i class="fas fa-calculator"></i> Calculate Fee
+            </button>
+            <button id="btnAdd" class="btn-add" onclick="addToTable()" disabled>
+                <i class="fas fa-plus-circle"></i> Add to List
+            </button>
+        </div>
+
+        <div id="previewBox" class="preview-box">
+            Fee: ₹ <span id="previewAmt">0</span> <span style="font-weight:normal; font-size:0.9rem;">(Click 'Add' to insert into table)</span>
+        </div>
+
+        <div class="table-container">
+            <table id="feeTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Equipment / Details</th>
+                        <th>Qty/Cap</th>
+                        <th>Amount (₹)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="3" style="text-align: right;">Grand Total:</td>
+                        <td id="grandTotal">₹ 0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="window.print()" style="background:none; border:none; color:#666; cursor:pointer; font-size:0.9rem;">
+                <i class="fas fa-print"></i> Print Estimation Sheet
+            </button>
+        </div>
+
+        <a href="index.html" style="display:block; text-align:center; margin-top:15px; text-decoration:none; color:var(--primary); font-weight:bold;">Back to Home</a>
+
+    </div>
+</div>
+
+<script>
+    // GLOBAL VARIABLES
+    let currentFee = 0;
+    let currentDesc = "";
+    let currentDetail = ""; 
+    let rowCount = 0;
+    let grandTotal = 0;
+
+    // 1. SHOW INPUTS
+    function updateForm() {
+        ['box-qty','box-kva','box-hp','box-km'].forEach(id => document.getElementById(id).classList.add('hidden'));
+        document.getElementById('previewBox').style.display = 'none';
+        document.getElementById('btnAdd').disabled = true;
+
+        const type = document.getElementById('equipType').value;
+        if (type.startsWith('breaker') || type.startsWith('cinema') || type == 'xray') {
+            document.getElementById('box-qty').classList.remove('hidden');
+        } else if (['installation_hv','generator','capacitor'].includes(type)) {
+            document.getElementById('box-kva').classList.remove('hidden');
+        } else if (type == 'motor') {
+            document.getElementById('box-hp').classList.remove('hidden');
+        } else if (type.startsWith('line') || type == 'cable') {
+            document.getElementById('box-km').classList.remove('hidden');
+        }
+    }
+
+    // 2. CALCULATE & PREVIEW
+    function calculatePreview() {
+        const type = document.getElementById('equipType').value;
+        const isReinspection = document.getElementById('reinspection').checked;
+        if (!type) { alert("Select Equipment"); return; }
+
+        currentFee = 0;
+        
+        // --- LOGIC ENGINE ---
+        
+        // A. Fixed Rates (Qty)
+        if (type == 'breaker_ht') {
+            let qty = parseInt(document.getElementById('val_qty').value);
+            currentFee = 500 * qty; 
+            currentDesc = "HT Breaker"; currentDetail = qty + " Nos";
+        }
+        else if (type == 'breaker_eht') {
+            let qty = parseInt(document.getElementById('val_qty').value);
+            currentFee = 2000 * qty; 
+            currentDesc = "EHT Breaker"; currentDetail = qty + " Nos";
+        }
+        else if (type == 'cinema_lv') {
+            let qty = parseInt(document.getElementById('val_qty').value);
+            currentFee = 100 * qty; 
+            currentDesc = "Cinema/Lift/High-Rise (LV)"; currentDetail = qty + " Nos";
+        }
+        else if (type == 'cinema_mall') {
+            let qty = parseInt(document.getElementById('val_qty').value);
+            currentFee = 10000 * qty; 
+            currentDesc = "Mall Cinema (HT)"; currentDetail = qty + " Nos";
+        }
+        else if (type == 'xray') {
+            let qty = parseInt(document.getElementById('val_qty').value);
+            currentFee = 2000 * qty; 
+            currentDesc = "X-Ray / Neon"; currentDetail = qty + " Nos";
+        }
+
+        // B. Capacity Rates (KVA)
+        else if (['installation_hv','generator','capacitor'].includes(type)) {
+            let kva = parseFloat(document.getElementById('val_kva').value);
+            if (!kva) { alert("Enter KVA"); return; }
+            currentDetail = kva + " KVA";
+            
+            if (type == 'generator') currentDesc = "Generator (HT/EHV)";
+            else if (type == 'capacitor') currentDesc = "Capacitor Bank";
+            else currentDesc = "Transformer/Installation";
+            
+            if (kva <= 100) currentFee = 500;
+            else if (kva <= 1000) currentFee = 2000;
+            else if (kva <= 5000) currentFee = 5000;
+            else if (kva <= 10000) currentFee = 10000;
+            else currentFee = 20000;
+        }
+
+        // C. Motor (HP)
+        else if (type == 'motor') {
+            let hp = parseFloat(document.getElementById('val_hp').value);
+            if (!hp) { alert("Enter HP"); return; }
+            currentDetail = hp + " HP"; currentDesc = "MV Motor";
+            if (hp <= 10) currentFee = 200;
+            else if (hp <= 50) currentFee = 1000;
+            else currentFee = 2000;
+        }
+
+        // D. Lines (KM)
+        else if (type.startsWith('line') || type == 'cable') {
+            let km = parseFloat(document.getElementById('val_km').value);
+            if (!km) { alert("Enter KM"); return; }
+            km = Math.ceil(km);
+            currentDetail = km + " KM"; 
+            if (type == 'line_132') { currentFee = 500 * km; currentDesc = "Line (132KV)"; }
+            else if (type == 'line_220') { currentFee = 2000 * km; currentDesc = "Line (220KV)"; }
+            else if (type == 'line_400') { currentFee = 5000 * km; currentDesc = "Line (400KV)"; }
+            else { currentFee = 2000 * km; currentDesc = "EHT Cable"; }
+        }
+
+        // APPLY RE-INSPECTION DISCOUNT (50%)
+        if (isReinspection) {
+            currentFee = currentFee / 2;
+            currentDesc += " (Re-insp)";
+        }
+
+        // Show Preview
+        document.getElementById('previewAmt').innerText = currentFee;
+        document.getElementById('previewBox').style.display = 'block';
+        document.getElementById('btnAdd').disabled = false;
+    }
+
+    // 3. ADD TO TABLE
+    function addToTable() {
+        rowCount++;
+        grandTotal += currentFee;
+
+        const tableBody = document.getElementById('tableBody');
+        const newRow = `
+            <tr id="row-${rowCount}">
+                <td>${rowCount}</td>
+                <td>${currentDesc}</td>
+                <td>${currentDetail}</td>
+                <td>${currentFee}</td>
+                <td><i class="fas fa-trash-alt delete-btn" onclick="deleteRow(${rowCount}, ${currentFee})"></i></td>
+            </tr>
+        `;
+        
+        tableBody.insertAdjacentHTML('beforeend', newRow);
+        
+        // Update Total
+        document.getElementById('grandTotal').innerText = "₹ " + grandTotal;
+
+        // Reset
+        document.getElementById('btnAdd').disabled = true;
+        document.getElementById('previewBox').style.display = 'none';
+        document.getElementById('reinspection').checked = false; // Reset checkbox
+    }
+
+    // 4. DELETE ROW
+    function deleteRow(id, amount) {
+        const row = document.getElementById(`row-${id}`);
+        row.remove();
+        grandTotal -= amount;
+        document.getElementById('grandTotal').innerText = "₹ " + grandTotal;
+    }
+</script>
+
+</body>
+</html>
