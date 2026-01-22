@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractor Search | PowerI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --royal-blue: #002366; --accent-red: #D32F2F; --bg-light: #f4f7f6; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg-light); margin: 0; padding: 20px; }
+        
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--royal-blue); padding-bottom: 15px; margin-bottom: 20px; }
+        .header h2 { margin: 0; color: var(--royal-blue); }
+        .back-btn { text-decoration: none; color: #555; font-weight: bold; }
+
+        /* Search Filters */
+        .search-box { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .search-box input, .search-box select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        
+        /* Table */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: var(--royal-blue); color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        tr:hover { background: #f1f1f1; }
+        
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; background: #e3f2fd; color: var(--royal-blue); }
+        .no-data { text-align: center; padding: 20px; color: #777; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2><i class="fas fa-hard-hat"></i> Authorized Contractor List</h2>
+        <a href="/index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="sName" placeholder="Search by Name or License No..." onkeyup="filterData()">
+        <select id="sDistrict" onchange="filterData()">
+            <option value="">All Districts</option>
+            </select>
+    </div>
+
+    <div class="table-responsive">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Lic No.</th>
+                    <th>Contractor Name</th>
+                    <th>District / Address</th>
+                    <th>Mobile</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+        <div id="noData" class="no-data">No contractors found matching your search.</div>
+    </div>
+</div>
+
+<script src="contractor-data.js"></script>
+
+<script>
+    // 1. POPULATE DISTRICTS
+    const districts = [...new Set(contractors.map(c => c.district))].sort();
+    const distSelect = document.getElementById('sDistrict');
+    districts.forEach(d => {
+        let opt = document.createElement('option');
+        opt.value = d;
+        opt.innerText = d;
+        distSelect.appendChild(opt);
+    });
+
+    // 2. RENDER TABLE
+    function render(data) {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+        
+        if(data.length === 0) {
+            document.getElementById('noData').style.display = "block";
+            return;
+        }
+        document.getElementById('noData').style.display = "none";
+
+        data.forEach(c => {
+            let row = `<tr>
+                <td><span class="badge">${c.licNo}</span></td>
+                <td><b>${c.name}</b></td>
+                <td>${c.address}, <b>${c.district}</b></td>
+                <td>${c.mobile}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+
+    // 3. FILTER FUNCTION
+    function filterData() {
+        const txt = document.getElementById('sName').value.toLowerCase();
+        const dist = document.getElementById('sDistrict').value;
+
+        const filtered = contractors.filter(c => {
+            const matchText = c.name.toLowerCase().includes(txt) || c.licNo.toLowerCase().includes(txt);
+            const matchDist = dist === "" || c.district === dist;
+            return matchText && matchDist;
+        });
+        render(filtered);
+    }
+
+    // Initial Load
+    render(contractors);
+</script>
+
+</body>
+</html>
