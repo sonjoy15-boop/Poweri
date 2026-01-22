@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Notifications & Gazette | PowerI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL THEME --- */
+        :root { 
+            --royal-blue: #002366; 
+            --accent-red: #D32F2F; 
+            --bg-light: #f4f7f6; 
+            --white: #ffffff;
+            --text-dark: #333;
+            --border-color: #e0e0e0;
+        }
+        
+        body { font-family: 'Roboto', sans-serif; background: var(--bg-light); margin: 0; padding: 0; color: var(--text-dark); }
+        a { text-decoration: none; }
+
+        /* --- HEADER --- */
+        .page-header {
+            background: var(--royal-blue);
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .brand { font-size: 1.5rem; font-weight: bold; }
+        .brand span { color: var(--accent-red); }
+        .home-link { color: white; opacity: 0.9; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+        .home-link:hover { opacity: 1; text-decoration: underline; }
+
+        /* --- MAIN CONTAINER --- */
+        .main-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* --- PAGE TITLE & SEARCH --- */
+        .title-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .title-text h1 { margin: 0; color: var(--royal-blue); font-size: 1.6rem; }
+        .title-text p { margin: 5px 0 0; color: #666; font-size: 0.9rem; }
+
+        .search-box {
+            position: relative;
+            min-width: 300px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-box input:focus { border-color: var(--royal-blue); box-shadow: 0 0 5px rgba(0,35,102,0.2); }
+        .search-box i { position: absolute; left: 15px; top: 12px; color: #888; }
+
+        /* --- NOTIFICATION LIST --- */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* --- INDIVIDUAL NOTIFICATION CARD --- */
+        .notify-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 5px solid var(--royal-blue); /* Blue Accent for Standard */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .notify-card:hover { transform: translateX(5px); }
+
+        /* Different Border Colors for Categories */
+        .type-urgent { border-left-color: var(--accent-red); } /* Red for Urgent */
+        .type-gazette { border-left-color: #2e7d32; } /* Green for Gazette */
+
+        .notify-content { flex: 1; padding-right: 20px; }
+        
+        .date-badge {
+            font-size: 0.75rem;
+            color: #666;
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .notify-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* "NEW" Flashing Badge */
+        .new-badge {
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-left: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .notify-desc { font-size: 0.9rem; color: #666; }
+
+        /* --- BUTTONS --- */
+        .action-btn {
+            white-space: nowrap;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        /* Download Style */
+        .btn-download {
+            background: #e3f2fd;
+            color: var(--royal-blue);
+            border: 1px solid #bbdefb;
+        }
+        .btn-download:hover { background: var(--royal-blue); color: white; }
+
+        /* External Link Style */
+        .btn-link {
+            background: #fff3e0;
+            color: #e65100;
+            border: 1px solid #ffe0b2;
+        }
+        .btn-link:hover { background: #e65100; color: white; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title-section { flex-direction: column; text-align: center; }
+            .search-box { width: 100%; }
+            .notify-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .action-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <div class="brand">Power<span>I</span>.in</div>
+        <a href="index.html" class="home-link"><i class="fas fa-home"></i> Back to Home</a>
+    </header>
+
+    <div class="main-container">
+        
+        <div class="title-section">
+            <div class="title-text">
+                <h1>Official Notifications</h1>
+                <p>Latest Orders, Circulars, and Gazette Notifications from CEIG.</p>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search notification..." onkeyup="filterList()">
+            </div>
+        </div>
+
+        <div class="notification-list" id="notifyList">
+
+            <div class="notify-card type-urgent">
+                <div class="notify-content">
+                    <span class="date-badge"><i class="far fa-calendar-alt"></i> 22-Jan-2026</span>
+                    <span class="notify-title">
+                        Updated Electricity Tariff Order 2026-27
+                        <span class="new-badge">NEW</span>
+                    </span>
+                    <div class="notify-desc">Official tariff rates applicable for all HT/LT consumers effective from April 1st.</div>
+                </div>
+                <a href="https://cei.cg.gov.in/static/media/SOF.4fa414d5b90ebefedeef.pdf" target="_blank" class="action-btn btn-download">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </a>
+            </div>
+
+            <div class="notify-card type-gazette">
+                <div class="notify-content">
+                    <span class="date-badge"><i class="far fa-calendar-alt"></i> 15-Jan-2026</span>
+                    <span class="notify-title">
+                        State Gazette: New Safety Regulations
+                        <span class="new-badge">NEW</span>
+                    </span>
+                    <div class="notify-desc">Amendment in Rule 42 regarding safety measures for high-rise buildings.</div>
+                </div>
+                <a href="https://cserc.gov.in" target="_blank" class="action-btn btn-link">
+                    <i class="fas fa-external-link-alt"></i> View on CSERC
+                </a>
+            </div>
+
+            <div class="notify-card">
+                <div class="notify-content">
+                    <span class="date-badge"><i class="far fa-calendar-alt"></i> 10-Dec-2025</span>
+                    <span class="notify-title">Electrical Supervisor Exam Schedule</span>
+                    <div class="notify-desc">Dates and centers for the upcoming licensing examination for supervisors.</div>
+                </div>
+                <a href="#" class="action-btn btn-download">
+                    <i class="fas fa-download"></i> Download Notice
+                </a>
+            </div>
+
+            <div class="notify-card">
+                <div class="notify-content">
+                    <span class="date-badge"><i class="far fa-calendar-alt"></i> 05-Nov-2025</span>
+                    <span class="notify-title">Online Payment Gateway Maintenance</span>
+                    <div class="notify-desc">The challan portal will be down for maintenance on 10th Nov from 12 AM to 4 AM.</div>
+                </div>
+                <a href="#" class="action-btn btn-link" style="opacity:0.6; pointer-events:none;">
+                    <i class="fas fa-info-circle"></i> Info Only
+                </a>
+            </div>
+
+        </div>
+        </div>
+
+    <script>
+        function filterList() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('notify-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].querySelector('.notify-title').innerText.toLowerCase();
+                let desc = cards[i].querySelector('.notify-desc').innerText.toLowerCase();
+                
+                if (title.includes(input) || desc.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
