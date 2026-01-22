@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official CEIG Forms Download | PowerI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL VARIABLES --- */
+        :root { 
+            --royal-blue: #002366; 
+            --accent-red: #D32F2F; 
+            --gold: #ff9900;
+            --bg-light: #f4f7f6; 
+            --white: #ffffff;
+            --text-dark: #333;
+        }
+        
+        body { font-family: 'Roboto', sans-serif; background: var(--bg-light); margin: 0; padding: 0; color: var(--text-dark); }
+        a { text-decoration: none; }
+
+        /* --- HEADER (Simple) --- */
+        .page-header {
+            background: var(--royal-blue);
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .brand { font-size: 1.5rem; font-weight: bold; }
+        .brand span { color: var(--accent-red); }
+        .back-link { color: white; opacity: 0.8; font-size: 0.9rem; }
+        .back-link:hover { opacity: 1; text-decoration: underline; }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-title h1 { color: var(--royal-blue); margin-bottom: 10px; }
+        .section-title p { color: #666; font-size: 1.1rem; }
+
+        /* --- FORMS GRID --- */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* --- FORM CARD DESIGN --- */
+        .form-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--royal-blue);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .pdf-icon {
+            font-size: 2.5rem;
+            color: var(--accent-red);
+        }
+
+        .card-info h3 { margin: 0 0 5px; font-size: 1.1rem; color: var(--royal-blue); }
+        .card-info span { font-size: 0.85rem; color: #777; background: #eee; padding: 2px 6px; border-radius: 4px; }
+        
+        .card-desc { font-size: 0.9rem; color: #555; line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
+
+        .btn-download {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--bg-light);
+            color: var(--royal-blue);
+            border: 1px solid var(--royal-blue);
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-download:hover {
+            background: var(--royal-blue);
+            color: white;
+        }
+
+        /* --- PREMIUM NOTE SECTION (The Feature You Asked For) --- */
+        .premium-note-box {
+            background: linear-gradient(135deg, #fff8e1, #fff); /* Light Gold/Yellow */
+            border-left: 6px solid var(--gold);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .note-content { flex: 2; min-width: 280px; }
+        .note-content h3 { color: #d88302; margin-top: 0; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .note-content p { color: #444; font-size: 1.05rem; line-height: 1.6; font-weight: 500; margin: 0; }
+
+        .note-actions { flex: 1; display: flex; gap: 15px; justify-content: flex-end; min-width: 200px; }
+
+        .btn-signup {
+            background: var(--royal-blue);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 35, 102, 0.3);
+            transition: 0.3s;
+        }
+        .btn-signup:hover { background: #001a4d; transform: translateY(-2px); }
+
+        .btn-login {
+            background: white;
+            color: var(--royal-blue);
+            border: 2px solid var(--royal-blue);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-login:hover { background: #eef2ff; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .premium-note-box { flex-direction: column; text-align: center; }
+            .note-actions { justify-content: center; width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <div class="brand">Power<span>I</span>.in</div>
+        <a href="/index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </header>
+
+    <div class="container">
+        
+        <div class="section-title">
+            <h1>Original CEIG Forms Repository</h1>
+            <p>Download the official blank PDF forms for electrical inspections and licensing.</p>
+        </div>
+
+        <div class="forms-grid">
+            
+            <div class="form-card">
+                <div class="card-header">
+                    <i class="fas fa-file-pdf pdf-icon"></i>
+                    <div class="card-info">
+                        <h3>Drawing Approval SOP</h3>
+                        <span>High Voltage</span>
+                    </div>
+                </div>
+                <div class="card-desc">
+                    Application form for HT/EHT electrical installation Drawing approval (Transformers, HT Lines).
+                </div>
+                <a href="https://cei.cg.gov.in/static/media/SOF.4fa414d5b90ebefedeef.pdf" target="_blank" class="btn-download">
+    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <i class="fas fa-file-pdf pdf-icon"></i>
+                    <div class="card-info">
+                        <h3>Charging permission SOP</h3>
+                        <span>High/Med/Voltage</span>
+                    </div>
+                </div>
+                <div class="card-desc">
+                    Application for HV/MV Charging pertmission installations, including factories, buildings, and temporary connections.
+                </div>
+                <a href="https://cei.cg.gov.in/static/media/SOF.4fa414d5b90ebefedeef.pdf" target="_blank" class="btn-download">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <i class="fas fa-file-pdf pdf-icon"></i>
+                    <div class="card-info">
+                        <h3>Form 'C'</h3>
+                        <span>Lifts & Escalators</span>
+                    </div>
+                </div>
+                <div class="card-desc">
+                    Required for the inspection and licensing of new Lift and Escalator installations.
+                </div>
+                <a href="https://cei.cg.gov.in/static/media/SopLiftAndEcalator.4f61a3f28e059179c998.pdf" target="_blank" class="btn-download">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <i class="fas fa-file-pdf pdf-icon"></i>
+                    <div class="card-info">
+                        <h3>Inspection Fees</h3>
+                        <span>Fees for Inspection of site</span>
+                    </div>
+                </div>
+                <div class="card-desc">
+                    Application form for Diesel Generator (DG) set installation permission and safety check.
+                </div>
+                <a href="https://cei.cg.gov.in/static/media/fees_schedule.f31f4aa3845bfaf28dc4.pdf" target="_blank" class="btn-download">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <i class="fas fa-file-contract pdf-icon" style="color:#555;"></i>
+                    <div class="card-info">
+                        <h3>CEIG All Forms</h3>
+                        <span>Application/Work Completion etc</span>
+                    </div>
+                </div>
+                <div class="card-desc">
+                    All forms including application, test report,Standard Work Completion Certificate to be signed by the Electrical Contractor and Supervisor.
+                </div>
+                <a href="/docs/ceigforms" download class="btn-download">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <i class="fas fa-file-invoice pdf-icon" style="color:#555;"></i>
+                    <div class="card-info">
+                        <h3>Challan Form</h3>
+                        <span>Fee Payment</span>
+                    </div>
+                </div>
+                <div class="card-desc">
+                    Official Treasury Challan format for depositing electrical inspection fees.
+                </div>
+                <a href="downloads/Challan.pdf" download class="btn-download">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+
+        </div>
+
+        <div class="premium-note-box">
+            <div class="note-content">
+                <h3><i class="fas fa-bolt"></i> Smart Form Feature</h3>
+                <p>
+                    <strong>Note:</strong> If you want an updated <strong>Real-time Form</strong> to fill digitally and print instantly (or download after filling), please <strong>Sign Up / Login</strong> for a high-quality experience. 
+                    <br><span style="font-size:0.9rem; color:#666; font-weight:normal;">(Save time, avoid handwriting errors, and store forms in your dashboard).</span>
+                </p>
+            </div>
+            <div class="note-actions">
+                <button class="btn-login" onclick="window.location.href='index.html?action=login'">Login</button>
+                <button class="btn-signup" onclick="window.location.href='index.html?action=signup'">Sign Up Now</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align:center; padding:20px; color:#999; font-size:0.8rem; margin-top:40px;">
+        &copy; 2024 PowerI. All Rights Reserved.
+    </div>
+
+</body>
+</html>
