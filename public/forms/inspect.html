@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerI Master Forms</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        /* --- MASTER NAVIGATION STYLES --- */
+        body { margin: 0; padding: 0; background: #e0e0e0; font-family: sans-serif; }
+        
+        .master-nav {
+            background: #002366; padding: 10px; text-align: center;
+            position: sticky; top: 0; z-index: 10000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.15); color: white; 
+            border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; 
+            cursor: pointer; font-weight: bold; border-radius: 4px;
+        }
+        .nav-btn:hover, .nav-btn.active { background: #C41E3A; border-color: #C41E3A; }
+        .print-btn { background: #28a745 !important; border-color: #28a745 !important; }
+
+        /* --- TAB LOGIC --- */
+        .form-wrapper { display: none; padding: 20px; }
+        .form-wrapper.active { display: block; }
+
+        /* --- MASTER PRINT LOGIC --- */
+                     @media print {
+            /* 1. Page Setup */
+            @page {
+                size: 216mm 279mm;    /* Letter */
+                margin: 5mm;          /* Compact margins */
+            }
+
+            /* 2. Hide Navigation & Controls */
+            .master-nav, .nav-bar, .no-print, .btn, .btn-del, .btn-add, .print-btn, .attach-actions { 
+                display: none !important; 
+            }
+
+            /* 3. Logic to show ONLY the active tab */
+            .form-wrapper { display: none !important; margin: 0; padding: 0; }
+            .form-wrapper.active { 
+                display: block !important; 
+                width: 100%; height: 100%;
+            }
+
+            /* 4. Global Body Reset */
+            body { background: #fff; padding: 0; margin: 0; zoom: 90%; 
+                -webkit-print-color-adjust: exact; }
+            html, body { font-size: 95%; } /* Slight shrink */
+
+            /* 5. Compact Container Styling (Applies to all your pasted forms) */
+            /* Note: I added .page and .sheet here so it works for Forms A, L, and Self Dec too */
+            .certificate-container, .page, .sheet, .report-container {
+                border: 1px solid #002366 !important;
+                box-shadow: none !important;
+                width: auto !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 10mm !important;
+                min-height: auto !important;
+                height: auto !important;
+            }
+
+            /* 6. Typography & Spacing Fixes */
+            h2 { margin: 0 0 6px 0; }
+            .sub-heading { margin-bottom: 8px; padding-bottom: 3px; }
+            .header-info { gap: 8px; margin-bottom: 8px; }
+            .input-row { margin-bottom: 6px; gap: 6px; }
+            
+            /* 7. Input Cleaning */
+            input::placeholder { color: transparent; }
+            input, textarea { border: none; border-bottom: none !important; font-weight: bold; } /* Removes lines for cleaner print */
+            
+            /* 8. Attachments Grid (If used) */
+            #attachments.attachments { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+            
+            /* 9. Textarea Control */
+            textarea.autogrow { max-height: 40mm; overflow: hidden; }
+        }
+    </style>
+    </script>
+
+    <script>
+        function openTab(id) {
+            // Hide all tabs
+            document.querySelectorAll('.form-wrapper').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show Target tab
+            document.getElementById(id).classList.add('active');
+            
+            // Highlight Button
+            // Find the button that calls this function and add active class
+            const buttons = document.getElementsByTagName("button");
+            for (let btn of buttons) {
+                if(btn.getAttribute("onclick").includes(id)) {
+                    btn.classList.add("active");
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="master-nav">
+        <button class="nav-btn active" onclick="openTab('tab1')">1. Inspection Request</button>
+        <button class="nav-btn" onclick="openTab('tab2')">2. Form-A</button>
+        <button class="nav-btn" onclick="openTab('tab3')">3. Form-L</button>
+        <button class="nav-btn" onclick="openTab('tab4')">4. Self Declaration</button>
+        <button class="nav-btn" onclick="openTab('tab5')">5. Completion Cert</button>
+         <button class="nav-btn" onclick="openTab('tab6')">6. Safety Officer Appointment</button>
+        <button class="nav-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print Current Form</button>
+         <button class="nav-btn" style="background:#C41E3A; border-color:#C41E3A;" onclick="downloadFullBundle()">
+        <i class="fas fa-file-pdf"></i> Download & Save PDF
+    </div>
+
+                    <div id="tab1" class="form-wrapper active">
+
+    <style>
+        /* Scoped styles for Form 1 */
+        :root { --royal-blue: #002366; --royal-red: #C41E3A; }
+        
+        .certificate-container { 
+            background: #fff; padding: 30px 50px; max-width: 820px; margin: auto; 
+            border: 2px solid var(--royal-blue); border-top: 10px solid var(--royal-red);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); position: relative;
+            font-family: 'Segoe UI', Arial, sans-serif; color: #333; line-height: 1.4;
+        }
+
+        .certificate-container h2 { text-align: center; color: var(--royal-blue); margin: 0; text-transform: uppercase; font-size: 20px; letter-spacing: 1px; }
+        .sub-heading { text-align: center; color: var(--royal-red); font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 8px; font-size: 16px; }
+        
+        .header-info { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .input-row { margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        
+        .certificate-container label { font-weight: bold; color: var(--royal-blue); font-size: 15px; }
+        .lang-en { font-style: italic; color: #666; font-size: 0.9em; display: block; line-height: 1.2; }
+        .lang-hi { display: block; font-weight: bold; font-size: 15px; }
+        
+        /* Standard Inputs */
+        .std-input {
+            border: none; border-bottom: 1px dotted #999; padding: 2px 5px; 
+            outline: none; font-size: 15px; background: transparent; color: #111;
+        }
+
+        /* SMART INPUTS (Auto-sizing) */
+        input.autosize {
+            min-width: 80px; max-width: 100%; border: none; border-bottom: 1px dotted #999;
+            font-weight: bold; color: #000; padding: 0 5px; outline: none; background: transparent;
+        }
+
+        /* SMART TEXTAREAS (Auto-growing) */
+        textarea.autogrow {
+            width: 100%; resize: none; overflow: hidden; min-height: 24px;
+            border: none; border-bottom: 1px dotted #999; outline: none;
+            font-family: inherit; font-size: 15px; background: transparent; line-height: 1.4;
+        }
+
+        /* DYNAMIC ATTACHMENTS LIST */
+        .doc-list-container { margin: 15px 0; border: 1px solid #e0e0e0; padding: 15px; background: #fcfcfc; border-radius: 4px; }
+        .attach-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; font-size: 13px; padding: 5px 0; }
+        .attach-row input { flex-grow: 1; border: none; background: transparent; outline: none; font-weight: 500; font-size: 13px; color: #222; }
+        .btn-del { color: var(--royal-red); cursor: pointer; font-weight: bold; font-size: 18px; padding: 0 8px; background: none; border: none; }
+        .btn-add { background: #2e7d32; color: white; border: none; padding: 6px 14px; font-size: 13px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .btn-clean { background: #f5f5f5; color: #333; border: 1px solid #ccc; padding: 6px 14px; font-size: 13px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-left: 10px;}
+
+        .footer { margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .signature-box { text-align: center; width: 280px; color: var(--royal-blue); border-top: 2px solid var(--royal-blue); padding-top: 8px; font-size: 14px; }
+
+       
+    </style>
+
+    <div class="certificate-container" id="form-content">
+        <h2>साइट निरीक्षण हेतु आवेदन</h2>
+        <div class="sub-heading">APPLICATION FOR SITE INSPECTION REQUEST</div>
+
+        <div class="header-info">
+            <div style="width: 45%;">
+                <label>पत्रांक / Ref No:</label>
+                <input type="text" class="std-input" placeholder="..........................." style="width: 60%;">
+            </div>
+            <div style="width: 40%;">
+                <label>दिनांक / Date:</label>
+                <input type="date" class="std-input">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="input-row">
+                <div style="width: 100%;">
+                    <span class="lang-hi">प्रति / To,</span>
+                    <p style="margin: 4px 0;"><strong>The Chief Electrical Inspector to Government (CEIG)</strong></p>
+                    <textarea class="autogrow" rows="1" placeholder="Enter Office Address..."></textarea>
+                </div>
+            </div>
+
+            <div class="input-row" style="margin-top: 15px;">
+                <div style="width: 100%;">
+                    <span class="lang-hi">विषय: 
+                        <input class="autosize" type="text" placeholder="उपकरण का नाम" style="font-weight:bold; color:black;"> 
+                        के साइट निरीक्षण हेतु आवेदन।
+                    </span>
+                    <span class="lang-en">Subject: Application for Site Inspection of 
+                        <input class="autosize" type="text" placeholder="Equipment name" style="font-style:italic; font-weight:bold;">.
+                    </span>
+                </div>
+            </div>
+
+            <p style="margin: 10px 0 5px 0;"><strong>माननीय महोदय/महोदया (Respected Sir/Madam),</strong></p>
+            
+            <p style="font-size: 15px; margin-bottom: 5px;">
+                हम एतद द्वारा हमारे परिसर में स्थित उपकरणों के साइट निरीक्षण हेतु निम्नलिखित दस्तावेज़ संलग्न कर रहे हैं:<br>
+                <i style="font-size: 0.9em; color: #666;">(We hereby submit the following documents for site inspection of our installation at:)</i>
+                <textarea class="autogrow" placeholder="Full Premises Address / परिसर का पता" style="width:95%; margin-top:5px; font-weight:bold;"></textarea>
+            </p>
+
+            <label style="color: var(--royal-red); font-size: 14px; font-weight: bold;">संलग्न दस्तावेज (Enclosed Documents):</label>
+            
+            <div class="doc-list-container">
+                <div id="insp-attachments">
+                    </div>
+                
+                <div class="add-row-container">
+                    <button class="btn-add" id="btnAddInsp">+ Add Document</button>
+                    <button class="btn-clean" id="btnCleanInsp">Clean Empty</button>
+                </div>
+            </div>
+
+            <div class="input-row" style="margin-top: 15px;">
+                <div style="width: 100%;">
+                    <span class="lang-hi">कंपनी / संस्थान का नाम (Company/Establishment Name):</span>
+                    <input type="text" class="std-input" style="width: 100%; font-weight: bold;" placeholder="Name">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div style="width: 48%;font-weight: bold;">
+                    <span class="lang-hi">अधिकृत हस्ताक्षरकर्ता (Authorized Signatory):</span>
+                    <input type="text" class="std-input" placeholder="Name" style="width:60%">
+                </div>
+                <div style="width: 48%;font-weight: bold;">
+                    <span class="lang-hi">मोबाइल नंबर (Mobile No):</span>
+                    <input type="text" class="std-input" placeholder="Number" style="width:60%">
+                </div>
+            </div>
+
+            <div class="input-row" style="margin-top: 5px; font-size: 12px;"> 
+                <div style="width: 100%;">
+                    <span class="lang-hi" style="font-size: 12px;">प्रतिलिपि-1 (Copy to-1):</span>
+                    <input type="text" class="std-input" style="width: 80%; font-size: 12px;">
+                </div>
+            </div>
+
+            <div class="input-row" style="font-size: 12px;"> 
+                <div style="width: 100%;">
+                    <span class="lang-hi" style="font-size: 12px;">प्रतिलिपि-2 (Copy to-2):</span>
+                    <input type="text" class="std-input" style="width: 80%; font-size: 12px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div style="font-size: 11px; color: #777;">Compliance Form: Site Inspection</div>
+            <div class="signature-box">
+                <strong>अधिकृत हस्ताक्षर एवं मुहर</strong><br>
+                <span style="font-size: 12px;">Authorized Signature & Seal</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* -------- Logic for Inspection Request Form -------- */
+        (function inspectionLogic() {
+            
+            /* 1. Auto-size single-line inputs */
+            const mirror = document.createElement('span');
+            mirror.style.visibility = 'hidden'; mirror.style.position = 'fixed'; mirror.style.whiteSpace = 'pre';
+            document.body.appendChild(mirror);
+            
+            function setWidth(input) {
+                const cs = getComputedStyle(input);
+                mirror.style.font = `${cs.fontStyle} ${cs.fontVariant} ${cs.fontWeight} ${cs.fontSize}/${cs.lineHeight} ${cs.fontFamily}`;
+                mirror.textContent = input.value || input.placeholder || '';
+                input.style.width = (mirror.offsetWidth + 20) + 'px';
+            }
+            document.querySelectorAll('#tab1 input.autosize').forEach(el => {
+                setWidth(el);
+                el.addEventListener('input', () => setWidth(el));
+            });
+
+            /* 2. Auto-grow textareas */
+            document.querySelectorAll('#tab1 textarea.autogrow').forEach(t => {
+                t.style.height = 'auto';
+                t.style.height = t.scrollHeight + 'px';
+                t.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+            });
+
+            /* 3. Attachment List Logic */
+            const container = document.getElementById('insp-attachments');
+            const btnAdd = document.getElementById('btnAddInsp');
+            const btnClean = document.getElementById('btnCleanInsp');
+
+            // Default items from your original request
+            const defaultDocs = [
+                'सभी स्वीकृत ड्रॉइंग्स एवं निर्माता परीक्षण रिपोर्ट (Drawings Approval Letter & Manufacturing Test Reports)',
+                'साइट परीक्षण रिपोर्ट (Site Test Reports - IR / PI / HV / Relay / Earthing)',
+                'अर्थिंग पिट परीक्षण (Earthing Pit Test Report)',
+                'ऊर्जा मीटर की NABL लैब परीक्षण रिपोर्ट (NABL Energy Meter Test Report)',
+                'पर्यावरण अनापत्ति प्रमाण पत्र रिपोर्ट (Environmental Clearance/PUC if generator)',
+                'स्थापना पूर्णता प्रमाणपत्र - प्रारूप L, B और A (Completion Certificate L, B & A)',
+                'निरीक्षण शुल्क चालान (Inspection Fees Challan)'
+            ];
+
+            function createRow(text = '') {
+                const row = document.createElement('div');
+                row.className = 'attach-row';
+                row.innerHTML = `
+                    <span style="margin-right:8px; font-weight:bold; color:#002366;">•</span>
+                    <input type="text" value="${text}" placeholder="Enter Document Name">
+                    <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+                `;
+                // Add Enter key listener
+                row.querySelector('input').addEventListener('keydown', function(e) {
+                    if(e.key === 'Enter') {
+                        e.preventDefault();
+                        const newRow = createRow('');
+                        container.appendChild(newRow);
+                        newRow.querySelector('input').focus();
+                    }
+                });
+                return row;
+            }
+
+            // Init List
+            defaultDocs.forEach(text => container.appendChild(createRow(text)));
+            container.appendChild(createRow('')); // One blank row
+
+            // Button Listeners
+            btnAdd.addEventListener('click', () => {
+                const r = createRow('');
+                container.appendChild(r);
+                r.querySelector('input').focus();
+            });
+
+            btnClean.addEventListener('click', () => {
+                document.querySelectorAll('#insp-attachments .attach-row').forEach(row => {
+                    if(row.querySelector('input').value.trim() === '') row.remove();
+                });
+            });
+
+        })();
+    </script>
+</div>
+
+                     <div id="tab2" class="form-wrapper">
+
+    <style>
+        /* Scoped styles matching Inspection Request */
+        :root { --royal-blue: #002366; --royal-red: #C41E3A; }
+        
+        .forma-container { 
+            background: #fff; padding: 30px 50px; max-width: 820px; margin: auto; 
+            border: 2px solid var(--royal-blue); border-top: 10px solid var(--royal-red);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); position: relative;
+            font-family: 'Segoe UI', Arial, sans-serif; color: #333; line-height: 1.4;
+        }
+
+        .forma-container h2 { text-align: center; color: var(--royal-blue); margin: 0; text-transform: uppercase; font-size: 20px; letter-spacing: 1px; }
+        .forma-sub { text-align: center; color: var(--royal-red); font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 8px; font-size: 16px; }
+        
+        .item-row { margin-bottom: 15px; font-size: 15px; }
+        .num-label { font-weight: bold; color: var(--royal-blue); margin-right: 5px; }
+        .hint-text { font-size: 0.9em; color: #666; font-style: italic; }
+        
+        /* Inputs matching Inspection Request style */
+        .forma-container input[type="text"], 
+        .forma-container input[type="date"] {
+            border: none; border-bottom: 1px dotted #999; padding: 2px 5px; 
+            outline: none; font-size: 15px; background: transparent; color: #111; font-weight: bold;
+        }
+        
+        /* Partner Table */
+        .partner-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .partner-table th { background: #f8f9fa; color: var(--royal-blue); padding: 8px; border: 1px solid #ddd; font-size: 13px; }
+        .partner-table td { border: 1px solid #ddd; padding: 5px; }
+        .partner-table input { width: 95%; border: none; outline: none; font-size: 13px; }
+
+        .forma-footer { margin-top: 40px; display: flex; justify-content: flex-end; }
+        .forma-sign { text-align: center; width: 250px; color: var(--royal-blue); border-top: 2px solid var(--royal-blue); padding-top: 8px; font-size: 14px; }
+
+        
+    </style>
+
+    <div class="forma-container" id="form-content">
+        <h2>Form-A / प्रपत्र- 'अ'</h2>
+        <div class="forma-sub">DETAILS OF INDUSTRY/INSTALLATION & WORK COMPLETION</div>
+
+        <div class="item-row">
+            <span class="num-label">1.</span>
+            <strong>Name & Capacity of installation</strong> 
+            <span class="hint-text">(स्थापना का नाम एवं क्षमता जिसके लिए अनुमति चाहिए)</span>
+            <div style="margin-top:5px;">
+                <input type="text" style="width: 100%; margin-bottom: 5px;">
+                <input type="text" style="width: 100%;">
+            </div>
+        </div>
+
+        <div class="item-row">
+            <span class="num-label">2.</span>
+            <strong>Name of installation</strong> 
+            <span class="hint-text">(स्थापना का नाम)</span><br>
+            <input type="text" style="width: 100%; margin-top: 5px;">
+        </div>
+
+        <div class="item-row">
+            <span class="num-label">3.</span>
+            <strong>Expected completion date</strong> 
+            <span class="hint-text">(स्थापना पूर्ण होने की संभावित तिथि)</span>
+            <input type="date" style="margin-left: 10px;">
+        </div>
+
+        <div class="item-row">
+            <span class="num-label">4.</span>
+            <strong>Drawing Approval Letter Number and Date</strong>
+            <span class="hint-text">(रेखापट/ड्रॉइंग स्वीकृति पत्र क्रमांक एवं दिनांक)</span>
+            <div style="margin-top: 8px; display: flex; gap: 20px;">
+                <div style="flex:1">
+                    Letter No: <input type="text" style="width: 80%;">
+                </div>
+                <div style="flex:1">
+                    Date: <input type="date">
+                </div>
+            </div>
+        </div>
+
+        <div class="item-row">
+            <span class="num-label">5.</span>
+            <strong>Owner Name & Address</strong> 
+            <span class="hint-text">(स्थापना के स्वामी का नाम व पता)</span>
+            <div style="margin-top:5px;">
+                <input type="text" style="width: 100%; margin-bottom: 5px;">
+                <input type="text" style="width: 100%;">
+            </div>
+        </div>
+
+        <div class="item-row">
+            <span class="num-label">6.</span>
+            <strong>If it is a partnership firm, names and addresses of all partners</strong>
+            <span class="hint-text">(यदि साझेदारी फर्म हो तो सभी साझेदारों के नाम व पते)</span>
+            
+            <table class="partner-table">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Sr.No.</th>
+                        <th style="width: 25%;">Name / नाम</th>
+                        <th style="width: 25%;">Father's Name</th>
+                        <th style="width: 10%;">Age</th>
+                        <th>Address / पता</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:center;">1</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">2</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">3</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="forma-footer">
+            <div class="forma-sign">
+                <strong>स्वामी के हस्ताक्षर और मुहर</strong><br>
+                <span>Signature of Owner & Seal</span>
+            </div>
+        </div>
+        
+        <div style="text-align: center; font-size: 11px; color: #999; margin-top: 20px;">
+            Computer Generated Document via www.poweri.in
+        </div>
+    </div>
+
+</div>
+
+                    <div id="tab3" class="form-wrapper">
+
+    <style>
+        /* Scoped styles for Form L */
+        :root { --primary-l: #1e3a8a; --border-l: #94a3b8; }
+        
+        .forml-container {
+            width: 210mm; min-height: 296mm; background: #fff; margin: auto; padding: 15mm;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); font-family: 'Inter', sans-serif; color: #0f172a;
+            border: 1px solid #ccc; position: relative;
+        }
+
+        .forml-header { border-bottom: 2px solid var(--primary-l); padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+        .forml-header h1 { font-size: 16px; color: var(--primary-l); margin: 0; text-transform: uppercase; }
+        .forml-header p { font-size: 13px; margin: 4px 0 0; color: #b91c1c; font-weight: bold; }
+
+        .info-bar { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; font-weight: 600; }
+        .editable-line { border-bottom: 1px dashed #94a3b8; min-width: 130px; display: inline-block; padding: 0 5px; outline: none; color: var(--primary-l); }
+
+        .forml-table { width: 100%; border-collapse: collapse; font-size: 13.5px; table-layout: fixed; }
+        .forml-table th, .forml-table td { border: 1px solid var(--border-l); padding: 8px 10px; vertical-align: middle; }
+        .forml-table th { background: #f1f5f9; color: var(--primary-l); text-align: left; }
+        
+        .cell-input { width: 100%; outline: none; font-size: 13.5px; min-height: 24px; font-weight: 500; }
+        .cell-input:empty:before { content: "Type here..."; color: #64748b; font-style: italic; font-size: 12px; opacity: 0.7; }
+
+        .pinned-footer { position: absolute; bottom: 15mm; left: 15mm; right: 15mm; }
+        .footer-sigs { display: flex; justify-content: space-between; gap: 40px; }
+        .sig-box { flex: 1; border-top: 1px solid #334155; padding-top: 8px; text-align: center; font-size: 13px; font-weight: 600; color: #334155; }
+
+        
+    </style>
+
+    <div class="forml-container" id="form-content">
+        <header class="forml-header">
+            <div class="title-group">
+                <h1>Form 'L' — Chhattisgarh Licensing Board (Electricity) Regulation 1960</h1>
+                <p>प्रारूप ‘एल’ — नियम 27 के अनुसार निरीक्षण पंजी / Inspection Register</p>
+            </div>
+        </header>
+
+        <div class="info-bar">
+            <div><strong>क्रमांक / S.No:</strong> <span class="editable-line" contenteditable="true"></span></div>
+            <div><strong>दिनांक / Date:</strong> <span class="editable-line" contenteditable="true"></span></div>
+        </div>
+
+        <table class="forml-table">
+            <colgroup>
+               <col style="width: 8%;">  
+               <col style="width: 42%;"> 
+               <col style="width: 50%;"> 
+            </colgroup>
+            <thead>
+                <tr>
+                    <th style="text-align: center;">#</th>
+                    <th>विवरण / Details</th>
+                    <th>प्रविष्टि / Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="text-align:center;">1</td><td>उपभोक्ता का नाम / Consumer Name</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">2</td><td>कार्य का पता / Work Address</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">3</td><td>कार्य का प्रकार / Type of Work</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">4</td><td>कार्य आरंभ तिथि / Work Start Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">5</td><td>कार्य पूर्ण का तिथि / Work Completion Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">6</td><td>अनुज्ञप्ति धारक का नाम / Licence Holder</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">7</td><td>अनुमति क्रमांक / Permission No.</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">8</td><td>परिक्षण की तिथि / Testing Date</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+                <tr><td style="text-align:center;">9</td><td>परिक्षण परिणाम / Testing Result</td><td><div class="cell-input" contenteditable="true"></div></td></tr>
+            </tbody>
+        </table>
+
+        <div class="pinned-footer">
+            <div class="footer-sigs">
+                <div class="sig-box">
+                    परीक्षक के हस्ताक्षर<br>
+                    <small>(Signature of Supervisor)</small>
+                </div>
+                <div class="sig-box">
+                    अधिकृत हस्ताक्षर व मोहर<br>
+                    <small>(Authorized Sign & Seal)</small>
+                </div>
+            </div>
+            <div style="text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 8px; margin-top: 10px;">
+                Computer Generated Return via www.poweri.in Dashboard
+            </div>
+        </div>
+    </div>
+
+</div>
+
+                    <div id="tab4" class="form-wrapper">
+
+    <style>
+        /* Scoped styles matching Inspection Request & Form-A */
+        .selfdec-container { 
+            background: #fff; padding: 30px 50px; max-width: 820px; margin: auto; 
+            border: 2px solid #002366; border-top: 10px solid #C41E3A;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); position: relative;
+            font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333;
+        }
+
+        .selfdec-header h2 { text-align: center; color: #002366; margin: 0; font-size: 22px; text-transform: uppercase; }
+        .selfdec-sub { text-align: center; color: #C41E3A; font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 8px; font-size: 14px; }
+        
+        .sd-row { margin-bottom: 15px; }
+        .sd-text { font-size: 15px; margin-bottom: 8px; }
+        
+        /* Inputs matching Form 1 Style */
+        .sd-input { 
+            border: none; border-bottom: 1px dotted #999; font-weight: bold; 
+            text-align: center; font-family: inherit; color: #000; background: transparent; 
+            font-size: 15px;
+        }
+        .sd-input:focus { border-bottom: 2px solid #C41E3A; outline: none; }
+
+        .lang-hi { font-weight: bold; display: block; color: #000; }
+        .lang-en { font-style: italic; color: #555; font-size: 0.9em; display: block; }
+
+       
+    </style>
+
+    <div class="selfdec-container">
+        <div class="selfdec-header">
+            <h2>स्व-घोषणा प्रमाण पत्र</h2>
+            <div class="selfdec-sub">SELF DECLARATION CERTIFICATE</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <div>
+                <strong>क्रमांक / No:</strong> <input type="text" id="cert_no" class="sd-input" style="width: 100px;">
+            </div>
+            <div>
+                <strong>दिनांक / Date:</strong> <input type="date" class="sd-input">
+            </div>
+        </div>
+
+        <div class="sd-row">
+            <p class="sd-text">
+                <span class="lang-hi">प्रमाणित किया जाता है कि उपर्युक्त कार्य श्री</span>
+                <span class="lang-en">Certified that the above work has been carried out by Mr. <input type="text" id="insp_name" class="sd-input" style="width: 40%; margin-top: 5px;" placeholder="Name of Wireman" onkeyup="updateSdPreview()">
+            </p>
+        </div>
+
+        <div class="sd-row">
+            <p class="sd-text">
+                <span class="lang-hi">वायरमैन, जिनके पास वायरमैन परमिट क्रमांक</span>
+                <span class="lang-en">Wireman, holding Wireman Permit No.
+                <input type="text" id="asset_id" class="sd-input" style="width: 200px;" onkeyup="updateSdPreview()"></span>
+                <span class="lang-hi">है, जो दिनांक _______<input type="date" class="sd-input"  class="lang-en">valid upto_____
+                <input type="date" class="sd-input" style="width: 100px;" onkeyup="updateSdPreview()"
+                 class="lang-hi">तक वैध है, द्वारा किया गया है।</span>
+            </p>
+        </div>
+
+        <div class="sd-row">
+            <p class="sd-text">
+                <span class="lang-hi">तथा प्रमाणित किया जाता है कि परीक्षण कार्य श्री/मेसर्स</span>
+                <span class="lang-en">And certified that the testing work has been done by Mr./M/s
+                <input type="text" id="exam_body" class="sd-input" style="width: 50%; margin-top: 5px;" placeholder="Testing Agency / HT licensed Supervisor" onkeyup="updateSdPreview()"></span>
+            </p>
+        </div>
+
+        <div class="sd-row">
+            <p class="sd-text">
+                <span class="lang-hi">के द्वारा, जिसके पास सुपरवाइजर अनुज्ञा क्रमांक</span>
+                <span class="lang-en">who holds Supervisor Competency Certificate No.
+                <input type="text" id="license_no" class="sd-input" style="width: 150px;" onkeyup="updateSdPreview()"></span>
+                <span class="lang-hi">है, जो दिनांक <b>आजीवन</b> तक के लिए वैध है, किया गया है।</span>
+                <span class="lang-en">which is valid for <b>Lifetime</b>.</span>
+            </p>
+        </div>
+
+        <div class="sd-row" style="margin-top: 20px; background: #f9f9f9; padding: 10px; border: 1px dashed #ccc;">
+            <span class="lang-hi">यह भी प्रमाणित किया जाता है कि मैं उपर्युक्त ठेकेदार के यहाँ पूर्णकालिक सेवा में हूँ।</span>
+            <span class="lang-en">I also certify that I am in full-time employment of the contractor mentioned above.</span>
+        </div>
+
+        <div style="margin-top: 60px; display: flex; justify-content: space-between;">
+            <div style="text-align: center; width: 250px; border-top: 2px solid #002366; padding-top: 5px;">
+                <strong>वायरमैन के हस्ताक्षर</strong><br>
+                <span style="font-size: 0.85em; color: #555;">Signature of Wireman</span>
+            </div>
+            <div style="text-align: center; width: 250px; border-top: 2px solid #002366; padding-top: 5px;">
+                <strong>पर्यवेक्षक/ठेकेदार के हस्ताक्षर</strong><br>
+                <span style="font-size: 0.85em; color: #555;">Signature of Supervisor/Contractor</span>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 11px; color: #999; margin-top: 20px;">
+            Computer Generated Document via www.poweri.in
+        </div>
+    </div>
+
+    <script>
+        function updateSdPreview() {
+            // List of IDs to map: Input ID -> Preview Span ID
+            const fields = [
+                'insp_name', 
+                'asset_name', 
+                'asset_id', 
+                'valid_till', 
+                'exam_body', 
+                'license_no'
+            ];
+
+            fields.forEach(id => {
+                const inputEl = document.getElementById(id);
+                // The preview ID is just the input ID + "_preview"
+                const previewEl = document.getElementById(id + '_preview');
+                
+                if (inputEl && previewEl) {
+                    // If input has text, show it. If empty, show underlines.
+                    previewEl.innerText = inputEl.value.trim() !== "" ? inputEl.value : "__________";
+                    
+                    // Optional: Make it bold/blue when filled
+                    if(inputEl.value.trim() !== "") {
+                        previewEl.style.borderBottom = "none";
+                        previewEl.style.textDecoration = "underline";
+                    } else {
+                        previewEl.style.borderBottom = "1px solid #ccc";
+                        previewEl.style.textDecoration = "none";
+                    }
+                }
+            });
+        }
+    </script>
+
+</div>
+
+       <div id="tab5" class="form-wrapper">
+
+    <style>
+        /* Exact styles matching Form 1 and Form 4 */
+        .comp-container { 
+            background: #fff; padding: 30px 50px; max-width: 820px; margin: auto; 
+            border: 2px solid #002366; border-top: 10px solid #C41E3A;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); position: relative;
+            font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333;
+        }
+        .comp-header h2 { text-align: center; color: #002366; margin: 0; font-size: 22px; text-transform: uppercase; }
+        .comp-sub { text-align: center; color: #C41E3A; font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 8px; font-size: 14px; }
+        
+        .comp-row { margin-bottom: 15px; }
+        
+        /* Inputs matching Form 1 Style */
+        .comp-input { 
+            border: none; border-bottom: 1px dotted #999; font-weight: bold; 
+            text-align: center; font-family: inherit; background: transparent; 
+            color: #000; font-size: 15px;
+        }
+        .comp-input:focus { border-bottom: 2px solid #C41E3A; outline: none; }
+        
+        .lang-hi { font-weight: bold; display: block; color: #000; font-size: 15px; }
+        .lang-en { font-style: italic; color: #555; font-size: 0.9em; display: block; line-height: 1.2; }
+
+        .comp-textarea {
+            width: 100%; border: 1px solid #ccc; padding: 10px; font-family: inherit; margin-top: 5px; 
+            min-height: 150px; resize: vertical; background: transparent;
+        }
+
+        
+    </style>
+
+    <div class="comp-container">
+        <div class="comp-header">
+            <h2>विद्युत कार्य पूर्णता प्रमाण पत्र</h2>
+            <div class="comp-sub">ELECTRICAL WORK COMPLETION CERTIFICATE</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <div>
+                <strong>पत्रांक / Ref No:</strong> <input type="text" class="comp-input" style="width: 120px;">
+            </div>
+            <div>
+                <strong>दिनांक / Date:</strong> <input type="date" class="comp-input">
+            </div>
+        </div>
+
+        <div class="comp-row">
+            <span class="lang-hi">1. प्रमाणित किया जाता है कि:</span>
+            <span class="lang-en">1. Certified that:</span>
+        </div>
+
+        <div class="comp-row" style="margin-left: 20px;">
+            <p>
+                <span class="lang-hi">(1) मेरे पास 'ए' श्रेणी विद्युत ठेकेदारी अनुज्ञप्ति क्रमांक</span>
+                <span class="lang-en">(1) I hold Class 'A' Electrical Contractor License No.</span>
+                <input type="text" class="comp-input" style="width: 150px;">
+                <span class="lang-hi">है, जो दिनांक</span>
+                <span class="lang-en">valid upto</span>
+                <input type="text" class="comp-input" style="width: 120px;">
+                <span class="lang-hi">तक वैध है।</span>
+            </p>
+        </div>
+
+        <div class="comp-row" style="margin-left: 20px;">
+            <p>
+                <span class="lang-hi">(2) मेसर्स (संस्थान का नाम एवं पता)</span>
+                <span class="lang-en">(2) M/s (Name of Establishment & Address)</span>
+                <input type="text" class="comp-input" style="width: 100%; margin-top: 5px;" placeholder="Address of premises...">
+            </p>
+        </div>
+
+        <div style="border: 1px dashed #999; padding: 10px; background: #f9f9f9; margin: 15px 0; font-size: 0.9em;">
+            <strong>वैधानिक अनुपालन (Statutory Compliance):</strong><br>
+            "यह कार्य केंद्रीय विद्युत प्राधिकरण (सुरक्षा तथा विद्युत आपूर्ति) विनियम 2010 तथा लागू भारतीय मानकों (IS Code) के अनुसार किया गया है।"<br>
+            <i style="color:#666;">"The work complies with CEA (Safety & Electric Supply) Regulations 2010 and relevant IS Codes."</i>
+        </div>
+
+        <div class="comp-row">
+            <span class="lang-hi" style="color:#C41E3A;">2. कार्य का विवरण तथा परीक्षण परिणाम:</span>
+            <span class="lang-en" style="color:#C41E3A;">2. Work Details & Test Results:</span>
+            <textarea class="comp-textarea" placeholder="Enter details of wiring, equipment, earthing values, insulation resistance etc..."></textarea>
+        </div>
+
+        <div style="margin-top: 50px; display: flex; justify-content: flex-end;">
+            <div style="text-align: center; width: 300px; border-top: 2px solid #002366; padding-top: 5px;">
+                <strong>ठेकेदार के हस्ताक्षर (सील सहित)</strong><br>
+                <span style="font-size: 0.85em; color: #555;">Signature of Electrical Contractor (with Seal)</span>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 11px; color: #999; margin-top: 20px;">
+            Computer Generated Document via www.poweri.in
+        </div>
+    </div>
+
+    <script>
+        // Auto-grow logic for the large Description Textarea
+        (function autoGrowComp() {
+            const textareas = document.querySelectorAll('#tab5 .comp-textarea');
+            
+            textareas.forEach(t => {
+                // Resize on input
+                t.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+                
+                // Trigger once on load in case there's text
+                t.style.height = 'auto';
+                t.style.height = (t.scrollHeight) + 'px';
+            });
+        })();
+    </script>
+</div>
+  <div id="tab6" class="form-wrapper">
+
+    <style>
+        /* Scoped Styles for Office Order */
+        .office-order-box { 
+            background: #fff; padding: 40px 60px; max-width: 820px; margin: auto; 
+            border: 2px solid #002366; border-top: 10px solid #C41E3A;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); position: relative;
+            min-height: 900px; font-family: 'Segoe UI', Arial, sans-serif; color: #333; line-height: 1.6;
+        }
+
+        .oo-header { text-align: center; margin-bottom: 30px; border-bottom: 2px double #eee; padding-bottom: 10px; }
+        .oo-header h2 { color: #002366; margin: 0; text-transform: uppercase; font-size: 22px; letter-spacing: 1px; }
+        .oo-sub { color: #C41E3A; font-weight: bold; margin-top: 5px; font-size: 16px; }
+
+        .oo-meta { display: flex; justify-content: space-between; margin-bottom: 40px; }
+        
+        .oo-content { font-size: 16px; margin-bottom: 50px; text-align: justify; }
+        .oo-recipient { margin-bottom: 30px; }
+        
+        .oo-label { font-weight: bold; color: #002366; }
+        .lang-hi { display: block; font-weight: bold; font-size: 15px; margin-bottom: 2px; color:#000; }
+        .lang-en { display: block; font-style: italic; color: #666; font-size: 14px; margin-bottom: 5px; }
+
+        /* Specific Inputs for this form */
+        .oo-input {
+            border: none; border-bottom: 1px dotted #999; padding: 2px 5px; 
+            outline: none; font-size: 16px; width: 250px; background: transparent; color: #111;
+            font-weight: 500; font-family: inherit;
+        }
+        .oo-input:focus { border-bottom: 2px solid #C41E3A; }
+
+        .oo-body { margin-top: 25px; }
+        .oo-highlight { border-bottom: 1px solid #002366 !important; width: 200px !important; text-align: center; font-weight: bold; }
+
+        .oo-signature { margin-top: 60px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .oo-sign-box { text-align: center; width: 250px; }
+        .oo-sign-line { border-top: 1px solid #333; margin-top: 50px; padding-top: 5px; font-weight: bold; color: #002366; }
+
+        .oo-acceptance { 
+            margin-top: 60px; padding: 20px; border: 1px dashed #ccc; background: #fcfcfc;
+        }
+
+        @media print {
+            .office-order-box { border: 1px solid #002366 !important; box-shadow: none; width: 100%; margin: 0; padding: 15mm; min-height: auto; }
+            .oo-acceptance { background: transparent; border: 1px solid #ddd; }
+            .oo-input { border-bottom: none; }
+            .oo-highlight { border-bottom: none !important; text-decoration: underline; }
+        }
+    </style>
+
+    <div class="office-order-box">
+        <div class="oo-header">
+            <h2>कार्यालय आदेश</h2>
+            <div class="oo-sub">OFFICE ORDER</div>
+        </div>
+
+        <div class="oo-meta">
+            <div>
+                <span class="oo-label">पत्रांक / Ref No:</span>
+                <input type="text" class="oo-input" style="width: 150px;">
+            </div>
+            <div>
+                <span class="oo-label">दिनांक / Dated:</span>
+                <input type="date" class="oo-input" style="width: 130px;">
+            </div>
+        </div>
+
+        <div class="oo-content">
+            <div class="oo-recipient">
+                <span class="lang-hi">सेवा में / To,</span>
+                <div style="margin-left: 20px;">
+                    <strong>श्री / Shri:</strong> <input type="text" class="oo-input" style="width: 300px;"><br>
+                    <div style="margin-top:5px;">
+                        <strong>पद / Designation:</strong> <input type="text" class="oo-input" style="width: 255px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="oo-body">
+                <p>
+                    <span class="lang-hi">कृपया विद्युत सुरक्षा अधिकारी के रूप में आपकी नियुक्ति के संबंध में दिनांक <input type="text" class="oo-input oo-highlight" placeholder="DD/MM/YYYY"> के कार्यालय आदेश का संदर्भ लें।</span>
+                    <span class="lang-en">Please refer to office order dated <small>(above date)</small> regarding your appointment as Electrical Safety Officer.</span>
+                </p>
+
+                <p>
+                    <span class="lang-hi">आप वर्तमान वित्तीय वर्ष <input type="text" class="oo-input oo-highlight" placeholder="202X-XX"> के लिए <input type="text" class="comp-input" style="width: 40%; margin-top: 5px;" placeholder="Plant Name"> प्लांट की सभी विद्युत सुरक्षा के लिए निरंतर उत्तरदायी रहेंगे।</span>
+                    <span class="lang-en">You will be continuing & responsible for all electrical safety of the specified plant for the current financial year.</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="oo-signature">
+            <div style="font-size: 12px; color: #777; width: 50%;">
+                <strong>Compliance Reference:</strong><br>
+                Central Electricity Authority<br>
+                (Measures relating to Safety and Electric Supply Regulation Chapter-III, Regulation-5(3))
+            </div>
+            <div class="oo-sign-box">
+                <span class="lang-hi">कृते / For,</span>
+                <input type="text" class="oo-input" style="width: 200px; text-align: center; font-weight: bold; border-bottom: none;" placeholder="Company Name"><br>
+                <div class="oo-sign-line">
+                    अधिकृत हस्ताक्षरकर्ता<br>
+                    <small>Authorized Signatory</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="oo-acceptance">
+            <p style="margin: 0; font-weight: bold; color: #C41E3A;">स्वीकृति / ACCEPTANCE</p>
+            <p style="font-size: 14px; margin: 10px 0;">
+                <span class="lang-hi">मैंने उपरोक्त आदेश को पढ़ और समझ लिया है और मैं इसे स्वीकार करता हूँ।</span>
+                <span class="lang-en">I have read and understood the above order and I hereby accept the same.</span>
+            </p>
+            <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div><strong>दिनांक / Date:</strong> <input type="date" class="oo-input" style="width:130px;"></div>
+                <div style="text-align: center;">
+                    <input type="text" class="oo-input" style="text-align:center;" placeholder="Sign here"><br>
+                    <span style="border-top: 1px solid #000; padding-top:2px; display:block; margin-top:2px;">हस्ताक्षर / Signature</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 11px; color: #999; margin-top: 20px;">
+            Computer Generated Document via www.poweri.in
+        </div>
+    </div>
+
+</div>
+
+<script>
+    async function downloadFullBundle() {
+        const btn = document.querySelector('button[onclick="downloadFullBundle()"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        btn.disabled = true;
+
+        // 1. Create a temporary container to hold ALL forms for the PDF
+        const tempContainer = document.createElement('div');
+        tempContainer.style.width = '210mm'; // Force A4 width
+        tempContainer.style.margin = '0 auto';
+        
+        // 2. Clone each form wrapper into the temp container
+        // We select all IDs from tab1 to tab6
+        const tabIds = ['tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6'];
+        
+        tabIds.forEach(id => {
+            const originalTab = document.getElementById(id);
+            if(originalTab) {
+                // Clone the node
+                const clone = originalTab.cloneNode(true);
+                
+                // Force display block (in case they are hidden tabs)
+                clone.style.display = 'block'; 
+                clone.classList.remove('form-wrapper'); // Remove logic classes
+                
+                // Add a page break after each form (except the last)
+                if (id !== 'tab6') {
+                    const pageBreak = document.createElement('div');
+                    pageBreak.style.html2pdf = { pagebreak: { mode: 'css', after: '.html2pdf__page-break' } };
+                    pageBreak.className = 'html2pdf__page-break';
+                    pageBreak.style.height = '20px'; // Visual spacing
+                    clone.appendChild(pageBreak);
+                }
+                
+                tempContainer.appendChild(clone);
+            }
+        });
+
+        // Append temp container to body (hidden from view but available for PDF)
+        // We put it off-screen
+        tempContainer.style.position = 'absolute';
+        tempContainer.style.left = '-9999px';
+        tempContainer.style.top = '0';
+        document.body.appendChild(tempContainer);
+
+        // 3. PDF Generation Options
+        const opt = {
+            margin:       [5, 0, 5, 0], // Top, Left, Bottom, Right (mm)
+            filename:     'PowerI_Full_Bundle.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak:    { mode: ['css', 'legacy'] } // Respect page breaks
+        };
+
+        try {
+            // Generate the PDF Blob
+            const pdfBlob = await html2pdf().set(opt).from(tempContainer).outputPdf('blob');
+
+            // 4. Convert to Base64 for MongoDB Storage
+            const reader = new FileReader();
+            reader.readAsDataURL(pdfBlob);
+            reader.onloadend = async () => {
+                const base64data = reader.result;
+
+                // 5. Send to your API
+                try {
+                    const response = await fetch('http://localhost:5000/api/save-document', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            section: "FULL_BUNDLE",
+                            formName: "PowerI_Master_Bundle.pdf",
+                            pdfFile: base64data,
+                            date: new Date().toLocaleDateString(),
+                            metadata: {
+                                generatedBy: "PowerI Web Form",
+                                formCount: 6
+                            }
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert("✅ Bundle PDF Generated and Saved to Database!");
+                        // Also trigger a local download for the user
+                        const url = window.URL.createObjectURL(pdfBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = "PowerI_Full_Bundle.pdf";
+                        a.click();
+                    } else {
+                        alert("⚠️ PDF Generated locally, but Database Save Failed.");
+                        // Still download locally
+                        html2pdf().set(opt).from(tempContainer).save();
+                    }
+                } catch (apiErr) {
+                    console.error("API Error:", apiErr);
+                    alert("⚠️ Network Error saving to DB. Downloading local copy.");
+                    html2pdf().set(opt).from(tempContainer).save();
+                }
+
+                // Cleanup
+                document.body.removeChild(tempContainer);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            };
+
+        } catch (err) {
+            console.error("PDF Generation Error:", err);
+            alert("❌ Error generating PDF bundle.");
+            if(document.body.contains(tempContainer)) {
+                document.body.removeChild(tempContainer);
+            }
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
