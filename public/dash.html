@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerI | Electrical Compliance & Connectivity Chhattisgarh</title>
+    <meta name="title" content="PowerI | Electrical Compliance & Connectivity Chhattisgarh">
+    <meta name="description" content="PowerI simplifies electricity compliance...">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --royal-blue: #003399; --accent-red: #e63946; --success-green: #28a745; }
+        body { background: #f4f7f9; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Sidebar Styling */
+        .forms-sidebar { flex: 1; min-width: 320px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 85vh; overflow-y: auto; }
+        .dashboard-cat { border-bottom: 1px solid #f0f0f0; }
+        .cat-label { width: 100%; text-align: left; padding: 15px; background: none; border: none; font-weight: bold; cursor: pointer; color: #444; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .cat-label:hover { background: #f8f9fa; color: var(--royal-blue); }
+        .cat-content { display: none; padding: 10px; background: #fafafa; border-left: 4px solid var(--royal-blue); }
+        .form-link { display: block; padding: 10px 15px; text-decoration: none; color: #555; font-size: 0.9rem; transition: 0.3s; border-radius: 4px; }
+        .form-link:hover { color: var(--royal-blue); background: #eef2ff; padding-left: 20px; }
+        
+        /* New Badge Style */
+        .new-badge { background: var(--accent-red); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 8px; vertical-align: middle; }
+
+        /* Profile Card Styling */
+        .profile-card { background: linear-gradient(135deg, #f8f9fa 0%, #eef2ff 100%); border: 1px solid #d1d9e6; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+        .profile-avatar { width: 65px; height: 65px; background: var(--royal-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .edit-input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; box-sizing: border-box; }
+
+        /* Table Styling */
+        .db-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        .db-table th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--royal-blue); color: #333; font-size: 13px; }
+        .db-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .btn-view { background: var(--royal-blue); color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        
+        .forms-sidebar::-webkit-scrollbar { width: 6px; }
+        .forms-sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="nav-links-container" style="background: var(--royal-blue); padding: 12px 40px; display: flex; justify-content: space-between; align-items: center; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div class="brand-logo" style="font-size: 24px; font-weight: bold; letter-spacing: 1px;">Power<span style="color: #ffeb3b;">I</span>.in</div>
+            <ul class="nav-links" style="list-style: none; display: flex; gap: 25px; margin: 0; padding: 0;">
+                <li><a href="/index.html" style="color: white; text-decoration: none; font-weight: 500;"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" style="color: #ffeb3b; text-decoration: none; font-weight: bold;"><i class="fas fa-chart-line"></i> Workspace</a></li>
+                <li><a href="community.html" style="color: white; text-decoration: none; font-weight: 500;"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="#" onclick="logout()" style="color: white; text-decoration: none; font-weight: 500;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="padding: 25px;">
+        <div class="dashboard-header" style="text-align: center; margin-bottom: 30px;">
+            <h2 style="color: var(--royal-blue); margin-bottom: 5px; font-size: 28px;">COMPLIANCE MASTER</h2>
+            <p style="color: #666; font-style: italic;">Industrial Control Center | Precise Electrical Documentation</p>
+        </div>
+
+        <div class="dashboard-workspace" style="display: flex; gap: 25px; max-width: 1500px; margin: 0 auto;">
+            
+            <aside class="forms-sidebar">
+                <div style="background: var(--royal-blue); color: #fff; padding: 18px; font-weight: bold; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-folder-tree"></i> COMPLIANCE SECTIONS
+                </div>
+                
+                <div class="category-stack" style="padding: 10px;">
+                    <div class="dashboard-cat">
+                        <button class="cat-label" onclick="toggleDashboardCat(this)">1. RETURNS <i class="fas fa-chevron-down"></i></button>
+                        <div class="cat-content">
+                            <a href="forms/return-letter.html" target="_blank" class="form-link"><strong>Covering Letter for Returns Submission</strong></a>
+                            <a href="forms/form-1.html" target="_blank" class="form-link"><strong>Form I </strong>(Monthly Generation & Consumption Return)</a>
+                            <a href="forms/form-g.html" target="_blank" class="form-link"><strong>Form G </strong>(Monthly Abstract showing total Energy)</a>
+                            <a href="forms/format-A.html" target="_blank" class="form-link"><strong>Format A </strong>(Details of Generation and Consumption for IPP / CPP)</a>
+                            <a href="forms/format-B.html" target="_blank" class="form-link"><strong>Format B </strong>(Generating power plant Details)</a>
+                            <a href="forms/industry.html" target="_blank" class="form-link">Industry Detail Filling</a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-cat">
+                        <button class="cat-label" onclick="toggleDashboardCat(this)">2. CEIG / INSPECTORATE <i class="fas fa-chevron-down"></i></button>
+                        <div class="cat-content">
+                            <a href="forms/master-bundle.html" target="_blank" class="form-link" style="color:#C41E3A; background:#fff0f0; font-weight:bold; border:1px solid #ffcccc;">
+                                <i class="fas fa-star"></i> Master Inspection Bundle (6 Forms) <span class="new-badge">NEW</span>
+                            </a>
+                            <a href="forms/drawing-app.html" target="_blank" class="form-link"><strong>Drawing Approval Application</strong></a>
+                            <a href="forms/inspect.html" target="_blank" class="form-link">Site Inspection Application with all</a>
+                            <a href="forms/test.html" target="_blank" class="form-link">Site Test Report</a>
+                            <a href="forms/form-6.html" target="_blank" class="form-link">Form 6</a>
+                            <a href="forms/annex-c.html" target="_blank" class="form-link">Annexure-C</a>
+                            <a href="forms/form-D.html" target="_blank" class="form-link">Annexure-D</a>
+                            <a href="forms/workcompletion.html" target="_blank" class="form-link">Eqipment Test Report</a>
+                            <a href="forms/self-dec.html" target="_blank" class="form-link">HT supervisour Self Declaration</a>
+                            <a href="forms/charging-clearance.html" target="_blank" class="form-link">Charging Clearance App</a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-cat">
+                        <button class="cat-label" onclick="toggleDashboardCat(this)">3. CSPDCL RELATED <i class="fas fa-chevron-down"></i></button>
+                        <div class="cat-content">
+                            <a href="forms/application.html" target="_blank" class="form-link">Application for (New Connection / Shifting / Change)</a>
+                            <a href="forms/load-Enhancement.html" target="_blank" class="form-link">Load Enhancement/Reduction</a>
+                            <a href="forms/line-shifting.html" target="_blank" class="form-link">Line Shifting Application</a>
+                            <a href="forms/line-shutdown.html" target="_blank" class="form-link">Line Shutdown Application</a>
+                            <a href="forms/line-charging.html" target="_blank" class="form-link">Line Charging Application</a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-cat">
+                        <button class="cat-label" onclick="toggleDashboardCat(this)">4. MINES / DGMS <i class="fas fa-chevron-down"></i></button>
+                        <div class="cat-content">
+                            <a href="forms/form-m.html" target="_blank" class="form-link">Form M</a>
+                            <a href="forms/form-h.html" target="_blank" class="form-link">Form H</a>
+                            <a href="forms/mine-common.html" target="_blank" class="form-link">Common Application</a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-cat">
+                        <button class="cat-label" onclick="toggleDashboardCat(this)">5. CEA FORMATS <i class="fas fa-chevron-down"></i></button>
+                        <div class="cat-content">
+                            <a href="forms/safety.html" target="_blank" class="form-link">Safety Officer appointment</a>
+                            <a href="forms/job-format.html" target="_blank" class="form-link">Any Electrical Job Assignment </a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-cat">
+                        <button class="cat-label" onclick="toggleDashboardCat(this)">6. ISO 50001 FORMATS <i class="fas fa-chevron-down"></i></button>
+                        <div class="cat-content">
+                            <a href="forms/iso-energy.html" target="_blank" class="form-link">Energy Management Formats</a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="folder-main" style="flex: 2.5; background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 85vh; overflow-y: auto;">
+                
+                <section class="profile-card">
+                    <div id="profile-view-mode" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; gap: 20px; align-items: center;">
+                            <div class="profile-avatar" id="avatar-initial">P</div>
+                            <div>
+                                <h3 id="display-name" style="margin: 0; color: var(--royal-blue); font-size: 22px;">Loading...</h3>
+                                <p style="margin: 5px 0; color: #555;"><i class="fas fa-industry"></i> <span id="display-company">---</span></p>
+                                <div style="display: flex; gap: 15px; font-size: 13px; color: #777;">
+                                    <span><i class="fas fa-map-marker-alt"></i> <span id="display-location">---</span></span>
+                                    <span><i class="fas fa-phone"></i> <span id="display-mobile">---</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="toggleProfileEdit(true)" style="background:transparent; border:1px solid var(--royal-blue); color:var(--royal-blue); padding:6px 12px; border-radius:20px; cursor:pointer; font-weight:600;"><i class="fas fa-user-edit"></i> Edit</button>
+                    </div>
+
+                    <div id="profile-edit-mode" style="display: none;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <input type="text" id="edit-name" class="edit-input" placeholder="Full Name">
+                            <input type="text" id="edit-company" class="edit-input" placeholder="Company Name">
+                            <input type="text" id="edit-location" class="edit-input" placeholder="Plant Location">
+                            <input type="text" id="edit-mobile" class="edit-input" placeholder="Mobile Number">
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <button onclick="saveProfileUpdate()" style="background: var(--success-green); color: white; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer;">Save Changes</button>
+                            <button onclick="toggleProfileEdit(false)" style="background: #6c757d; color: white; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer; margin-left: 5px;">Cancel</button>
+                        </div>
+                    </div>
+                </section>
+
+                <h3 style="color: var(--royal-blue); border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-database"></i> My Compliance Vault
+                </h3>
+
+                <div id="category-wise-history">
+                    <p style="text-align:center; color:#999; margin-top:50px;">
+                        <i class="fas fa-spinner fa-spin"></i> Organizing your records from MongoDB...
+                    </p>
+                </div>
+            </main>
+        </div>
+    </main>
+
+    <script>
+    const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
+
+    // 1. Sidebar Toggle
+    function toggleDashboardCat(button) {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('i');
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            icon.className = "fas fa-chevron-down";
+        } else {
+            // Close all others
+            document.querySelectorAll('.cat-content').forEach(c => c.style.display = "none");
+            document.querySelectorAll('.cat-label i').forEach(i => i.className = "fas fa-chevron-down");
+            // Open clicked
+            content.style.display = "block";
+            icon.className = "fas fa-chevron-up";
+        }
+    }
+
+    // 2. Profile Management
+    function displayUserProfile() {
+        const user = JSON.parse(localStorage.getItem('poweri_user'));
+        if (!user) return;
+        document.getElementById('display-name').innerText = user.name;
+        document.getElementById('display-company').innerText = user.company;
+        document.getElementById('display-location').innerText = user.location || "Chhattisgarh";
+        document.getElementById('display-mobile').innerText = user.mobile || "---";
+        document.getElementById('avatar-initial').innerText = user.name.charAt(0).toUpperCase();
+
+        document.getElementById('edit-name').value = user.name;
+        document.getElementById('edit-company').value = user.company;
+        document.getElementById('edit-location').value = user.location || "";
+        document.getElementById('edit-mobile').value = user.mobile || "";
+    }
+
+    function toggleProfileEdit(isEditing) {
+        document.getElementById('profile-view-mode').style.display = isEditing ? 'none' : 'flex';
+        document.getElementById('profile-edit-mode').style.display = isEditing ? 'block' : 'none';
+    }
+
+    async function saveProfileUpdate() {
+        const token = localStorage.getItem('token');
+        const updated = {
+            name: document.getElementById('edit-name').value,
+            company: document.getElementById('edit-company').value,
+            location: document.getElementById('edit-location').value,
+            mobile: document.getElementById('edit-mobile').value
+        };
+
+        try {
+            const res = await fetch(`${API_BASE}/auth/update-profile`, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(updated)
+            });
+            if (res.ok) {
+                const user = JSON.parse(localStorage.getItem('poweri_user'));
+                localStorage.setItem('poweri_user', JSON.stringify({...user, ...updated}));
+                alert("Profile Updated!");
+                displayUserProfile();
+                toggleProfileEdit(false);
+            }
+        } catch (e) { alert("Error updating profile."); }
+    }
+
+    // 3. Vault & Document Loading
+    async function loadCategorizedDocs() {
+        const container = document.getElementById('category-wise-history');
+        const token = localStorage.getItem('token');
+        if (!token) { window.location.href = "index.html"; return; }
+
+        try {
+            const res = await fetch(`${API_BASE}/my-documents`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if(!res.ok) throw new Error();
+            const allDocs = await res.json();
+            container.innerHTML = '';
+
+            const categories = [
+                { label: "1. RETURNS", keyword: "RETURNS" },
+                { label: "2. CEIG / INSPECTORATE", keyword: "CEIG" },
+                { label: "3. CSPDCL RELATED", keyword: "CSPDCL" },
+                { label: "4. MINES / DGMS", keyword: "MINE" },
+                { label: "5. CEA FORMATS", keyword: "CEA" },
+                { label: "6. ISO 50001 FORMATS", keyword: "ISO" },
+                { label: "BUNDLES & OTHERS", keyword: "BUNDLE" } // Added BUNDLE catch-all
+            ];
+
+            let hasData = false;
+            categories.forEach(cat => {
+                const filtered = allDocs.filter(d => {
+                    // Safety check if section exists
+                    const sec = d.section ? d.section.toUpperCase() : "";
+                    if(cat.keyword === "BUNDLE") {
+                        return sec.includes("FULL_BUNDLE") || sec.includes("BUNDLE");
+                    }
+                    return sec.includes(cat.keyword);
+                });
+
+                if (filtered.length > 0) {
+                    hasData = true;
+                    container.innerHTML += `
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="background:#eef2ff; color:var(--royal-blue); padding:10px; border-radius:6px; font-size:15px;">${cat.label}</h4>
+                            <table class="db-table">
+                                ${filtered.map(doc => `
+                                    <tr id="row-${doc._id}">
+                                        <td>${new Date(doc.createdAt).toLocaleDateString('en-IN')}</td>
+                                        <td><strong>${doc.formName}</strong></td>
+                                        <td style="text-align:right;">
+                                            <button class="btn-view" onclick="viewPdf('${doc.pdfFile}', '${doc.formName}')">VIEW PDF</button>
+                                            <button onclick="deleteDoc('${doc._id}')" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </table>
+                        </div>`;
+                }
+            });
+            if (!hasData) container.innerHTML = "<p style='text-align:center; color:#999; padding-top:40px;'>No records found in the vault.</p>";
+        } catch (e) { container.innerHTML = "<p style='text-align:center; color:red;'>Server is waking up... Please refresh.</p>"; }
+    }
+
+    // New Function to View PDF
+    function viewPdf(base64Data, filename) {
+        // Create a blob and open in new tab
+        const byteCharacters = atob(base64Data.split(',')[1]);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+    }
+
+    async function deleteDoc(docId) {
+        if (!confirm("Delete this record permanently?")) return;
+        const token = localStorage.getItem('token');
+        try {
+            const res = await fetch(`${API_BASE}/documents/${docId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) document.getElementById(`row-${docId}`).remove();
+        } catch (e) { alert("Delete failed."); }
+    }
+
+    function logout() { localStorage.clear(); window.location.href = "index.html"; }
+
+    window.onload = () => { displayUserProfile(); loadCategorizedDocs(); };
+    </script>
+
+</body>
+</html>
