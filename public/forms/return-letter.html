@@ -119,13 +119,15 @@ input[type="month"]::-webkit-calendar-picker-indicator {
                 <strong><input type="month" id="month_val" class="input-line" style="width: 150px; text-align: center; font-weight: bold;"></strong>
             </p>
 
-            <p style="text-align: justify;">
-                The total electricity generation duty of 
-                <strong>Rs. <input type="number" id="amount_num" class="input-line" style="width: 120px;" oninput="updateWords()"></strong> 
-                (Rupees <input type="text" id="amount_words" class="input-line" style="width: 350px; font-weight: bold;" readonly> Only) 
-                has been deposited via Echallan No. <strong><input type="text" id="challan_no" class="input-line" style="width: 160px;"></strong> 
-                dated <strong><input type="date" id="doc_date" class="input-line" style="width: 110px;"></strong>. Original challan is attached.
-            </p>
+            <p style="text-align: justify; line-height: 1.6;">
+    The total electricity generation duty of 
+    <strong>Rs. <input type="number" id="amount_num" class="input-line" style="width: 110px;" oninput="updateWords()"></strong> 
+    (Rupees 
+    <span id="amount_words" style="border-bottom: 1px dotted #888; min-width: 150px; font-weight: bold; color: #000; display: inline; white-space: normal;">__________</span> 
+    Only) 
+    has been deposited via Echallan No. <strong><input type="text" id="challan_no" class="input-line" style="width: 150px;"></strong> 
+    dated <strong><input type="date" id="challan_date" class="input-line" style="width: 130px;"></strong>. Original challan is attached.
+</p>
 
             <p>This is for your kind information and necessary action please.</p>
             <p>Thanking you.</p>
@@ -155,32 +157,39 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     </div>
 
     <script>
-        // --- 1. AMOUNT NUMBER TO WORDS LOGIC ---
-        function updateWords() {
-            const num = document.getElementById('amount_num').value;
-            document.getElementById('amount_words').value = inrWords(num);
-        }
+       // --- 1. AMOUNT NUMBER TO WORDS LOGIC ---
+function updateWords() {
+    const num = document.getElementById('amount_num').value;
+    // We target the SPAN now, so we use innerText
+    const target = document.getElementById('amount_words');
+    
+    if (!num || num < 0) {
+        target.innerText = "__________";
+        return;
+    }
+    
+    target.innerText = inrWords(num);
+}
 
-        function inrWords(n) {
-            if (!n || n < 0) return "";
-            const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-            const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+function inrWords(n) {
+    if (!n || n < 0) return "";
+    const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+    const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
 
-            const makeWords = (num) => {
-                if ((num = num.toString()).length > 9) return 'Overflow';
-                let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-                if (!n) return ''; 
-                let str = '';
-                str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-                str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-                str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-                str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-                str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-                return str.trim();
-            }
-            return makeWords(n);
-        }
-
+    const makeWords = (num) => {
+        if ((num = num.toString()).length > 9) return 'Overflow';
+        let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+        if (!n) return ''; 
+        let str = '';
+        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+        str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+        return str.trim();
+    }
+    return makeWords(n);
+}
         // --- 2. SAVE TO MONGODB LOGIC ---
         async function saveToMongo() {
     const btn = document.querySelector('.btn.red') || document.querySelector('.save-btn');
@@ -242,4 +251,5 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     </script>
 </body>
 </html>
+
 
