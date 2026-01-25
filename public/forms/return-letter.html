@@ -27,25 +27,25 @@
             display: flex; justify-content: space-between; align-items: center; 
             color: white; width: 100%; position: sticky; top: 0; z-index: 100;
         }
-        /* Styling for the Month Picker to match your dotted lines */
-input[type="month"] {
-    border: none;
-    border-bottom: 1px dotted #888;
-    background: transparent;
-    font-family: inherit;
-    font-size: 15px;
-    color: #003399;
-    cursor: pointer;
-    padding: 2px 5px;
-}
 
-/* Removes the default calendar icon if you want a cleaner look (optional) */
-input[type="month"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    filter: invert(12%) sepia(90%) saturate(5437%) hue-rotate(224deg) brightness(91%) contrast(101%); /* Matches your Royal Blue */
-}
+        /* Input styling for month and standard inputs */
+        input.input-line, input[type="month"], input[type="date"] {
+            border: none;
+            border-bottom: 1px dotted #888;
+            background: transparent;
+            font-family: inherit;
+            font-size: 15px;
+            color: #003399;
+            padding: 2px 5px;
+            outline: none;
+        }
 
-        /* WRAPPER TO PREVENT OVERFLOW */
+        input[type="month"]::-webkit-calendar-picker-indicator,
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(12%) sepia(90%) saturate(5437%) hue-rotate(224deg) brightness(91%) contrast(101%);
+        }
+
         #pdf-area { 
             background: white; 
             width: 210mm; 
@@ -63,7 +63,6 @@ input[type="month"]::-webkit-calendar-picker-indicator {
         }
 
         .header-row { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; }
-        .input-line { border: none; border-bottom: 1px solid #888; outline: none; font-family: inherit; font-size: 15px; color: #003399; background: transparent; }
         .subject { text-align: center; font-weight: bold; text-decoration: underline; margin: 15px 0; text-transform: uppercase; }
         
         .bottom-bar { 
@@ -77,11 +76,14 @@ input[type="month"]::-webkit-calendar-picker-indicator {
         .btn.red { background: #e63946; color: white; }
         .btn.gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e0; }
 
+        #display_date { color: #003399; font-weight: bold; }
+
         @media print {
             @page { size: A4; margin: 0; }
             body { background: white; }
             .nav-header, .bottom-bar { display: none !important; }
             #pdf-area { margin: 0; box-shadow: none; height: 279mm; }
+            input[type="date"], input[type="month"] { border-bottom: none; }
         }
     </style>
 </head>
@@ -93,10 +95,13 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     </div>
 
     <div id="pdf-area">
-        
         <div class="header-row">
             <div>Ref: <input type="text" id="ref_no" class="input-line" style="width: 160px;" placeholder="REF/001"></div>
-            <div>Date: <input type="date" id="doc_date"></div>
+            <div>
+                Date: 
+                <input type="date" id="date_picker" onchange="formatDate()">
+                <span id="display_date"></span>
+            </div>
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -120,14 +125,14 @@ input[type="month"]::-webkit-calendar-picker-indicator {
             </p>
 
             <p style="text-align: justify; line-height: 1.6;">
-    The total electricity generation duty of 
-    <strong>Rs. <input type="number" id="amount_num" class="input-line" style="width: 110px;" oninput="updateWords()"></strong> 
-    (Rupees 
-    <span id="amount_words" style="border-bottom: 1px dotted #888; min-width: 150px; font-weight: bold; color: #000; display: inline; white-space: normal;">__________</span> 
-    Only) 
-    has been deposited via Echallan No. <strong><input type="text" id="challan_no" class="input-line" style="width: 150px;"></strong> 
-    dated <strong><input type="date" id="challan_date" class="input-line" style="width: 130px;"></strong>. Original challan is attached.
-</p>
+                The total electricity generation duty of 
+                <strong>Rs. <input type="number" id="amount_num" class="input-line" style="width: 110px;" oninput="updateWords()"></strong> 
+                (Rupees 
+                <span id="amount_words" style="border-bottom: 1px dotted #888; min-width: 150px; font-weight: bold; color: #000; display: inline; white-space: normal;">__________</span> 
+                Only) 
+                has been deposited via Echallan No. <strong><input type="text" id="challan_no" class="input-line" style="width: 150px;"></strong> 
+                dated <strong><input type="date" id="challan_date" class="input-line" style="width: 130px;"></strong>. Original challan is attached.
+            </p>
 
             <p>This is for your kind information and necessary action please.</p>
             <p>Thanking you.</p>
@@ -136,7 +141,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
         <div style="margin-top: 20px;">
             <p>Yours faithfully,</p>
             <div style="margin-top: 15px;">
-                <strong>For, <input type="text" id="comp_name" class="input-line" placeholder="COMPANY NAME" style="width: 320px; font-weight: bold; text-transform: uppercase;"></strong><br><br><br>
+                <strong>For, <input type="text" id="comp_name" class="input-line" placeholder="COMPANY NAME" style="width: 320px; font-weight: bold; text-transform: uppercase;" onchange="syncCompany(this.value)"></strong><br><br><br>
                 <span>(Authorized Signatory)</span>
             </div>
             <div style="margin-top: 30px;"> 
@@ -157,99 +162,110 @@ input[type="month"]::-webkit-calendar-picker-indicator {
     </div>
 
     <script>
-       // --- 1. AMOUNT NUMBER TO WORDS LOGIC ---
-function updateWords() {
-    const num = document.getElementById('amount_num').value;
-    // We target the SPAN now, so we use innerText
-    const target = document.getElementById('amount_words');
-    
-    if (!num || num < 0) {
-        target.innerText = "__________";
-        return;
-    }
-    
-    target.innerText = inrWords(num);
-}
-
-function inrWords(n) {
-    if (!n || n < 0) return "";
-    const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-    const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
-
-    const makeWords = (num) => {
-        if ((num = num.toString()).length > 9) return 'Overflow';
-        let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-        if (!n) return ''; 
-        let str = '';
-        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-        str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-        return str.trim();
-    }
-    return makeWords(n);
-}
-        // --- 2. SAVE TO MONGODB LOGIC ---
-        async function saveToMongo() {
-    const btn = document.querySelector('.btn.red') || document.querySelector('.save-btn');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
-    
-    // Select the A4 area defined in your HTML
-    const element = document.getElementById('pdf-area') || document.getElementById('form-content');
-    
-    const opt = {
-        margin: 0,
-        filename: 'Compliance_Document.pdf', // Force .pdf extension
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    try {
-        // 1. Generate PDF as a Blob (Binary Large Object)
-        const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-        
-        // 2. Convert Blob to Base64 to send via JSON
-        const reader = new FileReader();
-        reader.readAsDataURL(pdfBlob);
-        reader.onloadend = async () => {
-            const base64data = reader.result; // This is the final PDF data
-
-            const user = JSON.parse(localStorage.getItem('poweri_user')) || {};
-            const userEmail = user.email || "guest@poweri.in";
-
-            // 3. Send ONLY the PDF data to the server
-            const response = await fetch('http://localhost:5000/api/save-document', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    section: "COMPLIANCE",
-                    formName: opt.filename, // Saved as .pdf
-                    pdfFile: base64data,     // The PDF content
-                    userEmail: userEmail,
-                    date: document.getElementById('month_val')?.value || new Date().toISOString()
-                })
-            });
-
-            if (response.ok) {
-                alert("✅ PDF Saved Successfully to Vault!");
-                // Optional: Also trigger local download
-                // html2pdf().set(opt).from(element).save(); 
-            } else {
-                alert("❌ Save failed. Check server log.");
+        // --- AUTO-FILL & SYNC COMPANY LOGIC ---
+        window.onload = function() {
+            const savedCompany = localStorage.getItem('saved_company_name');
+            const compInput = document.getElementById('comp_name');
+            if (savedCompany && compInput) {
+                compInput.value = savedCompany;
             }
-            btn.innerHTML = originalText;
         };
-    } catch (err) {
-        console.error(err);
-        alert("Error generating PDF.");
-        btn.innerHTML = originalText;
-    }
-}
+
+        function syncCompany(val) {
+            localStorage.setItem('saved_company_name', val);
+        }
+
+        // --- DATE FORMATTING LOGIC (DD-MM-YYYY) ---
+        function formatDate() {
+            const dateInput = document.getElementById('date_picker');
+            const displaySpan = document.getElementById('display_date');
+            if (!dateInput.value) return;
+            const [year, month, day] = dateInput.value.split('-');
+            displaySpan.innerText = `${day}-${month}-${year}`;
+            dateInput.style.opacity = '0'; // Keep for data but hide icon
+            dateInput.style.width = '0px';
+        }
+
+        // --- AMOUNT NUMBER TO WORDS LOGIC ---
+        function updateWords() {
+            const num = document.getElementById('amount_num').value;
+            const target = document.getElementById('amount_words');
+            if (!num || num < 0) {
+                target.innerText = "__________";
+                return;
+            }
+            target.innerText = inrWords(num);
+        }
+
+        function inrWords(n) {
+            if (!n || n < 0) return "";
+            const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+            const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+            const makeWords = (num) => {
+                if ((num = num.toString()).length > 9) return 'Overflow';
+                let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+                if (!n) return ''; 
+                let str = '';
+                str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+                str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+                str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+                str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+                str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+                return str.trim();
+            }
+            return makeWords(n);
+        }
+
+        // --- SAVE TO MONGODB LOGIC (PDF ONLY) ---
+        async function saveToMongo() {
+            const btn = document.querySelector('.btn.red');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            
+            const element = document.getElementById('pdf-area');
+            const opt = {
+                margin: 0,
+                filename: 'Covering_Letter.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            try {
+                const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+                const reader = new FileReader();
+                reader.readAsDataURL(pdfBlob);
+                reader.onloadend = async () => {
+                    const base64data = reader.result;
+                    const user = JSON.parse(localStorage.getItem('poweri_user')) || {};
+                    const userEmail = user.email || "guest@poweri.in";
+
+                    const response = await fetch('http://localhost:5000/api/save-document', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            section: "RETURNS",
+                            formName: opt.filename,
+                            pdfFile: base64data,
+                            userEmail: userEmail,
+                            company: document.getElementById('comp_name').value, // For Admin tracking
+                            date: document.getElementById('month_val').value || new Date().toISOString()
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert("✅ PDF Saved Successfully to Vault!");
+                    } else {
+                        alert("❌ Save failed. Ensure server payload limit is 50mb.");
+                    }
+                    btn.innerHTML = originalText;
+                };
+            } catch (err) {
+                console.error(err);
+                alert("Error generating PDF.");
+                btn.innerHTML = originalText;
+            }
+        }
     </script>
 </body>
 </html>
-
-
