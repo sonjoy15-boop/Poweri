@@ -11,11 +11,10 @@
     <style>
         :root { --royal-blue: #003399; --accent-red: #e63946; }
 
-        /* Added the * here to fix the issue */
-* { 
-    box-sizing: border-box; 
-    -webkit-print-color-adjust: exact; print-color-adjust: exact; 
-}
+        * { 
+            box-sizing: border-box; 
+            -webkit-print-color-adjust: exact; print-color-adjust: exact; 
+        }
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background: #cbd5e0; 
@@ -33,13 +32,13 @@
         #pdf-area { 
             background: white; 
             width: 210mm; 
-            height: 296mm; /* 1mm shorter than A4 to force single page */
-            padding: 45mm 20mm 15mm 20mm; /* 45mm Top Margin */
+            height: 296mm; 
+            padding: 45mm 20mm 15mm 20mm; 
             margin: 20px auto;
             display: flex;
             flex-direction: column;
             position: relative;
-            overflow: hidden; /* ABSOLUTELY NO OVERFLOW */
+            overflow: hidden; 
             font-family: "Times New Roman", serif;
             font-size: 15px;
             line-height: 1.3;
@@ -49,8 +48,6 @@
         .header-row { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; }
         .input-line { border: none; border-bottom: 1px solid #888; outline: none; font-family: inherit; font-size: 15px; color: #003399; background: transparent; }
         .subject { text-align: center; font-weight: bold; text-decoration: underline; margin: 15px 0; text-transform: uppercase; }
-        
-        /* CC SECTION PINNED TO BOTTOM */
         
         .bottom-bar { 
             position: fixed; bottom: 0; left: 0; right: 0; 
@@ -81,8 +78,8 @@
     <div id="pdf-area">
         
         <div class="header-row">
-            <div>Ref: <input type="text" class="input-line" style="width: 160px;" placeholder="REF/001"></div>
-            <div>Date: <input type="date"></div>
+            <div>Ref: <input type="text" id="ref_no" class="input-line" style="width: 160px;" placeholder="REF/001"></div>
+            <div>Date: <input type="date" id="doc_date"></div>
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -107,10 +104,10 @@
 
             <p style="text-align: justify;">
                 The total electricity generation duty of 
-                <strong>Rs. <input type="text" class="input-line" style="width: 120px;"></strong> 
-                (Rupees <input type="text" class="input-line" style="width: 350px;"> Only) 
-                has been deposited via Echallan No. <strong><input type="text" class="input-line" style="width: 160px;"></strong> 
-                dated <strong><input type="text" class="input-line" style="width: 110px;"></strong>. Original challan is attached.
+                <strong>Rs. <input type="number" id="amount_num" class="input-line" style="width: 120px;" oninput="updateWords()"></strong> 
+                (Rupees <input type="text" id="amount_words" class="input-line" style="width: 350px; font-weight: bold;" readonly> Only) 
+                has been deposited via Echallan No. <strong><input type="text" id="challan_no" class="input-line" style="width: 160px;"></strong> 
+                dated <strong><input type="text" id="challan_date" class="input-line" style="width: 110px;"></strong>. Original challan is attached.
             </p>
 
             <p>This is for your kind information and necessary action please.</p>
@@ -120,20 +117,18 @@
         <div style="margin-top: 20px;">
             <p>Yours faithfully,</p>
             <div style="margin-top: 15px;">
-                <strong>For, <input type="text" class="input-line" placeholder="COMPANY NAME" style="width: 320px; font-weight: bold; text-transform: uppercase;"></strong><br><br><br>
+                <strong>For, <input type="text" id="comp_name" class="input-line" placeholder="COMPANY NAME" style="width: 320px; font-weight: bold; text-transform: uppercase;"></strong><br><br><br>
                 <span>(Authorized Signatory)</span>
             </div>
             <div style="margin-top: 30px;"> 
-            <strong>Copy To:</strong><br>
-            1. The Executive Engineer (ES)-cum-Electrical Inspector, Govt. of CG.<input type="text" placeholder="Address"class="input-line" style="width: 120px;"><br>
-            2. The Asst. Engineer (ES)-cum-Asst. Electrical Inspector, Govt. of CG.<input type="text" placeholder="Address"class="input-line" style="width: 120px;">
-        </div>
-        <div style="text-align: center; font-size: 9px; color: #999; margin-top: 15px;">
+                <strong>Copy To:</strong><br>
+                1. The Executive Engineer (ES)-cum-Electrical Inspector, Govt. of CG. <input type="text" placeholder="Address" class="input-line" style="width: 120px;"><br>
+                2. The Asst. Engineer (ES)-cum-Asst. Electrical Inspector, Govt. of CG. <input type="text" placeholder="Address" class="input-line" style="width: 120px;">
+            </div>
+            <div style="text-align: center; font-size: 9px; color: #999; margin-top: 15px;">
                 Computer Generated Return via www.poweri.in
             </div>
         </div>
-
-        
     </div>
 
     <div class="bottom-bar">
@@ -143,8 +138,36 @@
     </div>
 
     <script>
+        // --- 1. AMOUNT NUMBER TO WORDS LOGIC ---
+        function updateWords() {
+            const num = document.getElementById('amount_num').value;
+            document.getElementById('amount_words').value = inrWords(num);
+        }
+
+        function inrWords(n) {
+            if (!n || n < 0) return "";
+            const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+            const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+            const makeWords = (num) => {
+                if ((num = num.toString()).length > 9) return 'Overflow';
+                let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+                if (!n) return ''; 
+                let str = '';
+                str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+                str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+                str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+                str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+                str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+                return str.trim();
+            }
+            return makeWords(n);
+        }
+
+        // --- 2. SAVE TO MONGODB LOGIC ---
         async function saveToMongo() {
             const btn = document.querySelector('.btn.red');
+            const originalHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
             
             const element = document.getElementById('pdf-area');
@@ -153,11 +176,7 @@
                 margin: 0,
                 filename: 'Covering_Letter.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true,
-                    y: 0 
-                },
+                html2canvas: { scale: 2, useCORS: true, y: 0 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
@@ -166,23 +185,35 @@
                 const reader = new FileReader();
                 reader.readAsDataURL(pdfBlob);
                 reader.onloadend = async () => {
+                    const base64data = reader.result;
+
+                    // Get user info for dashboard visibility
+                    const user = JSON.parse(localStorage.getItem('poweri_user')) || {};
+                    const userEmail = user.email || "guest@poweri.in";
+
                     const response = await fetch('http://localhost:5000/api/save-document', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            section: "ELECTRICAL DUTY",
-                            formName: "Covering_Letter.pdf",
-                            pdfFile: reader.result,
-                            date: document.getElementById('month_val').value || "Current"
+                            section: "RETURNS",
+                            formName: "Covering_Letter_Duty.pdf",
+                            pdfFile: base64data,
+                            userEmail: userEmail,
+                            date: document.getElementById('month_val').value || new Date().toLocaleDateString()
                         })
                     });
 
-                    if (response.ok) alert("✅ Document saved successfully!");
-                    btn.innerHTML = 'Save to Folder';
+                    if (response.ok) {
+                        alert("✅ Document saved to your Workspace!");
+                    } else {
+                        alert("❌ Failed to save. Check server file size limits.");
+                    }
+                    btn.innerHTML = originalHtml;
                 };
             } catch (err) {
-                alert("Error saving PDF.");
-                btn.innerHTML = 'Save to Folder';
+                console.error(err);
+                alert("Error processing PDF.");
+                btn.innerHTML = originalHtml;
             }
         }
     </script>
