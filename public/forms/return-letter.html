@@ -27,6 +27,23 @@
             display: flex; justify-content: space-between; align-items: center; 
             color: white; width: 100%; position: sticky; top: 0; z-index: 100;
         }
+        /* Styling for the Month Picker to match your dotted lines */
+input[type="month"] {
+    border: none;
+    border-bottom: 1px dotted #888;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    color: #003399;
+    cursor: pointer;
+    padding: 2px 5px;
+}
+
+/* Removes the default calendar icon if you want a cleaner look (optional) */
+input[type="month"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(12%) sepia(90%) saturate(5437%) hue-rotate(224deg) brightness(91%) contrast(101%); /* Matches your Royal Blue */
+}
 
         /* WRAPPER TO PREVENT OVERFLOW */
         #pdf-area { 
@@ -99,7 +116,7 @@
                 <label><input type="checkbox"> Form 'A',</label>
                 <label><input type="checkbox"> Form 'B'</label>
                 detailing the electricity generated at our plant site during the month of 
-                <strong><input type="text" id="month_val" class="input-line" placeholder="Month-YYYY" style="width: 110px; text-align: center;"></strong>.
+                <strong><input type="month" id="month_val" class="input-line" style="width: 150px; text-align: center; font-weight: bold;"></strong>
             </p>
 
             <p style="text-align: justify;">
@@ -107,7 +124,7 @@
                 <strong>Rs. <input type="number" id="amount_num" class="input-line" style="width: 120px;" oninput="updateWords()"></strong> 
                 (Rupees <input type="text" id="amount_words" class="input-line" style="width: 350px; font-weight: bold;" readonly> Only) 
                 has been deposited via Echallan No. <strong><input type="text" id="challan_no" class="input-line" style="width: 160px;"></strong> 
-                dated <strong><input type="text" id="challan_date" class="input-line" style="width: 110px;"></strong>. Original challan is attached.
+                dated <strong><input type="date" id="doc_date" class="input-line" style="width: 110px;"></strong>. Original challan is attached.
             </p>
 
             <p>This is for your kind information and necessary action please.</p>
@@ -166,56 +183,63 @@
 
         // --- 2. SAVE TO MONGODB LOGIC ---
         async function saveToMongo() {
-            const btn = document.querySelector('.btn.red');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-            
-            const element = document.getElementById('pdf-area');
-            
-            const opt = {
-                margin: 0,
-                filename: 'Covering_Letter.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, y: 0 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
+    const btn = document.querySelector('.btn.red') || document.querySelector('.save-btn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+    
+    // Select the A4 area defined in your HTML
+    const element = document.getElementById('pdf-area') || document.getElementById('form-content');
+    
+    const opt = {
+        margin: 0,
+        filename: 'Compliance_Document.pdf', // Force .pdf extension
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
 
-            try {
-                const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-                const reader = new FileReader();
-                reader.readAsDataURL(pdfBlob);
-                reader.onloadend = async () => {
-                    const base64data = reader.result;
+    try {
+        // 1. Generate PDF as a Blob (Binary Large Object)
+        const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+        
+        // 2. Convert Blob to Base64 to send via JSON
+        const reader = new FileReader();
+        reader.readAsDataURL(pdfBlob);
+        reader.onloadend = async () => {
+            const base64data = reader.result; // This is the final PDF data
 
-                    // Get user info for dashboard visibility
-                    const user = JSON.parse(localStorage.getItem('poweri_user')) || {};
-                    const userEmail = user.email || "guest@poweri.in";
+            const user = JSON.parse(localStorage.getItem('poweri_user')) || {};
+            const userEmail = user.email || "guest@poweri.in";
 
-                    const response = await fetch('http://localhost:5000/api/save-document', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            section: "RETURNS",
-                            formName: "Covering_Letter_Duty.pdf",
-                            pdfFile: base64data,
-                            userEmail: userEmail,
-                            date: document.getElementById('month_val').value || new Date().toLocaleDateString()
-                        })
-                    });
+            // 3. Send ONLY the PDF data to the server
+            const response = await fetch('http://localhost:5000/api/save-document', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    section: "COMPLIANCE",
+                    formName: opt.filename, // Saved as .pdf
+                    pdfFile: base64data,     // The PDF content
+                    userEmail: userEmail,
+                    date: document.getElementById('month_val')?.value || new Date().toISOString()
+                })
+            });
 
-                    if (response.ok) {
-                        alert("✅ Document saved to your Workspace!");
-                    } else {
-                        alert("❌ Failed to save. Check server file size limits.");
-                    }
-                    btn.innerHTML = originalHtml;
-                };
-            } catch (err) {
-                console.error(err);
-                alert("Error processing PDF.");
-                btn.innerHTML = originalHtml;
+            if (response.ok) {
+                alert("✅ PDF Saved Successfully to Vault!");
+                // Optional: Also trigger local download
+                // html2pdf().set(opt).from(element).save(); 
+            } else {
+                alert("❌ Save failed. Check server log.");
             }
-        }
+            btn.innerHTML = originalText;
+        };
+    } catch (err) {
+        console.error(err);
+        alert("Error generating PDF.");
+        btn.innerHTML = originalText;
+    }
+}
     </script>
 </body>
 </html>
+
