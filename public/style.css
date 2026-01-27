@@ -286,6 +286,38 @@
             margin-top: 20px;
         }
 
+         
+       /* Ensure smooth scrolling for the whole page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 1. Permanent Visibility Logic */
+.qa-arrow-anim {
+    display: block;
+    opacity: 1 !important; /* Forces it to be visible always */
+    visibility: visible !important;
+    animation: qaPulse 2s infinite ease-in-out;
+    margin-top: 10px;
+}
+
+/* 2. Professional Bouncing Animation */
+@keyframes qaPulse {
+    0%, 100% { 
+        transform: translateY(0); 
+        text-shadow: 0 0 5px rgba(240, 57, 11, 0.3); 
+    }
+    50% { 
+        transform: translateY(10px); 
+        text-shadow: 0 0 20px rgba(255,235,59,0.8); /* Glow effect */
+    }
+}
+
+/* 3. Hover only changes color, doesn't "reveal" it */
+.qa-arrow-anim:hover {
+    color: #e4d50d !important;
+}
+
         /* Left: Q&A (60%) */
         .qa-container {
             flex: 6; /* 60% */
@@ -839,6 +871,7 @@
     .left-sidebar { width: 100%; order: 2; border-right: none; border-top: 1px solid #ddd; }
     .page-content { width: 100%; order: 1; }
 }
+
 
 
 
