@@ -132,6 +132,13 @@
       background:#FFF7ED; color:#7C5A00; border:1px solid #F3E0B0;
       border-radius:8px; padding:8px 10px; font-size:13px;
     }
+ 
+.bottom-bar { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            background: #fff; padding: 12px 40px; 
+            border-top: 2px solid #ddd; display: flex; justify-content: flex-end; gap: 15px; z-index: 1000; 
+        }
+    .btn.red { background: #e63946; color: white; }
 
     /* Print: Letter size 216x279mm, compact */
     @media print{
@@ -153,7 +160,7 @@
         <div class="pi-logo" aria-hidden="true">⚡</div>
         <div>
           <h1 class="pi-title">HT Connection – Document Requirements & Checklist</h1>
-          <p class="pi-subtitle">As per CSPDCL Application Form</p>
+          <p class="pi-subtitle">As per poweri.in theme (guidance & print-ready)</p>
         </div>
       </div>
 
@@ -244,6 +251,10 @@
       </div>
     </div>
   </div>
+   <button class="btn-print" onclick="window.print()">Print Application (One Page)</button>
+  <div class="bottom-bar">
+        <button class="btn red" onclick="window.location.href='/index.html'">Home</button>
+   </div>
 
   <script>
     (function(){
