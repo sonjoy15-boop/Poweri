@@ -196,7 +196,12 @@
   /* Remove placeholder ink */
   input::placeholder { color: transparent; }
 }
-
+.bottom-bar { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            background: #fff; padding: 12px 40px; 
+            border-top: 2px solid #ddd; display: flex; justify-content: flex-end; gap: 15px; z-index: 1000; 
+        }
+    .btn.red { background: #e63946; color: white; }
 
   </style>
 </head>
@@ -321,6 +326,9 @@
 </div>
 
 <button class="btn-print" onclick="window.print()">Print Application (One Page)</button>
+  <div class="bottom-bar">
+        <button class="btn red" onclick="window.location.href='../Dashboard.html'">Dashboard</button>
+   </div>
 
 <script>
   /* -------- Auto-size single-line inputs (equipment/system) -------- */
@@ -466,3 +474,4 @@
 
 </body>
 </html>
+
