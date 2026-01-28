@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>HT Connection – Document Requirements & Checklist | poweri.in</title>
+  <!-- poweri.in inspired theme: clean utility look, blue primary, green accent -->
+  <style>
+    :root{
+      --pi-primary:#0052CC;        /* deep utility blue */
+      --pi-primary-700:#003C99;
+      --pi-accent:#22A06B;         /* green accent */
+      --pi-ink:#1F2430;
+      --pi-muted:#6B7280;
+      --pi-surface:#ffffff;
+      --pi-bg:#F5F7FB;
+      --pi-border:#E3E7EF;
+      --pi-warn:#C41E3A;
+    }
+    /* Base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--pi-bg); color:var(--pi-ink);
+      font-family: "Segoe UI", Roboto, Arial, sans-serif; line-height:1.5;
+    }
+    a{color:var(--pi-primary); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Shell */
+    .pi-container{
+      max-width: 940px; margin: 24px auto; padding: 0 16px;
+    }
+    .pi-card{
+      background: var(--pi-surface);
+      border: 1px solid var(--pi-border);
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .pi-header{
+      background: linear-gradient(90deg,var(--pi-primary),var(--pi-primary-700));
+      color:#fff; padding: 18px 22px;
+      display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    }
+    .pi-logo{
+      width:32px; height:32px; border-radius:6px; display:inline-grid;
+      place-items:center; background:#fff1; border:1px solid #ffffff33;
+      font-weight:700
+    }
+    .pi-title{
+      margin:0; font-size: 18px; font-weight: 700; letter-spacing:.2px;
+    }
+    .pi-subtitle{margin:2px 0 0 0; font-size: 12px; opacity:.9}
+
+    .pi-body{padding: 18px 22px 6px}
+    .pi-footer{
+      border-top:1px solid var(--pi-border);
+      padding: 12px 22px; font-size: 12px; color: var(--pi-muted);
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    }
+
+    /* Sections */
+    .section{
+      border:1px solid var(--pi-border);
+      border-radius: 8px;
+      margin-bottom:14px; overflow:hidden; background:#fff;
+    }
+    .section .section-hd{
+      background:#F1F5FF; padding:10px 12px; border-bottom:1px solid var(--pi-border);
+      display:flex; align-items:center; gap:10px;
+    }
+    .section .section-hd h3{margin:0; font-size:14px; color:var(--pi-primary); text-transform:uppercase; letter-spacing:.3px}
+    .section .section-bd{padding:12px}
+
+    /* Lists (static) */
+    .doc-list{margin:0; padding-left: 20px}
+    .doc-list li{margin:6px 0}
+
+    /* Checklist (interactive) */
+    .checklist{
+      display:grid; gap:8px;
+    }
+    .check-row{
+      display:grid; grid-template-columns: 28px 1fr auto; align-items:center; gap:10px;
+      padding:8px; border:1px dashed var(--pi-border); border-radius:8px; background:#fafcff;
+    }
+    .check-row input[type="checkbox"]{width:18px; height:18px; accent-color: var(--pi-accent); cursor:pointer}
+    .check-row input[type="text"]{
+      width:100%; border:none; border-bottom:1px dotted #BFC7D9; outline:none;
+      background:transparent; padding:3px 4px; font-size:14px; color:var(--pi-ink);
+    }
+    .check-row input[type="text"]::placeholder{color:#A8B0C0}
+    .btn-del{
+      background:#fff; color:#b00020; border:1px solid #e8c7cd; border-radius:6px;
+      padding:4px 8px; cursor:pointer; font-weight:700;
+    }
+    .btn-del:hover{background:#fff3f5}
+
+    .check-actions{
+      margin-top:8px; display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .btn{
+      background:var(--pi-primary); color:#fff; border:none; border-radius:8px;
+      padding:8px 12px; cursor:pointer; font-weight:600; font-size:13px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    }
+    .btn.secondary{
+      background:#F6F8FD; color:var(--pi-primary); border:1px solid #D8E0F6;
+    }
+    .btn.warn{
+      background:var(--pi-warn);
+    }
+    .btn:hover{filter:brightness(.97)}
+
+    /* Inline grid for “Additional Info” */
+    .grid-2{
+      display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+    }
+    .field{
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+      padding:6px 8px; background:#FAFBFE; border:1px solid var(--pi-border); border-radius:8px;
+    }
+    .field label{font-weight:600; color:var(--pi-primary-700); font-size:13px}
+    .field input[type="text"], .field input[type="date"]{
+      flex:1 1 220px; min-width: 160px;
+      border:none; border-bottom:1px dotted #BFC7D9; outline:none; background:transparent;
+      padding:3px 4px; font-size:14px;
+    }
+    .note{
+      background:#FFF7ED; color:#7C5A00; border:1px solid #F3E0B0;
+      border-radius:8px; padding:8px 10px; font-size:13px;
+    }
+
+    /* Print: Letter size 216x279mm, compact */
+    @media print{
+      @page{ size: 216mm 279mm; margin: 8mm; }
+      body{ background:#fff; }
+      .pi-container{ margin:0; padding:0 }
+      .btn, .btn-del, .check-actions{ display:none !important; }
+      .pi-card{ border:1px solid var(--pi-border); box-shadow:none; border-radius:0 }
+      .pi-header{ border-bottom:1px solid var(--pi-border) }
+      .grid-2{ grid-template-columns: 1fr 1fr }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pi-container">
+    <div class="pi-card">
+      <div class="pi-header">
+        <div class="pi-logo" aria-hidden="true">⚡</div>
+        <div>
+          <h1 class="pi-title">HT Connection – Document Requirements & Checklist</h1>
+          <p class="pi-subtitle">As per CSPDCL Application Form</p>
+        </div>
+      </div>
+
+      <div class="pi-body">
+
+        <!-- SECTION: Static Document Requirements -->
+        <section class="section" aria-labelledby="doc-req">
+          <div class="section-hd">
+            <h3 id="doc-req">Documents to be attached with the application</h3>
+          </div>
+          <div class="section-bd">
+            <ol class="doc-list">
+              <li>Proof of ownership of the premises.</li>
+              <li>
+                A map indicating the proposed location of the plant office and the point where supply is required.
+                The map should normally be of the scale of <strong>1 cm representing 1200 cm</strong>.
+              </li>
+              <li>
+                Licence / NOC from statutory authority, if required, or a
+                <em>declaration</em> that the connection does not fall under NOC requirement under any statute.
+              </li>
+              <li>For proprietary firm: Affidavit stating that the applicant is the sole proprietor.</li>
+              <li>For partnership firm: Partnership deed.</li>
+              <li>For Limited Company: Memorandum &amp; Articles of Association and Certificate of Incorporation.</li>
+              <li>
+                Proof of permanent residential address of the consumer and PAN (if any).
+                <br/><small class="note">Any subsequent change must be intimated to the Licensee immediately.</small>
+              </li>
+              <li>Letter of intent for production / enhancement in production (if available).</li>
+              <li>List of equipment proposed to be installed along with the expected load.</li>
+              <li>Resolution for authorized signatory.</li>
+              <li>Registration from Industries Department.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- SECTION: Additional Information Required -->
+        <section class="section" aria-labelledby="addl-info">
+          <div class="section-hd">
+            <h3 id="addl-info">Additional Information Required</h3>
+          </div>
+          <div class="section-bd">
+            <div class="grid-2">
+              <div class="field" title="Consent/NOC from C.G. Environment Conservation Board, Raipur">
+                <label for="noc">C.G. ECB Consent/NOC (where applicable):</label>
+                <input id="noc" type="text" placeholder="Yes/No (attach copy if Yes)"/>
+              </div>
+              <div class="field" title="Phasing of Contract Demand">
+                <label for="phasing">Phasing of Contract Demand (kVA):</label>
+                <input id="phasing" type="text" placeholder="e.g., 250 kVA from 01-04-2026"/>
+              </div>
+            </div>
+            <div class="note" style="margin-top:10px">
+              Provide tentative date(s) from which each phase of Contract Demand is required.
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: Interactive Checklist -->
+        <section class="section" aria-labelledby="chk">
+          <div class="section-hd">
+            <h3 id="chk">Submission Checklist (tick & attach)</h3>
+          </div>
+          <div class="section-bd">
+
+            <div id="checklist" class="checklist" aria-live="polite">
+              <!-- rows injected by JS -->
+            </div>
+
+            <div class="check-actions">
+              <button type="button" class="btn" id="btnAdd">+ Add Checklist Item</button>
+              <button type="button" class="btn secondary" id="btnAddPhase">+ Add Phase Row</button>
+              <button type="button" class="btn warn" id="btnRemoveBlanks">Clean Empty</button>
+              <button type="button" class="btn secondary" onclick="window.print()">Print (Letter)</button>
+            </div>
+
+            <div class="note" style="margin-top:8px">
+              Tip: Press <strong>Enter</strong> in the last checklist field to add a new row. Click <strong>×</strong> to delete a row.
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="pi-footer">
+        <div>Theme: poweri.in (utility style). This page is informational; verify local utility’s latest instructions before submission.</div>
+        <div>Print size: Letter (216 × 279&nbsp;mm)</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const list = document.getElementById('checklist');
+      const btnAdd = document.getElementById('btnAdd');
+      const btnAddPhase = document.getElementById('btnAddPhase');
+      const btnRemoveBlanks = document.getElementById('btnRemoveBlanks');
+
+      const initialItems = [
+        'Proof of ownership of the premises',
+        'Location map (1 cm = 1200 cm) with plant office & supply point',
+        'Licence / NOC from statutory authority OR declaration (NOC not required)',
+        'Affidavit of proprietorship (for proprietary firm)',
+        'Partnership deed (for partnership firm)',
+        'MOA, AOA & Certificate of Incorporation (for Limited Company)',
+        'Permanent residential address proof & PAN (if any)',
+        'Letter of intent for production / enhancement',
+        'Equipment list with expected load',
+        'Board resolution for authorized signatory',
+        'Registration from Industries Department'
+      ];
+
+      function createRow(text=''){
+        const row = document.createElement('div');
+        row.className = 'check-row';
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.setAttribute('aria-label','Mark as attached');
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = text;
+        input.placeholder = 'Checklist item (document / info)';
+
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn-del';
+        del.textContent = '×';
+        del.title = 'Delete row';
+
+        del.addEventListener('click', () => row.remove());
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (row === list.lastElementChild) {
+              const nr = createRow('');
+              list.appendChild(nr);
+              nr.querySelector('input[type="text"]').focus();
+            } else {
+              const next = row.nextElementSibling?.querySelector('input[type="text"]');
+              next?.focus();
+            }
+          }
+          if ((e.key === 'Backspace' || e.key === 'Delete') && !input.value && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault(); row.remove();
+          }
+        });
+
+        row.appendChild(cb);
+        row.appendChild(input);
+        row.appendChild(del);
+        return row;
+      }
+
+      // Seed list
+      initialItems.forEach(item => list.appendChild(createRow(item)));
+
+      // Add blank row
+      btnAdd.addEventListener('click', () => {
+        const r = createRow('');
+        list.appendChild(r);
+        r.querySelector('input[type="text"]').focus();
+      });
+
+      // Add “Phase of Contract Demand” helper row
+      btnAddPhase.addEventListener('click', () => {
+        const r = createRow('Contract Demand Phase: ____ kVA – Tentative from: __ / __ / ____');
+        list.appendChild(r);
+        r.querySelector('input[type="text"]').focus();
+      });
+
+      // Remove empty rows
+      btnRemoveBlanks.addEventListener('click', () => {
+        [...list.querySelectorAll('.check-row')].forEach(r => {
+          const v = r.querySelector('input[type="text"]').value.trim();
+          if (!v) r.remove();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
