@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>33KV Cost Estimator & BOQ Generator | PowerI</title>
+    <style>
+        :root {
+            --primary: #002366; /* Royal Blue */
+            --accent: #d32f2f;  /* Red */
+            --light: #f4f6f8;
+            --border: #cfd8dc;
+            --text: #37474f;
+            --bg-white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            margin: 0;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .widget-card {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), #0d47a1);
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h3 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
+        .header .badge { background: var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; letter-spacing: 1px;}
+
+        /* INPUT AREA */
+        .input-panel {
+            padding: 30px;
+            background: #fff;
+            border-bottom: 2px solid var(--light);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 0.9rem; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 10px;
+            border: 1px solid #b0bec5; border-radius: 4px;
+            font-size: 1rem; box-sizing: border-box;
+        }
+        .form-group input:focus { border-color: var(--primary); outline: none; }
+
+        .btn-calc {
+            grid-column: 1 / -1;
+            background: var(--accent); color: white;
+            border: none; padding: 15px;
+            font-size: 1.1rem; font-weight: bold;
+            border-radius: 4px; cursor: pointer;
+            text-transform: uppercase; margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .btn-calc:hover { background: #b71c1c; }
+
+        /* DETAILED BREAKUP SECTION */
+        .breakup-panel {
+            display: none; /* Hidden by default */
+            padding: 0;
+            background: #fcfcfc;
+        }
+
+        .bill-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        
+        .bill-table th {
+            background: #eceff1;
+            color: var(--primary);
+            text-align: left;
+            padding: 12px 20px;
+            border-bottom: 2px solid #cfd8dc;
+            font-weight: 700;
+        }
+        
+        .bill-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            color: #455a64;
+        }
+
+        .bill-table tr:last-child td { border-bottom: none; }
+        
+        /* Specific Column Styles */
+        .col-item { width: 50%; }
+        .col-qty { width: 20%; text-align: center; }
+        .col-amt { width: 30%; text-align: right; font-family: 'Courier New', monospace; font-weight: 600; }
+
+        .sub-header-row td {
+            background: #e3f2fd;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 15px; padding-bottom: 8px;
+        }
+
+        .total-row td {
+            background: var(--primary);
+            color: #ffca28;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 20px;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 600px) {
+            .input-panel { grid-template-columns: 1fr; }
+            .bill-table th, .bill-table td { padding: 10px 8px; font-size: 0.85rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="widget-card">
+    <div class="header">
+        <h3>33KV Line Project Estimator</h3>
+        <span class="badge">DETAILED BREAKUP</span>
+    </div>
+
+    <div class="input-panel">
+        <div class="form-group">
+            <label>Route Length (KM)</label>
+            <input type="number" id="len" value="14" placeholder="Enter Length">
+        </div>
+
+        <div class="form-group">
+            <label>Soil / Terrain Type</label>
+            <select id="terrain">
+                <option value="1.0">Normal Soil (Standard)</option>
+                <option value="1.15">Rocky Soil (+15% Civil)</option>
+                <option value="1.25">Black Cotton / Marshy (+25%)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Road Crossings (H-Pole)</label>
+            <input type="number" id="crossings" value="0" placeholder="Qty">
+        </div>
+
+        <div class="form-group">
+            <label>Turning Points</label>
+            <input type="number" id="turns" value="0" placeholder="Qty">
+        </div>
+
+        <div class="form-group">
+            <label>AB Switches (Every 2km)</label>
+            <input type="number" id="switches" value="0" placeholder="Qty">
+        </div>
+
+        <div class="form-group">
+            <label>Approvals / RoW Budget (₹)</label>
+            <input type="number" id="row" value="4000000" placeholder="Lump Sum">
+        </div>
+
+        <button class="btn-calc" onclick="generateBill()">Generate Detailed Estimate</button>
+    </div>
+
+    <div class="breakup-panel" id="breakupBox">
+        <table class="bill-table">
+            <thead>
+                <tr>
+                    <th class="col-item">Description of Item</th>
+                    <th class="col-qty">Details / Qty</th>
+                    <th class="col-amt">Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="billBody">
+                </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td>GRAND TOTAL ESTIMATE</td>
+                    <td style="text-align:center; font-size:0.9rem; color:#fff; font-weight:normal;" id="avgRateDisplay"></td>
+                    <td style="text-align:right;" id="grandTotalDisplay">₹ 0</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    // --- RATES CONFIGURATION (Based on BOQ Analysis) ---
+    // Base 1km cost split (Total ~10L):
+    // Steel (Poles) ~ 50% | Conductor ~ 35% | Insulators ~ 5% | Civil ~ 10%
+    const RATES = {
+        steelPerKm: 500000,      // RS Joist, H-Beams, Channels
+        conductorPerKm: 350000,  // ACSR Dog, Binding wire
+        insulatorPerKm: 50000,   // Pin Insulators, Hardware
+        civilPerKm: 100000,      // Concrete, Excavation (Base Rate)
+        
+        // Add-ons (Material + Erection)
+        crossingUnit: 75000,     // H-Pole, Guarding, Double Earthing
+        turnUnit: 25000,         // Stays, Strain Hardware
+        switchUnit: 29000        // AB Switch 3-Post
+    };
+
+    function fmt(num) {
+        return num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    }
+
+    function generateBill() {
+        // 1. Get Inputs
+        const km = parseFloat(document.getElementById('len').value) || 0;
+        const terrain = parseFloat(document.getElementById('terrain').value);
+        const crossQty = parseInt(document.getElementById('crossings').value) || 0;
+        const turnQty = parseInt(document.getElementById('turns').value) || 0;
+        const switchQty = parseInt(document.getElementById('switches').value) || 0;
+        const rowCost = parseFloat(document.getElementById('row').value) || 0;
+
+        if(km <= 0) { alert("Please enter valid line length"); return; }
+
+        // 2. Calculations
+        // A. Base Line
+        const steelCost = km * RATES.steelPerKm;
+        const condCost = km * RATES.conductorPerKm;
+        const insCost = km * RATES.insulatorPerKm;
+        
+        // Civil Cost gets multiplied by Terrain Factor
+        const civilBase = km * RATES.civilPerKm;
+        const civilTotal = civilBase * terrain; 
+
+        // B. Extras
+        const crossCost = crossQty * RATES.crossingUnit;
+        const turnCost = turnQty * RATES.turnUnit;
+        const switchCost = switchQty * RATES.switchUnit;
+
+        const subTotalConstruction = steelCost + condCost + insCost + civilTotal + crossCost + turnCost + switchCost;
+
+        // C. Taxes & Overhead
+        const gst = subTotalConstruction * 0.18; // 18% GST
+        const contingency = subTotalConstruction * 0.03; // 3% Contingency
+
+        const grandTotal = subTotalConstruction + gst + contingency + rowCost;
+        const perKm = grandTotal / km;
+
+        // 3. Generate HTML
+        let html = '';
+
+        // SECTION A: BASE LINE
+        html += `<tr class="sub-header-row"><td colspan="3">A. Standard Line Construction (${km} KM)</td></tr>`;
+        
+        html += `<tr>
+            <td><strong>Structural Steel & Supports</strong><br><small>RS Joists 175x85, V-Cross Arms, Clamps</small></td>
+            <td>~${(km * 7.5).toFixed(0)} Tons</td>
+            <td class="col-amt">${fmt(steelCost)}</td>
+        </tr>`;
+
+        html += `<tr>
+            <td><strong>Conductor & Accessories</strong><br><small>ACSR Dog (100sqmm), Jointing Sleeves</small></td>
+            <td>~${(km * 3.3).toFixed(1)} KM Wire</td>
+            <td class="col-amt">${fmt(condCost)}</td>
+        </tr>`;
+
+        html += `<tr>
+            <td><strong>Insulators & Hardware</strong><br><small>Pin Insulators (10KN), Pins, Nuts/Bolts</small></td>
+            <td>Set for ${km} KM</td>
+            <td class="col-amt">${fmt(insCost)}</td>
+        </tr>`;
+
+        html += `<tr>
+            <td><strong>Civil Works & Concreting</strong><br><small>Muffing (1:3:6), Excavation (Factor: ${terrain}x)</small></td>
+            <td>Volumetric</td>
+            <td class="col-amt">${fmt(civilTotal)}</td>
+        </tr>`;
+
+        // SECTION B: EXTRAS
+        if(crossQty > 0 || turnQty > 0 || switchQty > 0) {
+            html += `<tr class="sub-header-row"><td colspan="3">B. Specific Route Add-ons</td></tr>`;
+            
+            if(crossQty > 0) {
+                html += `<tr><td><strong>Road Crossings (H-Pole)</strong><br><small>Double Pole, Guarding Mesh, Disc Insulators</small></td>
+                <td>${crossQty} Nos</td><td class="col-amt">${fmt(crossCost)}</td></tr>`;
+            }
+            if(turnQty > 0) {
+                html += `<tr><td><strong>Turning Point Structures</strong><br><small>Heavy Stays, Strain Hardware, Strain Plates</small></td>
+                <td>${turnQty} Nos</td><td class="col-amt">${fmt(turnCost)}</td></tr>`;
+            }
+            if(switchQty > 0) {
+                html += `<tr><td><strong>AB Switches</strong><br><small>3-Post Isolator with Operating Rod</small></td>
+                <td>${switchQty} Nos</td><td class="col-amt">${fmt(switchCost)}</td></tr>`;
+            }
+        }
+
+        // SECTION C: TAXES
+        html += `<tr class="sub-header-row"><td colspan="3">C. Taxes & Statutory</td></tr>`;
+        
+        html += `<tr>
+            <td><strong>GST (Goods & Services Tax)</strong><br><small>18% on Construction Component</small></td>
+            <td>18%</td>
+            <td class="col-amt">${fmt(gst)}</td>
+        </tr>`;
+
+        html += `<tr>
+            <td><strong>Contingency Fund</strong><br><small>Buffer for price fluctuation/theft</small></td>
+            <td>3%</td>
+            <td class="col-amt">${fmt(contingency)}</td>
+        </tr>`;
+
+        html += `<tr>
+            <td><strong>Approvals & RoW Compensation</strong><br><small>Forest, PWD, CEIG Fees, Land Compensation</small></td>
+            <td>Lump Sum</td>
+            <td class="col-amt" style="color:var(--primary);">${fmt(rowCost)}</td>
+        </tr>`;
+
+        // INJECT
+        document.getElementById('billBody').innerHTML = html;
+        document.getElementById('grandTotalDisplay').innerText = "₹ " + fmt(grandTotal);
+        document.getElementById('avgRateDisplay').innerText = "(Avg: ₹ " + fmt(perKm) + " / KM)";
+        
+        // Show Box
+        document.getElementById('breakupBox').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
