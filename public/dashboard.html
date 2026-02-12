@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PowerI | Electrical Compliance & Connectivity Chhattisgarh</title>
-    <meta name="title" content="PowerI | Electrical Compliance & Connectivity Chhattisgarh">
-    <meta name="description" content="PowerI simplifies electricity compliance, ground-level clarity, and complex specific data findings for Cement, Steel, and Power industries in Chhattisgarh.">
-    <meta name="keywords" content="Electrical Compliance Chhattisgarh, Power Connectivity India, Industrial Electricity Data, Cement Plant Compliance, Steel Plant Power Connectivity, Load Calculation Chhattisgarh">
-    <meta name="author" content="PowerI India">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.poweri.in/">
-    <meta property="og:title" content="PowerI - Industrial Electrical Compliance Portal">
-    <meta property="og:description" content="Expert insights into electricity connectivity and compliance for Chhattisgarh's industrial sector.">
-    <meta property="og:image" content="https://www.poweri.in/assets/logo.png">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -41,6 +30,16 @@
         .db-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
         .btn-view { background: var(--royal-blue); color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.3s; }
         
+        /* Upload Modal & Button */
+        .btn-upload { background: var(--success-green); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 14px; margin-left: auto; display: flex; align-items: center; gap: 8px; }
+        .btn-upload:hover { background: #218838; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; }
+        .form-group select, .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+
         .forms-sidebar::-webkit-scrollbar { width: 6px; }
         .forms-sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
     </style>
@@ -76,64 +75,15 @@
                     <div class="dashboard-cat">
                         <button class="cat-label" onclick="toggleDashboardCat(this)">1. RETURNS <i class="fas fa-chevron-down"></i></button>
                         <div class="cat-content">
-                            <a href="forms/return-letter.html" target="_blank" class="form-link"><strong>Covering Letter for Returns Submission</strong></a>
-                            <a href="forms/form-1.html" target="_blank" class="form-link"><strong>Form I </strong>(Monthly Generation & Consumption Return)</a>
-                            <a href="forms/form-g.html" target="_blank" class="form-link"><strong>Form G </strong>(Monthly Abstract showing total Energy)</a>
-                            <a href="forms/format-A.html" target="_blank" class="form-link"><strong>Format A </strong>(Details of Generation and Consumption for IPP / CPP)</a>
-                            <a href="forms/format-B.html" target="_blank" class="form-link"><strong>Format B </strong>(Generating power plant Details)</a>
-                            <a href="forms/industry.html" target="_blank" class="form-link">Industry Detail Filling</a>
+                            <a href="forms/return-letter.html" target="_blank" class="form-link">Covering Letter</a>
+                            <a href="forms/form-1.html" target="_blank" class="form-link">Form I</a>
                         </div>
                     </div>
-
-                    <div class="dashboard-cat">
-                        <button class="cat-label" onclick="toggleDashboardCat(this)">2. CEIG / INSPECTORATE <i class="fas fa-chevron-down"></i></button>
-                        <div class="cat-content">
-                            <a href="forms/drawing-app.html" target="_blank" class="form-link"><strong>Drawing Approval Application</strong></a>
-                            <a href="forms/inspect.html" target="_blank" class="form-link">Site Inspection Application with all</a>
-                            <a href="forms/test.html" target="_blank" class="form-link">Site Test Report</a>
-                            <a href="forms/form-6.html" target="_blank" class="form-link">Form 6</a>
-                            <a href="forms/annex-c.html" target="_blank" class="form-link">Annexure-C</a>
-                            <a href="forms/form-D.html" target="_blank" class="form-link">Annexure-D</a>
-                            <a href="forms/workcompletion.html" target="_blank" class="form-link">Eqipment Test Report</a>
-                            <a href="forms/self-dec.html" target="_blank" class="form-link">HT supervisour Self Declaration</a>
-                            <a href="forms/charging-clearance.html" target="_blank" class="form-link">Charging Clearance App</a>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-cat">
-                        <button class="cat-label" onclick="toggleDashboardCat(this)">3. CSPDCL RELATED <i class="fas fa-chevron-down"></i></button>
-                        <div class="cat-content">
-                            <a href="forms/application.html" target="_blank" class="form-link">Application for (New Connection / Shifting / Change)</a>
-                            <a href="forms/load-Enhancement.html" target="_blank" class="form-link">Load Enhancement/Reduction</a>
-                            <a href="forms/line-shifting.html" target="_blank" class="form-link">Line Shifting Application</a>
-                            <a href="forms/line-shutdown.html" target="_blank" class="form-link">Line Shutdown Application</a>
-                            <a href="forms/line-charging.html" target="_blank" class="form-link">Line Charging Application</a>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-cat">
-                        <button class="cat-label" onclick="toggleDashboardCat(this)">4. MINES / DGMS <i class="fas fa-chevron-down"></i></button>
-                        <div class="cat-content">
-                            <a href="forms/form-m.html" target="_blank" class="form-link">Form M</a>
-                            <a href="forms/form-h.html" target="_blank" class="form-link">Form H</a>
-                            <a href="forms/mine-common.html" target="_blank" class="form-link">Common Application</a>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-cat">
-                        <button class="cat-label" onclick="toggleDashboardCat(this)">5. CEA FORMATS <i class="fas fa-chevron-down"></i></button>
-                        <div class="cat-content">
-                            <a href="forms/safety.html" target="_blank" class="form-link">Safety Officer appointment</a>
-                            <a href="forms/job-format.html" target="_blank" class="form-link">Any Electrical Job Assignment </a>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-cat">
-                        <button class="cat-label" onclick="toggleDashboardCat(this)">6. ISO 50001 FORMATS <i class="fas fa-chevron-down"></i></button>
-                        <div class="cat-content">
-                            <a href="forms/iso-energy.html" target="_blank" class="form-link">Energy Management Formats</a>
-                        </div>
-                    </div>
+                    <div class="dashboard-cat"><button class="cat-label" onclick="toggleDashboardCat(this)">2. CEIG / INSPECTORATE <i class="fas fa-chevron-down"></i></button><div class="cat-content"></div></div>
+                    <div class="dashboard-cat"><button class="cat-label" onclick="toggleDashboardCat(this)">3. CSPDCL RELATED <i class="fas fa-chevron-down"></i></button><div class="cat-content"></div></div>
+                    <div class="dashboard-cat"><button class="cat-label" onclick="toggleDashboardCat(this)">4. MINES / DGMS <i class="fas fa-chevron-down"></i></button><div class="cat-content"></div></div>
+                    <div class="dashboard-cat"><button class="cat-label" onclick="toggleDashboardCat(this)">5. CEA FORMATS <i class="fas fa-chevron-down"></i></button><div class="cat-content"></div></div>
+                    <div class="dashboard-cat"><button class="cat-label" onclick="toggleDashboardCat(this)">6. ISO 50001 FORMATS <i class="fas fa-chevron-down"></i></button><div class="cat-content"></div></div>
                 </div>
             </aside>
 
@@ -169,9 +119,14 @@
                     </div>
                 </section>
 
-                <h3 style="color: var(--royal-blue); border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-database"></i> My Compliance Vault
-                </h3>
+                <div style="display: flex; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                    <h3 style="color: var(--royal-blue); margin: 0; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-database"></i> My Compliance Vault
+                    </h3>
+                    <button class="btn-upload" onclick="openUploadModal()">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Document
+                    </button>
+                </div>
 
                 <div id="category-wise-history">
                     <p style="text-align:center; color:#999; margin-top:50px;">
@@ -182,7 +137,42 @@
         </div>
     </main>
 
+    <div id="uploadModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="margin-top:0; color:var(--royal-blue);">Upload New Document</h3>
+            
+            <div class="form-group">
+                <label>Document Title</label>
+                <input type="text" id="upload-title" placeholder="e.g., Monthly Return June 2025">
+            </div>
+
+            <div class="form-group">
+                <label>Select Category (Folder)</label>
+                <select id="upload-category">
+                    <option value="RETURNS">1. RETURNS</option>
+                    <option value="CEIG">2. CEIG / INSPECTORATE</option>
+                    <option value="CSPDCL">3. CSPDCL RELATED</option>
+                    <option value="MINE">4. MINES / DGMS</option>
+                    <option value="CEA">5. CEA FORMATS</option>
+                    <option value="ISO">6. ISO 50001</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Choose File (PDF/Image)</label>
+                <input type="file" id="upload-file" accept=".pdf, .jpg, .jpeg, .png">
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <button onclick="closeUploadModal()" style="background:#ccc; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Cancel</button>
+                <button onclick="submitDocument()" id="btn-submit-upload" style="background:var(--royal-blue); color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Upload</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+    // ⚠️ RENDER LIVE URL (Production)
+    // If you are running locally (node server.js), switch this back to "http://localhost:5000/api"
     const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
 
     // 1. Sidebar Toggle
@@ -283,7 +273,7 @@
                                         <td>${new Date(doc.createdAt).toLocaleDateString('en-IN')}</td>
                                         <td><strong>${doc.formName}</strong></td>
                                         <td style="text-align:right;">
-                                            <button class="btn-view" onclick="alert('PDF Loading...')">VIEW</button>
+                                            <button class="btn-view" onclick="viewDocument('${doc.pdfFile}')">VIEW</button>
                                             <button onclick="deleteDoc('${doc._id}')" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;"><i class="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
@@ -294,6 +284,18 @@
             });
             if (!hasData) container.innerHTML = "<p style='text-align:center; color:#999; padding-top:40px;'>No records found in the vault.</p>";
         } catch (e) { container.innerHTML = "<p style='text-align:center; color:red;'>Server is waking up... Please refresh.</p>"; }
+    }
+
+    // [NEW FUNCTION] View Document
+    function viewDocument(base64Data) {
+        if (!base64Data) {
+            alert("File not found or corrupted.");
+            return;
+        }
+        // Open the Base64 string in a new tab
+        const win = window.open();
+        // Create an iframe to display the PDF/Image
+        win.document.write('<iframe src="' + base64Data + '" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
     }
 
     async function deleteDoc(docId) {
@@ -308,10 +310,76 @@
         } catch (e) { alert("Delete failed."); }
     }
 
+    // 4. NEW UPLOAD LOGIC
+    function openUploadModal() {
+        document.getElementById('uploadModal').style.display = 'flex';
+    }
+    
+    function closeUploadModal() {
+        document.getElementById('uploadModal').style.display = 'none';
+        document.getElementById('upload-file').value = ''; 
+    }
+
+    function submitDocument() {
+        const title = document.getElementById('upload-title').value;
+        const category = document.getElementById('upload-category').value;
+        const fileInput = document.getElementById('upload-file');
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('poweri_user'));
+
+        if(!title || !fileInput.files[0]) {
+            alert("Please enter a title and select a file.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        // Show loading state
+        document.getElementById('btn-submit-upload').innerText = "Uploading...";
+
+        reader.onloadend = async function() {
+            const base64String = reader.result; // This converts file to Data URL
+
+            const payload = {
+                section: category,
+                formName: title,
+                date: new Date().toLocaleDateString('en-IN'),
+                pdfFile: base64String, // The file data
+                userEmail: user ? user.email : "unknown", 
+                formData: {} 
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/save-document`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alert("Document Uploaded Successfully!");
+                    closeUploadModal();
+                    loadCategorizedDocs(); // Refresh the list
+                } else {
+                    alert("Upload failed. File might be too large (Max 50MB).");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Server Error.");
+            } finally {
+                document.getElementById('btn-submit-upload').innerText = "Upload";
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
     function logout() { localStorage.clear(); window.location.href = "index.html"; }
 
     window.onload = () => { displayUserProfile(); loadCategorizedDocs(); };
     </script>
 </body>
 </html>
-
