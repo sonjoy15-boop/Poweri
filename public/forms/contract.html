@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chhattisgarh Electrical Licensing Board - Contractor Application Forms</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #000;
+        }
+        .container {
+            max-width: 850px;
+            margin: 20px auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h4 {
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+        .form-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: baseline;
+        }
+        .label {
+            min-width: 30px;
+            margin-right: 10px;
+        }
+        input[type="text"], input[type="date"], input[type="number"] {
+            border: none;
+            border-bottom: 1px dotted #000;
+            width: 100%;
+            padding: 5px;
+            font-family: inherit;
+            background: transparent;
+        }
+        .input-inline {
+            flex-grow: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .signature-section {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .page-break {
+            margin-top: 50px;
+            border-top: 2px dashed #ccc;
+            padding-top: 50px;
+        }
+        
+        /* Educational Guide Styling */
+        .guide-box {
+            background-color: #e8f4fd;
+            border: 1px solid #2196F3;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 5px;
+        }
+        .guide-box h2 {
+            color: #1976D2;
+        }
+        .guide-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        .btn-print {
+            display: block;
+            width: 200px;
+            margin: 0 auto 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Print Styles */
+       @media print {
+    /* 1. Control the physical paper margins */
+    @page {
+        margin: 15mm; /* Sets a fixed small margin on the paper itself */
+        size: A4 portrait; /* Optional: Forces A4 size */
+    }
+
+    /* 2. Reset Body */
+    body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact; /* Ensures colors/backgrounds print if needed */
+    }
+
+    /* 3. Force Container to Fill Space */
+    .container {
+        width: 100% !important; /* !important forces it to override the 850px limit */
+        max-width: none !important; /* Removes the max-width constraint */
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    /* 4. Hide unnecessary elements */
+    .guide-box, .btn-print, .page-break-line {
+        display: none !important;
+    }
+
+    /* 5. Handle Page Breaks */
+    .page-break {
+        page-break-before: always;
+        margin-top: 0;
+        padding-top: 20px;
+        border: none;
+    }
+
+    /* 6. Ensure Inputs Look Like Lines */
+    input[type="text"], input[type="date"], input[type="number"] {
+        border: none;
+        border-bottom: 1px solid #000; /* Solid line for print */
+        background: transparent;
+        box-shadow: none;
+    }
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="guide-box">
+        <h2>प्रक्रिया और निर्देश (Procedure Guide)</h2>
+        <p><strong>कृपया आवेदन भरने से पहले निम्न प्रक्रिया को ध्यान से पढ़ें:</strong></p>
+        <ul>
+            <li><strong>फॉर्म भरना:</strong> नीचे दिए गए सभी प्रपत्रों (Forms) को स्पष्ट रूप से भरें।</li>
+            <li><strong>शुल्क भुगतान (Fee Payment):</strong> निर्धारित आवेदन शुल्क का भुगतान चालान के माध्यम से करें (मद: 0043 विद्युत पर कर एवं शुल्क)। चालान की मूल प्रति आवेदन के साथ संलग्न करें।</li>
+            <li><strong>उपकरण (Instruments):</strong> आपके पास विनियम 20 के अनुसार आवश्यक उपकरण (मेगर, अमीटर, वोल्टमीटर, अर्थ टेस्टर) होने चाहिए। इन उपकरणों का 'जांच प्रमाण पत्र' (Test Report) किसी मान्यता प्राप्त अधिकारी/प्रयोगशाला से प्राप्त करें।</li>
+            <li><strong>पर्यवेक्षक (Supervisor):</strong> आपके पास एक वैध लाइसेंस धारी पर्यवेक्षक (Supervisor) नियुक्त होना चाहिए। उनका घोषणा पत्र संलग्न करें।</li>
+            <li><strong>दस्तावेज (Documents to Attach):</strong>
+                <ul>
+                    <li>चालान की मूल प्रति।</li>
+                    <li>उपकरण क्रय रसीद (Purchase Bill) और कैलिब्रेशन रिपोर्ट।</li>
+                    <li>पार्टनरशिप डीड (यदि लागू हो) और फर्म रजिस्ट्रेशन।</li>
+                    <li>आवेदक के दो फोटो।</li>
+                    <li>निवास का प्रमाण (Local Address Proof)।</li>
+                    <li>तीन अभिप्रमाणित हस्ताक्षर नमूने।</li>
+                </ul>
+            </li>
+            <li><strong>जमा करना:</strong> पूर्ण रूप से भरे हुए आवेदन को <strong>सचिव, छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत), इंद्रावती भवन, नया रायपुर</strong> के कार्यालय में जमा करें।</li>
+        </ul>
+        <button class="btn-print" onclick="window.print()">Print Form / फॉर्म प्रिंट करें</button>
+    </div>
+
+    <div class="form-page">
+        <div style="text-align:right;"></div>
+        <div class="form-header">
+            <h2>प्रपत्र आई</h2>
+            <h3>श्रेणी (अ) एवं (ब) की ठेकेदारी अनुज्ञप्ति के लिये आवेदन-पत्र</h3>
+            <p>[ छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत्) विनियम, 1960 का विनियम 25 देखिये ]</p>
+        </div>
+
+        <div class="row">
+            <div class="label">1.</div>
+            <div>आवेदनकर्ता का नाम व पता:</div>
+            <div class="input-inline"><input type="text"></div>
+        </div>
+        <div class="row">
+            <div class="input-inline"><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="label">2.</div>
+            <div>मालिक/भागीदार/प्रतिनिधि/सचिव के नाम, घर का पता तथा उम्र:</div>
+        </div>
+        <div class="row">
+            <div class="input-inline"><textarea rows="3" style="width:100%; border:1px dotted #000;"></textarea></div>
+        </div>
+
+        <div class="row">
+            <div class="label">3.</div>
+            <div>फर्म या को-आपरेटिव सोसायटी हो तो उसका रजिस्ट्रेशन नम्बर, रजिस्ट्रेशन की सत्य-प्रतिलिपि के साथ:</div>
+        </div>
+        <div class="row">
+            <div class="input-inline"><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="label">4.</div>
+            <div>यदि ठेकेदारी अनुज्ञप्ति पूर्व में प्राप्त हुई हो तो, उसका पूर्ण विवरण दें:</div>
+        </div>
+        <div class="row">
+            <div class="input-inline"><input type="text"></div>
+        </div>
+
+        <h4>प्रमाणित पर्यवेक्षक/तारमिस्त्री का पूर्ण विवरण :- </h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>क्र.</th>
+                    <th>नाम</th>
+                    <th>अनुज्ञापत्र क्रमांक</th>
+                    <th>कार्य का वर्ग</th>
+                    <th>वैधता का दिनांक</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5"><strong>(अ) पर्यवेक्षक</strong></td></tr>
+                <tr><td>1.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td>2.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td>3.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td colspan="5"><strong>(ब) तारमिस्त्री</strong></td></tr>
+                <tr><td>1.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td>2.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td>3.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="date"></td></tr>
+            </tbody>
+        </table>
+
+        <h4>5.रखे हुए उपकरणों का विवरण :-</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>क्र.</th>
+                    <th>उपकरण का नाम</th>
+                    <th>निर्माता</th>
+                    <th>निर्माता क्रमांक</th>
+                    <th>विवरण</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td>2.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td>3.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td>4.</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            </tbody>
+        </table>
+        <div style="text-align:left;">XXXII-Elec. </div>
+        <div class="row">
+            <div class="label">6.</div>
+            <div>शुल्क अदायगी बाबत चालान का क्रमांक: <input type="text" style="width:150px;"></div>
+            <div>दिनांक: <input type="date" style="width:130px;"></div>
+            <div>रकम: <input type="text" style="width:100px;"></div>
+        </div>
+        <p>चालान की मूल प्रति संलग्नित की गई।</p>
+
+        <p>(1) मैं/हम घोषणा करता हूं / करते हैं कि उपरोक्त विवरण मेरी/हमारी जानकारी व विश्वास के अनुसार सही है तथा ठेकेदारी की अनुज्ञप्ति दिये जाने की शर्तों और निबंधों को मैं/हम पूरी तरह समझता हूं/समझते हैं तथा इनका उल्लंघन करने पर अनुज्ञप्ति निलम्बित या प्रत्याहरित की जा सकती है।</p>
+
+        <p>(2) हम यह भी घोषणा करता हूं/ करते हैं कि मेरे पास/हमारे पास छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) अधिनियम, 1960 की चालू प्रति उपलब्ध है तथा मैं/हम उसका पालन करूंगा/करेंगे।</p>
+
+        <p>(3) मैं/हम पर्यवेक्षक/तारमिस्त्री (जिनका वर्णन ऊपर संख्या 4 में दिया है) का घोषणापत्र मेरे द्वारा/हमारे द्वारा प्रतिहस्ताक्षरित कर साथ भेज रहा हूं/भेज रहे हैं।</p>
+
+        <p>मैं/हम यह अभिवचन देता हूं/ देते हैं कि इसके बाद पते अथवा पर्यवेक्षक/तारमिस्त्री की नियुक्ति में होने वाले प्रत्येक परिवर्तन की सूचना सचिव, अनुज्ञापन मंडल को परिवर्तन के दिनांक से 7 रोज के भीतर भेज दूंगा/भेज देंगे तथा अनुज्ञप्ति में यथायोग्य पृष्ठांकन करवा लूंगा/करवा लेंगे।</p>
+
+        <div style="margin-top:30px;">
+            <strong>भागीदारों के हस्ताक्षर, यदि हों:-</strong><br>
+            <div style="display:flex; justify-content:space-between;">
+                <div style="width:50%;">
+                    1. <input type="text"><br>
+                    2. <input type="text"><br>
+                    3. <input type="text"><br>
+                    4. <input type="text"><br>
+                    5. <input type="text">
+                </div>
+                <div style="width:40%; text-align:center; margin-top:50px;">
+                    <input type="text" style="width:80%; margin-bottom:5px;"><br>
+                    <strong>हस्ताक्षर</strong><br><br>
+                    <strong>दिनांक:</strong> <input type="date">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <div style="text-align:right;">XXXII-Elec.-28</div>
+        <div class="form-header">
+            <h3>पर्यवेक्षक / तारमिस्त्री घोषणा पत्र</h3>
+        </div>
+        
+        <p>
+            मैं <input type="text" placeholder="(नाम)" style="width:200px;"> पता <input type="text" style="width:300px;"><br>
+            अनुज्ञा क्रमांक <input type="text" style="width:150px;"> घोषणा करता हूं कि मैंने श्री <input type="text" placeholder="(ठेकेदार का नाम)" style="width:200px;"><br>
+            अनुज्ञप्ति क्रमांक <input type="text" style="width:100px;"> की नौकरी पूर्ण समय तक के लिये दिनांक <input type="date"> से मंजूर कर ली है।
+        </p>
+        <p>मेरी पर्यवेक्षक / तारमिस्त्री की अनुज्ञा <input type="text" style="width:200px;"> विषयों के लिये वैध है।</p>
+
+        <hr>
+
+        <p>
+            *मैंने श्री <input type="text" placeholder="(नियोजक/ठेकेदार का नाम)" style="width:200px;"> अनुज्ञप्ति क्रमांक <input type="text" style="width:100px;"><br>
+            की नौकरी दिनांक <input type="date"> से छोड़ दी है।
+        </p>
+
+        <div class="signature-section">
+            <div style="text-align:center;">
+                <br>
+                <strong>प्रतिहस्ताक्षरित</strong><br>
+                <input type="text" style="width:200px; margin-top:20px;"><br>
+                <strong>नियोजक/ठेकेदार के हस्ताक्षर</strong>
+            </div>
+            <div style="text-align:center;">
+                <br><br>
+                <input type="text" style="width:200px; margin-top:20px;"><br>
+                <strong>पर्यवेक्षक/तारमिस्त्री के हस्ताक्षर</strong><br>
+                दिनांक: <input type="date">
+            </div>
+        </div>
+
+        <p style="font-size:0.8em; margin-top:20px;">* यदि जरूरी न हो तो काट दीजिये।</p>
+        <p style="font-size:0.9em;"><strong>नियुक्ति के प्रत्येक परिवर्तन की सूचना सचिव, अनुज्ञापन मंडल को 7 रोज के भीतर दी जाना नियमांतर्गत जरूरी है।</strong></p>
+    </div>
+
+    <div class="page-break">
+        <div style="text-align:right;">XXXII-Elec.29</div>
+        <div class="form-header">
+            <h3>उपकरणों की जांच का प्रमाणपत्र</h3>
+        </div>
+
+        <p>
+            यह प्रमाणित करता हूं कि श्री <input type="text" style="width:200px;"> ठेकेदार अनुज्ञप्ति क्रमांक <input type="text" style="width:100px;"><br>
+            द्वारा लाये गये उपकरण जिनका विवरण नीचे दिया गया है और जो छत्तीसगढ़ अनुज्ञापन मण्डल (विद्युत) विनियम, 1960 के परिशिष्ट (पीछे दिया गया है) के अनुसार है, मेरे द्वारा जांच के उपरांत अच्छी हालत में और काम करने लायक पाये गये।
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>उपकरण का नाम (1)</th>
+                    <th>निर्माता (2)</th>
+                    <th>निर्माता क्रमांक (3)</th>
+                    <th>रेंज (4)</th>
+                    <th>पोर्टेबल है या नहीं (5)</th>
+                    <th>अन्य ब्यौरा (6)</th>
+                    <th>टिप्पणी (7)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>इन्सुलेशन टेस्टर</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td>अमीटर</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td>व्होल्ट मीटर</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td>अर्थ टेस्टर</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            </tbody>
+        </table>
+
+        <p style="font-size:0.9em;">टीप :- यदि आवेदनकर्ता नया हो तो प्रमाण करने वाले अधिकारी ने कालम 7 में मूलपत्र देखकर जिससे खरीदें हों उनके नाम का उल्लेख करना चाहिये।</p>
+
+        <div class="signature-section">
+            <div style="width:50%;"></div>
+            <div style="text-align:left; width:50%;">
+                मेरे हस्ताक्षर: <input type="text" style="width:150px;"><br>
+                पद: <input type="text" style="width:150px;"><br>
+                स्थान: <input type="text" style="width:150px;"><br>
+                दिनांक: <input type="date">
+            </div>
+        </div>
+            <div class="form-header">
+            <h4>विनियम 20 के अनुसार उपकरणों का लायसेंस ठेकेदार के पास रहना :- </h4>
+        </div>
+        <ol>
+            <li>इन्सुलेशन टेस्टर 500 व्होल्ट-ए, बी, सी वर्ग के लिये..</li>
+            <li>पोर्टेबल एम्मीटर 6 इंच डायल का 0 से 50 एम्पीयर का 'ए' क्लास के लिए.</li>
+            <li>पोर्टेबल एम्मीटर 6 इंच डायल का 0 से 20 एम्पीयर का 'बी' क्लास के लिए.</li>
+            <li>पोर्टेबल व्होल्ट मीटर 6 इंच डायल 0 से 500 व्होल्ट का 'ए' और 'बी' क्लास के लिए.</li>
+            <li>अर्थ रेसिस्टिविटी टेस्टर 'ए' क्लास के लिए.</li>
+        </ol>
+    </div>
+
+    <div class="page-break">
+        <div class="form-header">
+            <h3>छत्तीसगढ़ अनुज्ञापन मण्डल (विद्युत) विनियम 2000 के</h3>
+            <h2>घोषणा पत्र</h2>
+        </div>
+        <p>
+            छत्तीसगढ़ अनुज्ञापन मण्डल (विद्युत) विनियम 2000 के विनियम 25(1) के तहत वचन देता हूँ कि मै विद्युत संस्थान कार्य मे नियमित रूप से लगा रहूँगा।
+        </p>
+        <p>(1) <input type="text"></p>
+        <p>(2) <input type="text"></p>
+        <p>(3) <input type="text"></p>
+
+        <div class="signature-section">
+            <div style="text-align:left;">
+                <br>
+                <strong>आवेदक के हस्ताक्षर अभिप्रमाणित (तीन)</strong>
+            </div>
+            <div style="text-align:right;">
+                हस्ताक्षर :- <input type="text"><br>
+                दिनांक :- <input type="date">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <div class="form-header">
+            <div style="text-align:left;">जिला: <input type="text" style="width:150px;"></div>
+            <h3>नवीन विद्युत ठेकेदारी अनुज्ञप्ति के अन्तर्गत पर्यवेक्षक का स्व घोषणा पत्र</h3>
+        </div>
+        
+        <p>मैं <input type="text" style="width:200px;"> (छ०ग०) शपथ पूर्वक सत्य कथन करता हूँ कि </p>
+
+        <p>(1) यह कि श्री <input type="text" style="width:200px;"> के द्वारा अनुज्ञापन मंडल (विद्युत) रायपुर से "अ" वर्ग विद्युत ठेकेदारी अनुज्ञप्ति प्राप्त करने के लिये आवेदन दिया जा रहा है। </p>
+
+        <p>(2) यह कि मेरे पास छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) रायपुर द्वारा जारी की गई नान मायनिंग की अनुज्ञा क्रमांक <input type="text" style="width:100px;"> है जो कि दिनांक <input type="date"> तक नवीनीकृत गई थी नियमों के परिवर्तन होने के कारण आगे नवीनीकरण की आवश्यकता नही हैं। </p>
+
+        <p>(3) यह कि श्री <input type="text" style="width:200px;"> जिनके द्वारा वर्ग "अ" अनुज्ञप्ति प्राप्त करने के लिये आवेदन दिया है के यहां दिनांक <input type="date"> से नियमित नौकरी कर रहा हूँ और कही अन्यत्र कार्यरत् नहीं था। </p>
+        
+        <p>इसके पूर्व मेरे द्वारा नीचे दर्शाये फर्म के पास दर्शाये अवधि तक कार्य किया था ।</p>
+        <table>
+            <tr><th>क्रमांक</th><th>फर्म का नाम</th><th>नियुक्ति दिनांक</th><th>कार्य छोड़ने का दिनांक</th></tr>
+            <tr><td>1.</td><td><input type="text"></td><td><input type="date"></td><td><input type="date"></td></tr>
+            <tr><td>2.</td><td><input type="text"></td><td><input type="date"></td><td><input type="date"></td></tr>
+        </table>
+
+        <p>(4) यह कि श्री <input type="text" style="width:200px;"> जिन्होंने वर्ग "अ" विद्युत ठेकेदारी के लिए आवेदन किया है के द्वारा लिये गये विद्युत स्थापना का कार्य की जांच नियमानुसार कर टेस्ट रिपोर्ट पर हस्ताक्षर करूंगा। </p>
+
+        <p>(5) यह कि श्री <input type="text" style="width:200px;"> जिन्होंने द्वारा वर्ग "अ" विद्युत ठेकेदारी के लिये आवेदन किया है के यहां से नौकरी छोड़ने पर उसकी सूचना नियमानुसार सचिव, छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) इन्द्रावती भवन नया रायपुर को सात दिनों के भीतर पंजीकृत डाक से दी जावेगी। </p>
+
+        <p>(6) यह कि मैं श्री <input type="text" style="width:200px;"> -- जिनके यहां कार्य कर रहा हूँ के अतिरिक्त और कही किसी प्रकार का कार्य/नौकरी नहीं कर रहा हूँ। </p>
+    </div>
+    <div class="page-break">
+        <div style="margin-top:20px; border:1px solid #000; padding:15px;">
+            <h4 style="text-align:center; margin-top:0;">सत्यापन लेख</h4>
+            <p>मैं <input type="text" style="width:150px;"> आत्मज श्री <input type="text" style="width:150px;"> स्व घोषणा करता हूँ कि घोषणा पत्र में वर्णित चरण क्रमांक से (1) से (6) तक का समस्त कथन मेरे स्वयं के ज्ञान के एवं विश्वास से सत्य हैं। उसमे असत्य कथन नहीं है ओर न ही सत्य को छुपाया है। </p>
+            <div style="text-align:right; margin-top:20px;">
+                <strong>स्व घोषणाकर्ता के हस्ताक्षर</strong><br>
+                <input type="text" style="width:200px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <div class="form-header">
+            <h3>"अ" वर्ग विद्युत ठेकेदार का स्व घोषणा पत्र</h3>
+        </div>
+        
+        <p>
+            मैं <input type="text" style="width:200px;"> पिता का नाम <input type="text" style="width:200px;"><br>
+            व्यवसाय- <input type="text" style="width:150px;"> मकान नं० <input type="text" style="width:100px;"><br>
+            निवासी- मोहल्ला <input type="text" style="width:150px;"> थाना- <input type="text" style="width:150px;"><br>
+            जिला-- <input type="text" style="width:150px;"> तहसील <input type="text" style="width:150px;"><br>
+            (छ०ग०) घोषणा करता हूँ कि- 
+        </p>
+
+        <p>(1) यह कि मैं छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) विनियम, 1960 के खंड 26 के अन्तर्गत 'अ' वर्ग विद्युत ठेकेदारी के लिये प्रारूप आई मे आवेदन प्रस्तुत कर रहा हूँ जिसमे दर्शायी समस्त जानकारी सत्य हैं। </p>
+
+        <p>(2) यह कि छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) विनियम 1960 के विनियम 20 के अन्तर्गत मंडल द्वारा जारी पर्यवेक्षक अनुज्ञा कमांकधारी श्री <input type="text" style="width:200px;"> पिता श्री <input type="text" style="width:200px;"> पता-- <input type="text" style="width:300px;"> को मेरे अधीनस्थ पूर्ण रूप से कार्य करने के लिये नियुक्त किया है और इस बात मेरे द्वारा प्रति हस्ताक्षरित उनका घोषणा पत्र संलग्न हैं। नियुक्त किये गये पर्यवेक्षक किसी अन्य विद्युत ठेकेदार/शासकीय/अर्द्धशासकीय/अन्य संस्था/ फर्म मे कार्यरत् नहीं है। </p>
+
+        <p>(3) यह कि पूर्व मे मेरे पास <input type="text" style="width:100px;"> वर्ग की अनुज्ञा क्रमांक <input type="text" style="width:100px;"> थी जो कि निरस्त हो चुकी है व उसके अन्तर्गत कोई कार्य नहीं किया जा रहा है न ही मेरे विरूद्ध कोई कुरीति प्रकरण चल रहा हैं।<br>
+        <strong>अथवा</strong><br>
+        यह कि मेरे पास पूर्व मे कोई भी अनुज्ञपित (वर्ग अ या ब) नहीं थी। </p>
+        <p style="font-size:0.8em;">(टीप :- कंडिका-3 मे जो लागू हो उसे शपथ पत्र मे टाईप करायें)</p>
+
+        <p>(4) यह कि मेरे पास निम्न दर्शाये उपकरण मेसर्स <input type="text" style="width:200px;"> से खरीदे गये है जिसका केश मेमो मेरे नाम / फर्म के नाम से और प्रमाण स्वरूप आवश्यक दस्तावेज संलग्न हैं।<br>
+        केश मेमो पर सरल क्रमांक <input type="text" style="width:100px;"> दिनांक <input type="date"> दिया गया हैं। </p>
+
+        <table>
+            <tr><th>उपकरण</th><th>निर्माता क्रमांक</th><th>निर्माता</th><th>रेंज</th></tr>
+            <tr><td>मेगर 500 वोल्ट</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>अमीटर 0 से 50 एम्पीयर 6 इंच डायल</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>वोल्ट मीटर 0 से 500 वोल्ट 6 इंच डायल</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+            <tr><td>अर्थ रजिस्ट्रिविटी टेस्टर 4 टर्मिनल 0 से 10 ओम</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </table>
+
+        <p>(5) यह कि कंडिका-4 मे दर्शाये सभी उपकरण मेरे अधिपत्य मे हैं। </p>
+        
+        <p>(6) यह कि उपकरणों की जांच/केलिब्रेशन- <input type="text" style="width:200px;"> द्वारा की गई हैं एवं प्रारूप-एन मे जांच प्रमाण पत्र/केलीब्रेशन रिपोर्ट संलग्न हैं। </p>
+
+        <p>(7) यह कि मेरे द्वारा अनुज्ञप्ति शुल्क रूपये <input type="text" style="width:100px;"> छ०ग०कोषालय के <input type="text" style="width:150px;"> मे जमा किया गया हैं चालान क्रमांक <input type="text" style="width:100px;"> दिनांक <input type="date"> मूलप्रति के आवेदन के साथ जमा की गई हैं। </p>
+
+        <p>(8) यह कि मेरे द्वारा तीन अभिप्रमाणित हस्ताक्षर प्रस्तुत किये गये है जो कि सत्य हैं। </p>
+
+        <p>(9) यह कि आवेदन पत्र पर तथा उसके साथ लगाये गये समस्त दस्तावेजों पर मेरे द्वारा पूर्ण हस्ताक्षर किये गये है जो कि सत्य हैं। </p>
+
+        <p>(10) यह कि मेरे द्वारा छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) विनियम 1960 के विनियम को अध्ययन कर लिया गया है जिसका मैं पालन करूंगा। </p>
+
+        <p>(11) यह कि मैं छत्तीसगढ़ अनुज्ञापन मंडल (विद्युत) विनियम 1960 के विनियम-26 'क' के अन्तर्गत कही अन्यन्त्र कार्यरत् नहीं हूँ एवं पूर्ण रूपेण 'अ' वर्ग विद्युत ठेकेदारी के अन्तर्गत आने वाले कायों का संपादन करूंगा। </p>
+
+        <div style="text-align:right; margin-bottom:60px;">
+            <p>.............</p>
+            <strong>स्व घोषणाकर्ता के हस्ताक्षर</strong><br>
+            <input type="text">
+        </div>
+    </div>
+
+    <div class="page-break">
+        <div style="border:1px solid #000; padding:20px;">
+            <h4 style="text-align:center; margin-top:0;">सत्यापन लेख</h4>
+            
+            <p style="line-height: 2.5;">मैं <input type="text" style="width:200px;"> आत्मज श्री <input type="text" style="width:200px;"> सत्यापित करता हूँ कि उपरोक्त घोषणा पत्र मे वर्णित सरल क्रमांक 1 से 11 तक का समस्त कथन मेरे स्वयं के निजी ज्ञान के अनुसार एवं विश्वास से सत्य एवं सही हैं इसमे असत्य कथन नहीं किया गया हैं और न ही सत्य कथन को छिपाया गया हैं।</p>
+            <div class="signature-section">
+                <div>
+                    स्थान :- <input type="text"><br>
+                    दिनांक :- <input type="date">
+                </div>
+                <div style="text-align:right;">
+                    <strong>स्व घोषणाकर्ता के हस्ताक्षर</strong><br>
+                    <input type="text">
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:30px; font-size:0.9em;">
+            <p>(1) अनुज्ञप्ति शुल्क रूपये 400=00 चालान मद:- 0043 विद्युत पर कर एवं शुल्क 102 भारतीय बिजली नियम के अन्तर्गत फीस</p>
+            <p>(2) उपकरण क्रय रसीद एवं तीन हस्ताक्षर अभिप्रमाणित</p>
+            <p>(3) पार्टनरशिप डीड और पावर आफ एटार्नी एवं फर्म रजिस्ट्रेशन की कापी।</p>
+            <p>(4) आवेदक का दो फोटो एवं पर्यवेक्षक अनुज्ञा की कापी</p>
+            <p>(5) निवास की पुष्टि </p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
