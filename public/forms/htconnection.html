@@ -348,3 +348,335 @@
   </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSPDCL HT / EHT Service Connection Application</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#eef1f5;
+    margin:0;
+    padding:0;
+}
+.form-wrapper{
+    max-width:1000px;
+    margin:20px auto;
+    background:#ffffff;
+    padding:30px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+.header{
+    text-align:center;
+    border-bottom:3px solid #1b75bc;
+    padding-bottom:10px;
+}
+.header h1{
+    margin:0;
+    font-size:22px;
+    color:#1b75bc;
+}
+.header h2{
+    margin:4px 0;
+    font-size:15px;
+    font-weight:normal;
+}
+.page{
+    text-align:right;
+    font-weight:bold;
+    margin:12px 0;
+}
+.section-title{
+    background:#1b75bc;
+    color:#fff;
+    padding:8px;
+    font-weight:bold;
+    margin:20px 0 10px;
+}
+input[type="text"],
+input[type="date"],
+input[type="email"],
+textarea{
+    width:100%;
+    padding:6px;
+    margin:6px 0 10px;
+    border:1px solid #aaa;
+    border-radius:3px;
+    box-sizing:border-box;
+}
+textarea{ resize:vertical; }
+.inline input{
+    width:auto;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:10px 0;
+}
+table, th, td{
+    border:1px solid #000;
+}
+th, td{
+    padding:6px;
+    text-align:center;
+}
+.page-break{
+    page-break-before:always;
+}
+.button-area{
+    text-align:center;
+    margin:25px 0;
+}
+button{
+    background:#1b75bc;
+    color:#fff;
+    border:none;
+    padding:12px 30px;
+    font-size:16px;
+    cursor:pointer;
+}
+@media print{
+    button{ display:none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-wrapper" id="pdfContent">
+
+<div class="header">
+<h1>Chhattisgarh State Power Distribution Company Limited</h1>
+<h2>Customer Care Service</h2>
+</div>
+
+<div class="page">Page 1 of 5</div>
+
+<b>Application Form for High Tension (HT) / EHT Service Connection</b><br>
+New Connection/ Shifting of Premises/ Change in Contract Demand/ Change of Tariff Category / Change of Name of Consumer  
+(Please strike-off the purpose that is not applicable)
+
+<br><br>
+
+<b>Application Reference No. :</b> ____________________________  
+(To be filled by the office)
+
+<br><br>
+
+<b>Date of Receipt :</b> ____________________________
+
+<br><br>
+
+To,  
+<input type="text">  
+<input type="text">  
+<input type="text">
+
+<br><br>
+
+Sir,  
+I /We request you to supply electricity to my /our premises.  
+The requisite information is furnished below :-
+
+<div class="section-title">1. Consumer Information</div>
+
+(a) Name of the person/ organization:  
+<input type="text">
+
+(b) Name of Father/ Husband/ Director/ Partner/ Trustee:  
+<input type="text">
+
+(c) Complete Address of the premises where a new connection is hereby applied for or the existing connection is proposed to be shifted:  
+<textarea rows="3"></textarea>
+
+Pin Code : <input type="text">
+
+<div class="page-break"></div>
+<div class="page">Page 2 of 5</div>
+
+Contact No. :  
+Factory/ Premises : <input type="text">  
+Registered Office : <input type="text">  
+Residence : <input type="text">  
+E mail : <input type="email">  
+Bank A/C No. (Optional) : <input type="text">
+
+<br>
+
+<b>2. Voltage at which supply is required (KV):</b><br>
+<label><input type="checkbox"> 11 kV</label>
+<label><input type="checkbox"> 33 kV</label>
+<label><input type="checkbox"> 132 kV</label>
+<label><input type="checkbox"> 220 kV</label><br>
+(Please strike-off category not applicable and tick the category applicable)
+
+<br><br>
+
+<b>3. Type of Supply:</b>  
+<label><input type="checkbox"> Permanent</label> /
+<label><input type="checkbox"> Temporary</label>  
+(Please strike-off type not applicable)
+
+<br><br>
+
+If Temporary, specify period :  
+From: <input type="date">  
+To : <input type="date">
+
+<br><br>
+
+<b>4. Steps taken by the consumer so far to set-up the installation</b><br>
+(a) <input type="text">  
+(b) <input type="text">  
+(c) <input type="text">  
+(d) <input type="text">
+
+<br><br>
+
+<b>5. Basis of Projection of Contract Demand required</b><br>
+(a) Diversity Factor assumed : <input type="text">  
+(b) Total Connected Load : <input type="text">
+
+<div class="page-break"></div>
+<div class="page">Page 3 of 5</div>
+
+<b>6. Phasing of Contract Demand (CD):</b>
+
+<table>
+<tr>
+<th>S.No.</th>
+<th>Contract Demand Required (kVA)</th>
+<th>Tentative Date From which required</th>
+<th>Remarks</th>
+</tr>
+<tr><td>1</td><td></td><td></td><td></td></tr>
+<tr><td>2</td><td></td><td></td><td></td></tr>
+</table>
+
+7. Purpose of Installation : <input type="text"><br><br>
+8. Tariff Category Opted : <input type="text"><br><br>
+9. Production Capacity : <input type="text"><br><br>
+
+10. Category of Industry :  
+<label><input type="checkbox"> SSI</label> /
+<label><input type="checkbox"> MSI</label> /
+<label><input type="checkbox"> LSI</label><br>
+(Please strike-off category not applicable and tick the category applicable)
+
+<br><br>
+
+11. Status of Land Acquisition:  
+<textarea rows="3"></textarea>
+
+12. Expected date by which Finance would be available:  
+<input type="text">
+
+<div class="page-break"></div>
+<div class="page">Page 4 of 5</div>
+
+13. Whether the requisite consent / NOC (where applicable according to the list of Pollution Control Board) has been obtained from C.G. Environment Conservation Board, Raipur as per statutory requirements (If yes, a copy should be furnished). :  
+<textarea rows="3"></textarea>
+
+<br>
+
+14. Any electricity dues outstanding in CSPDCL area of operation in the Consumer’s name:  
+<label><input type="checkbox"> Yes</label>
+<label><input type="checkbox"> No</label>
+
+<br><br>
+
+15. Any electricity dues outstanding for the premises for which connection applied for:  
+<label><input type="checkbox"> Yes</label>
+<label><input type="checkbox"> No</label>
+
+<br><br>
+
+16. Any electricity dues outstanding with the licensee against any firm with which the consumer is associated with any firm as an Owner, Partner, Director or Managing Director:  
+<label><input type="checkbox"> Yes</label>
+<label><input type="checkbox"> No</label>
+
+<br><br>
+
+(For serial 15, 16 & 17 if answer is ‘Yes’ in any case, please provide details)
+
+<br><br>
+
+17. I/ We hereby declare that  
+(a) The information provided in the form above is true to my knowledge.  
+(b) I/ We have read the Chhattisgarh Electricity Supply Code and agree to abide by the conditions mentioned therein.  
+(c) I/ We will deposit electricity dues, every month, as per the applicable electricity tariff and other charges.  
+(d) I/ We will own the responsibility of security and safety of the meter, cut-out and the installation thereafter.
+
+<br><br>
+
+Date : <input type="text">  
+Place: <input type="text">
+
+<br><br>
+
+Signature of the Consumer/ Authorised Signatory :  
+<input type="text">
+
+<div class="page-break"></div>
+<div class="page">Page 5 of 5</div>
+
+<b>List of Attachments</b><br><br>
+
+The following documents shall be attached with the application form
+
+<br><br>
+
+1. Proof of ownership of the premises.<br>
+2. A map indicating therein the proposed location of the plant/ office and the point where supply is required.<br>
+3. Licence/ NOC from statutory authority, if required or a declaration by the applicant that his connection does not fall under the requirement of NOC under any statute.<br>
+4. In case of a proprietary firm, an affidavit to be submitted stating that the applicant is the sole proprietor of the firm.<br>
+5. In case of partnership firm, partnership deed.<br>
+6. In case of Limited Company, Memorandum and Articles of Association and Certificate of Incorporation.<br>
+7. Proof of permanent residential address of the consumer and PAN Number, if any. If there is any change at a later date, the same shall be intimated by the consumer to the Licensee immediately.<br>
+8. Letter of intent for production/ enhancement in production may be furnished.<br>
+9. List of equipments proposed to be installed along with the expected load.<br>
+10. Resolution for authorized signatory.<br>
+11. Registration from Industries Department.<br>
+12. Extract of project report relevant to power and process requirements (in case of Industries).<br>
+13. Copy of the relevant section of the current tariff order that provides details of the tariff category opted by the consumer and duly signed by him. This will be appended with the agreement after completion of formalities.
+
+</div>
+
+<div class="button-area">
+<button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<script>
+function downloadPDF(){
+    const { jsPDF } = window.jspdf;
+    html2canvas(document.getElementById("pdfContent"), {scale:2}).then(canvas=>{
+        const pdf = new jsPDF("p","mm","a4");
+        const imgWidth = 210;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(canvas,"PNG",0,position,imgWidth,imgHeight);
+        heightLeft -= 297;
+
+        while(heightLeft > 0){
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(canvas,"PNG",0,position,imgWidth,imgHeight);
+            heightLeft -= 297;
+        }
+        pdf.save("CSPDCL_HT_EHT_Application.pdf");
+    });
+}
+</script>
+
+</body>
+</html>
+
