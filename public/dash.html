@@ -180,161 +180,759 @@
         </div>
     </main>
 
-    <script>
-    const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
+<script>
+const API_BASE = "https://poweri-compliance-portal.onrender.com/api";
 
-    // 1. Sidebar Toggle
-    function toggleDashboardCat(button) {
-        const content = button.nextElementSibling;
-        const icon = button.querySelector('i');
-        if (content.style.display === "block") {
-            content.style.display = "none";
-            icon.className = "fas fa-chevron-down";
-        } else {
-            // Close all others
-            document.querySelectorAll('.cat-content').forEach(c => c.style.display = "none");
-            document.querySelectorAll('.cat-label i').forEach(i => i.className = "fas fa-chevron-down");
-            // Open clicked
-            content.style.display = "block";
-            icon.className = "fas fa-chevron-up";
+// =====================================================
+// 1. SIDEBAR
+// Public - no login required
+// =====================================================
+
+function toggleDashboardCat(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector("i");
+
+    const isOpen = content.style.display === "block";
+
+    document.querySelectorAll(".cat-content").forEach(c => {
+        c.style.display = "none";
+    });
+
+    document.querySelectorAll(".cat-label i").forEach(i => {
+        i.className = "fas fa-chevron-down";
+    });
+
+    if (!isOpen) {
+        content.style.display = "block";
+        icon.className = "fas fa-chevron-up";
+    }
+}
+
+
+// =====================================================
+// 2. AUTH STATE
+// Dashboard itself does NOT depend on login
+// =====================================================
+
+function getToken() {
+    return localStorage.getItem("token");
+}
+
+function getStoredUser() {
+    try {
+        return JSON.parse(localStorage.getItem("poweri_user"));
+    } catch (error) {
+        return null;
+    }
+}
+
+function isLoggedIn() {
+    return Boolean(getToken());
+}
+
+
+// =====================================================
+// 3. NAVIGATION
+// Guest = Login
+// User = Logout
+// =====================================================
+
+function updateAuthNavigation() {
+    const navItem = document.getElementById("auth-nav-item");
+
+    if (!navItem) return;
+
+    if (isLoggedIn()) {
+        navItem.innerHTML = `
+            <a href="#"
+               onclick="logout(); return false;"
+               style="color:white; text-decoration:none; font-weight:500;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        `;
+    } else {
+        navItem.innerHTML = `
+            <a href="index.html"
+               style="color:white; text-decoration:none; font-weight:500;">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        `;
+    }
+}
+
+
+// =====================================================
+// 4. PROFILE
+// Show only when logged in
+// =====================================================
+
+function displayUserProfile() {
+
+    const profileSection = document.getElementById("profile-section");
+    const user = getStoredUser();
+
+    if (!profileSection) return;
+
+    // Guest user
+    if (!isLoggedIn() || !user) {
+        profileSection.style.display = "none";
+        return;
+    }
+
+    // Logged-in user
+    profileSection.style.display = "block";
+
+    const name = user.name || "User";
+    const company = user.company || "---";
+    const location = user.location || "Chhattisgarh";
+    const mobile = user.mobile || "---";
+
+    document.getElementById("display-name").innerText = name;
+    document.getElementById("display-company").innerText = company;
+    document.getElementById("display-location").innerText = location;
+    document.getElementById("display-mobile").innerText = mobile;
+
+    document.getElementById("avatar-initial").innerText =
+        name.charAt(0).toUpperCase();
+
+    document.getElementById("edit-name").value = name;
+    document.getElementById("edit-company").value =
+        user.company || "";
+    document.getElementById("edit-location").value =
+        user.location || "";
+    document.getElementById("edit-mobile").value =
+        user.mobile || "";
+}
+
+
+function toggleProfileEdit(isEditing) {
+
+    if (!isLoggedIn()) return;
+
+    document.getElementById("profile-view-mode").style.display =
+        isEditing ? "none" : "flex";
+
+    document.getElementById("profile-edit-mode").style.display =
+        isEditing ? "block" : "none";
+}
+
+
+// =====================================================
+// 5. SAVE PROFILE
+// Login still required because this changes user data
+// =====================================================
+
+async function saveProfileUpdate() {
+
+    const token = getToken();
+
+    if (!token) {
+        alert("Please login to update your profile.");
+        return;
+    }
+
+    const updated = {
+        name: document.getElementById("edit-name").value.trim(),
+        company: document.getElementById("edit-company").value.trim(),
+        location: document.getElementById("edit-location").value.trim(),
+        mobile: document.getElementById("edit-mobile").value.trim()
+    };
+
+    try {
+
+        const res = await fetch(`${API_BASE}/auth/update-profile`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updated)
+        });
+
+        if (!res.ok) {
+            throw new Error("Profile update failed.");
         }
+
+        const oldUser = getStoredUser() || {};
+
+        localStorage.setItem(
+            "poweri_user",
+            JSON.stringify({
+                ...oldUser,
+                ...updated
+            })
+        );
+
+        displayUserProfile();
+        toggleProfileEdit(false);
+
+        alert("Profile updated successfully.");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to update profile.");
+    }
+}
+
+
+// =====================================================
+// 6. COMPLIANCE VAULT
+//
+// IMPORTANT:
+// Dashboard remains public.
+// Vault remains private for logged-in users.
+// =====================================================
+
+async function loadCategorizedDocs() {
+
+    const container =
+        document.getElementById("category-wise-history");
+
+    if (!container) return;
+
+    const token = getToken();
+
+    // -----------------------------------------
+// Guest visitor
+// Do NOT redirect to login
+// -----------------------------------------
+
+    if (!token) {
+
+        container.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:45px 20px;
+                color:#666;
+            ">
+
+                <i class="fas fa-folder-open"
+                   style="
+                       font-size:42px;
+                       color:var(--royal-blue);
+                       margin-bottom:15px;
+                   ">
+                </i>
+
+                <h3 style="
+                    color:var(--royal-blue);
+                    margin-bottom:8px;
+                ">
+                    Personal Compliance Vault
+                </h3>
+
+                <p style="
+                    margin:0 auto 18px;
+                    max-width:550px;
+                    line-height:1.6;
+                ">
+                    All compliance forms are available from the
+                    Compliance Sections on the left.
+                    Login is required only to access your saved
+                    documents and records.
+                </p>
+
+                <a href="index.html"
+                   style="
+                       display:inline-block;
+                       background:var(--royal-blue);
+                       color:white;
+                       padding:9px 20px;
+                       border-radius:5px;
+                       text-decoration:none;
+                       font-weight:600;
+                   ">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login to View My Records
+                </a>
+
+            </div>
+        `;
+
+        return;
     }
 
-    // 2. Profile Management
-    function displayUserProfile() {
-        const user = JSON.parse(localStorage.getItem('poweri_user'));
-        if (!user) return;
-        document.getElementById('display-name').innerText = user.name;
-        document.getElementById('display-company').innerText = user.company;
-        document.getElementById('display-location').innerText = user.location || "Chhattisgarh";
-        document.getElementById('display-mobile').innerText = user.mobile || "---";
-        document.getElementById('avatar-initial').innerText = user.name.charAt(0).toUpperCase();
 
-        document.getElementById('edit-name').value = user.name;
-        document.getElementById('edit-company').value = user.company;
-        document.getElementById('edit-location').value = user.location || "";
-        document.getElementById('edit-mobile').value = user.mobile || "";
-    }
+    // -----------------------------------------
+    // Logged-in user
+    // Load personal MongoDB documents
+    // -----------------------------------------
 
-    function toggleProfileEdit(isEditing) {
-        document.getElementById('profile-view-mode').style.display = isEditing ? 'none' : 'flex';
-        document.getElementById('profile-edit-mode').style.display = isEditing ? 'block' : 'none';
-    }
+    container.innerHTML = `
+        <p style="
+            text-align:center;
+            color:#999;
+            margin-top:50px;
+        ">
+            <i class="fas fa-spinner fa-spin"></i>
+            Loading your compliance records...
+        </p>
+    `;
 
-    async function saveProfileUpdate() {
-        const token = localStorage.getItem('token');
-        const updated = {
-            name: document.getElementById('edit-name').value,
-            company: document.getElementById('edit-company').value,
-            location: document.getElementById('edit-location').value,
-            mobile: document.getElementById('edit-mobile').value
-        };
+    try {
 
-        try {
-            const res = await fetch(`${API_BASE}/auth/update-profile`, {
-                method: 'PUT',
-                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify(updated)
-            });
-            if (res.ok) {
-                const user = JSON.parse(localStorage.getItem('poweri_user'));
-                localStorage.setItem('poweri_user', JSON.stringify({...user, ...updated}));
-                alert("Profile Updated!");
-                displayUserProfile();
-                toggleProfileEdit(false);
+        const res = await fetch(`${API_BASE}/my-documents`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
             }
-        } catch (e) { alert("Error updating profile."); }
-    }
+        });
 
-    // 3. Vault & Document Loading
-    async function loadCategorizedDocs() {
-        const container = document.getElementById('category-wise-history');
-        const token = localStorage.getItem('token');
-        if (!token) { window.location.href = "index.html"; return; }
+        // Token expired / invalid
+        if (res.status === 401 || res.status === 403) {
 
-        try {
-            const res = await fetch(`${API_BASE}/my-documents`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if(!res.ok) throw new Error();
-            const allDocs = await res.json();
-            container.innerHTML = '';
+            localStorage.removeItem("token");
+            localStorage.removeItem("poweri_user");
 
-            const categories = [
-                { label: "1. RETURNS", keyword: "RETURNS" },
-                { label: "2. CEIG / INSPECTORATE", keyword: "CEIG" },
-                { label: "3. CSPDCL RELATED", keyword: "CSPDCL" },
-                { label: "4. MINES / DGMS", keyword: "MINE" },
-                { label: "5. CEA FORMATS", keyword: "CEA" },
-                { label: "6. ISO 50001 FORMATS", keyword: "ISO" },
-                { label: "BUNDLES & OTHERS", keyword: "BUNDLE" } // Added BUNDLE catch-all
-            ];
+            updateAuthNavigation();
+            displayUserProfile();
 
-            let hasData = false;
-            categories.forEach(cat => {
-                const filtered = allDocs.filter(d => {
-                    // Safety check if section exists
-                    const sec = d.section ? d.section.toUpperCase() : "";
-                    if(cat.keyword === "BUNDLE") {
-                        return sec.includes("FULL_BUNDLE") || sec.includes("BUNDLE");
-                    }
-                    return sec.includes(cat.keyword);
-                });
+            container.innerHTML = `
+                <div style="
+                    text-align:center;
+                    padding:40px;
+                    color:#666;
+                ">
+                    <p>
+                        Your login session has expired.
+                        The dashboard and compliance forms
+                        are still available.
+                    </p>
 
-                if (filtered.length > 0) {
-                    hasData = true;
-                    container.innerHTML += `
-                        <div style="margin-bottom: 25px;">
-                            <h4 style="background:#eef2ff; color:var(--royal-blue); padding:10px; border-radius:6px; font-size:15px;">${cat.label}</h4>
-                            <table class="db-table">
-                                ${filtered.map(doc => `
-                                    <tr id="row-${doc._id}">
-                                        <td>${new Date(doc.createdAt).toLocaleDateString('en-IN')}</td>
-                                        <td><strong>${doc.formName}</strong></td>
-                                        <td style="text-align:right;">
-                                            <button class="btn-view" onclick="viewPdf('${doc.pdfFile}', '${doc.formName}')">VIEW PDF</button>
-                                            <button onclick="deleteDoc('${doc._id}')" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </table>
-                        </div>`;
-                }
-            });
-            if (!hasData) container.innerHTML = "<p style='text-align:center; color:#999; padding-top:40px;'>No records found in the vault.</p>";
-        } catch (e) { container.innerHTML = "<p style='text-align:center; color:red;'>Server is waking up... Please refresh.</p>"; }
-    }
+                    <a href="index.html"
+                       style="
+                           background:var(--royal-blue);
+                           color:white;
+                           padding:8px 18px;
+                           border-radius:5px;
+                           text-decoration:none;
+                       ">
+                        Login Again
+                    </a>
+                </div>
+            `;
 
-    // New Function to View PDF
-    function viewPdf(base64Data, filename) {
-        // Create a blob and open in new tab
-        const byteCharacters = atob(base64Data.split(',')[1]);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
+            return;
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-    }
 
-    async function deleteDoc(docId) {
-        if (!confirm("Delete this record permanently?")) return;
-        const token = localStorage.getItem('token');
-        try {
-            const res = await fetch(`${API_BASE}/documents/${docId}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
+        if (!res.ok) {
+            throw new Error(`Server returned ${res.status}`);
+        }
+
+        const allDocs = await res.json();
+
+        container.innerHTML = "";
+
+        const categories = [
+
+            {
+                label: "1. RETURNS",
+                keyword: "RETURNS"
+            },
+
+            {
+                label: "2. CEIG / INSPECTORATE",
+                keyword: "CEIG"
+            },
+
+            {
+                label: "3. CSPDCL RELATED",
+                keyword: "CSPDCL"
+            },
+
+            {
+                label: "4. MINES / DGMS",
+                keyword: "MINE"
+            },
+
+            {
+                label: "5. CEA FORMATS",
+                keyword: "CEA"
+            },
+
+            {
+                label: "6. ISO 50001 FORMATS",
+                keyword: "ISO"
+            },
+
+            {
+                label: "BUNDLES & OTHERS",
+                keyword: "BUNDLE"
+            }
+
+        ];
+
+        let hasData = false;
+
+
+        categories.forEach(cat => {
+
+            const filtered = allDocs.filter(doc => {
+
+                const section =
+                    doc.section
+                        ? String(doc.section).toUpperCase()
+                        : "";
+
+                if (cat.keyword === "BUNDLE") {
+
+                    return (
+                        section.includes("FULL_BUNDLE") ||
+                        section.includes("BUNDLE")
+                    );
+
+                }
+
+                return section.includes(cat.keyword);
+
             });
-            if (res.ok) document.getElementById(`row-${docId}`).remove();
-        } catch (e) { alert("Delete failed."); }
+
+
+            if (filtered.length > 0) {
+
+                hasData = true;
+
+                container.innerHTML += `
+                    <div style="margin-bottom:25px;">
+
+                        <h4 style="
+                            background:#eef2ff;
+                            color:var(--royal-blue);
+                            padding:10px;
+                            border-radius:6px;
+                            font-size:15px;
+                        ">
+                            ${cat.label}
+                        </h4>
+
+                        <table class="db-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Document</th>
+                                    <th style="text-align:right;">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                ${filtered.map(doc => {
+
+                                    const date =
+                                        doc.createdAt
+                                            ? new Date(
+                                                doc.createdAt
+                                              ).toLocaleDateString(
+                                                "en-IN"
+                                              )
+                                            : "---";
+
+                                    return `
+                                        <tr id="row-${doc._id}">
+
+                                            <td>
+                                                ${date}
+                                            </td>
+
+                                            <td>
+                                                <strong>
+                                                    ${doc.formName || "Document"}
+                                                </strong>
+                                            </td>
+
+                                            <td style="text-align:right;">
+
+                                                <button
+                                                    class="btn-view"
+                                                    onclick="viewPdfFromDocument('${doc._id}')">
+                                                    VIEW PDF
+                                                </button>
+
+                                                <button
+                                                    onclick="deleteDoc('${doc._id}')"
+                                                    title="Delete document"
+                                                    style="
+                                                        background:none;
+                                                        border:none;
+                                                        color:red;
+                                                        cursor:pointer;
+                                                        margin-left:10px;
+                                                    ">
+
+                                                    <i class="fas fa-trash"></i>
+
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+                                    `;
+
+                                }).join("")}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                `;
+            }
+
+        });
+
+
+        if (!hasData) {
+
+            container.innerHTML = `
+                <p style="
+                    text-align:center;
+                    color:#999;
+                    padding-top:40px;
+                ">
+                    No saved records found in your compliance vault.
+                </p>
+            `;
+        }
+
+    } catch (error) {
+
+        console.error("Vault loading error:", error);
+
+        container.innerHTML = `
+            <p style="
+                text-align:center;
+                color:#c0392b;
+                padding:30px;
+            ">
+                Unable to load your saved documents.
+                Please try again.
+            </p>
+        `;
+    }
+}
+
+
+// =====================================================
+// 7. PDF VIEWER
+//
+// This keeps the existing document data mechanism.
+// =====================================================
+
+let cachedDocuments = [];
+
+
+async function viewPdfFromDocument(docId) {
+
+    const token = getToken();
+
+    if (!token) {
+        alert("Please login to view saved documents.");
+        return;
     }
 
-    function logout() { localStorage.clear(); window.location.href = "index.html"; }
+    try {
 
-    window.onload = () => { displayUserProfile(); loadCategorizedDocs(); };
-    </script>
+        const res = await fetch(`${API_BASE}/my-documents`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+            throw new Error();
+        }
+
+        const documents = await res.json();
+
+        const doc = documents.find(
+            item => item._id === docId
+        );
+
+        if (!doc || !doc.pdfFile) {
+            alert("PDF file was not found.");
+            return;
+        }
+
+        viewPdf(
+            doc.pdfFile,
+            doc.formName || "document.pdf"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to open PDF.");
+
+    }
+}
+
+
+function viewPdf(base64Data, filename) {
+
+    try {
+
+        if (!base64Data) {
+            throw new Error("Missing PDF data");
+        }
+
+        let base64String = base64Data;
+
+        if (base64Data.includes(",")) {
+            base64String = base64Data.split(",")[1];
+        }
+
+        const byteCharacters = atob(base64String);
+
+        const byteNumbers =
+            new Array(byteCharacters.length);
+
+        for (
+            let i = 0;
+            i < byteCharacters.length;
+            i++
+        ) {
+
+            byteNumbers[i] =
+                byteCharacters.charCodeAt(i);
+
+        }
+
+        const byteArray =
+            new Uint8Array(byteNumbers);
+
+        const blob =
+            new Blob(
+                [byteArray],
+                { type: "application/pdf" }
+            );
+
+        const url =
+            URL.createObjectURL(blob);
+
+        window.open(
+            url,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+        // Allow browser enough time to open the blob
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 60000);
+
+    } catch (error) {
+
+        console.error(
+            "PDF opening error:",
+            error
+        );
+
+        alert("Unable to open this PDF.");
+
+    }
+}
+
+
+// =====================================================
+// 8. DELETE DOCUMENT
+// Private operation
+// =====================================================
+
+async function deleteDoc(docId) {
+
+    const token = getToken();
+
+    if (!token) {
+        alert("Please login first.");
+        return;
+    }
+
+    if (!confirm(
+        "Delete this record permanently?"
+    )) {
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/documents/${docId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization":
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!res.ok) {
+
+            throw new Error(
+                `Delete failed: ${res.status}`
+            );
+
+        }
+
+        const row =
+            document.getElementById(
+                `row-${docId}`
+            );
+
+        if (row) {
+            row.remove();
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to delete this document.");
+
+    }
+}
+
+
+// =====================================================
+// 9. LOGOUT
+// =====================================================
+
+function logout() {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("poweri_user");
+
+    // Remain on public dashboard
+    window.location.href = "dashboard.html";
+}
+
+
+// =====================================================
+// 10. INITIAL PAGE LOAD
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        // Dashboard is always available
+        updateAuthNavigation();
+
+        // Profile appears only if user exists
+        displayUserProfile();
+
+        // Guest gets public dashboard;
+        // logged-in user additionally gets Vault
+        loadCategorizedDocs();
+
+    }
+);
+</script>
 
 </body>
 </html>
