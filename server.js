@@ -2,18 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const axios = require('axios');
 require('dotenv').config();
 
 // 1. IMPORT ROUTES
 const authRoutes = require('./routes/auth');
 
 // 2. IMPORT MODELS
-// Using the "Safe Export" logic inside these files is better, 
-// but we import them here to ensure they are registered in Mongoose.
 const User = require('./models/User');
 const Compliance = require('./models/Document'); 
-const Comment = require('./models/Comment');   
+const Comment = require('./models/Comment');    
 
 const app = express();
 
@@ -30,6 +27,48 @@ app.use(cors({
 
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public'))); 
+
+// ==========================================
+// SERVERLESS MONGOOSE CONNECTION CACHING
+// ==========================================
+const dbURI = process.env.MONGO_URI || "mongodb+srv://sonjoy15:Sonj_123@poweri.da62ewq.mongodb.net/PowerI_DB?retryWrites=true&w=majority";
+
+let cachedMongoose = global.mongoose;
+
+if (!cachedMongoose) {
+  cachedMongoose = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectToDatabase() {
+  if (cachedMongoose.conn) {
+    return cachedMongoose.conn;
+  }
+
+  if (!cachedMongoose.promise) {
+    cachedMongoose.promise = mongoose.connect(dbURI, {
+      bufferCommands: false,
+    }).then((mongooseInstance) => {
+      console.log("✅ PowerI Database Connected!");
+      return mongooseInstance;
+    }).catch(err => {
+      console.log("❌ DB Error:", err.message);
+      throw err;
+    });
+  }
+
+  cachedMongoose.conn = await cachedMongoose.promise;
+  return cachedMongoose.conn;
+}
+
+// Ensure database connection before processing any route
+app.use(async (req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (err) {
+    res.status(500).json({ error: "Database connection failed" });
+  }
+});
 
 // ==========================================
 // 3. API ROUTES (Must come BEFORE Wildcard)
@@ -109,23 +148,9 @@ app.delete('/api/documents/:id', async (req, res) => {
 });
 
 // ==========================================
-// 4. DATABASE CONNECTION
-// ==========================================
-const dbURI = process.env.MONGO_URI || "mongodb+srv://sonjoy15:Sonj_123@poweri.da62ewq.mongodb.net/PowerI_DB?retryWrites=true&w=majority";
-
-mongoose.connect(dbURI)
-    .then(() => console.log("✅ PowerI Database Connected!"))
-    .catch(err => console.log("❌ DB Error:", err.message));
-
-// ==========================================
-// 5. PAGE ROUTING & KEEP-ALIVE
+// 4. PAGE ROUTING
 // ==========================================
 app.get('/status', (req, res) => res.send("PowerI Backend is active!"));
-
-// Render Keep-Alive script
-setInterval(() => {
-    axios.get('https://poweri-compliance-portal.onrender.com/status').catch(() => {});
-}, 14 * 60 * 1000);
 
 // Specific route for Admin Page
 app.get('/admin', (req, res) => {
@@ -137,5 +162,12 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Server on Port ${PORT}`));
+// ==========================================
+// 5. VERCEL EXPORT & LOCAL LISTEN
+// ==========================================
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, '0.0.0.0', () => console.log(`🚀 PowerI Local Server on Port ${PORT}`));
+}
+
+module.exports = app;
