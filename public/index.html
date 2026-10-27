@@ -609,8 +609,13 @@ Why? Because he’s been assigned to a new project—20 km away from his plant. 
     </div>
 
     <script src="script.js"></script>
-
-   
+ <script>
+        setInterval(function() {
+            fetch(window.location.href)
+                .then(() => console.log("PowerI: Server pinged successfully to stay active."))
+                .catch(err => console.warn("PowerI: Ping failed", err));
+        }, 2400000); // 240,0000ms = 40 minutes
+    </script>
 
 </body>
 </html>
